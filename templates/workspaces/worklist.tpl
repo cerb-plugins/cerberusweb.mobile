@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{include file="devblocks:cerberusweb.mobile::header.tpl"}
+{include file="devblocks:cerberusweb.mobile::html_head.tpl"}
 
 <body>
 
