@@ -96,8 +96,13 @@ $('#page-va-behavior').on('pageinit',function(event){
 		});
 		
 		$.post("{devblocks_url}ajax.php?c=m&a=runVirtualAttendantBehavior{/devblocks_url}", $('#form-cerb-va-behavior-run').serialize(), function(out) {
+			var $output = $('#cerb-va-output');
 			$('#cerb-va-output').html(out);
+			
+			var top = $output.offset().top - 45;
+			
 			$.mobile.loading('hide');
+			$.mobile.silentScroll(top);
 		});
 	});
   
