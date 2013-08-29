@@ -88,8 +88,16 @@
 
 $('#page-va-behavior').on('pageinit',function(event){
 	$(this).on('click','button.submit',function() {
+		$.mobile.loading('show', {
+			text: 'Sending...',
+			textVisible: true,
+			theme: 'a',
+			html: ''
+		});
+		
 		$.post("{devblocks_url}ajax.php?c=m&a=runVirtualAttendantBehavior{/devblocks_url}", $('#form-cerb-va-behavior-run').serialize(), function(out) {
 			$('#cerb-va-output').html(out);
+			$.mobile.loading('hide');
 		});
 	});
   
