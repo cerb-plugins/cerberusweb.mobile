@@ -5,7 +5,7 @@ Copyright (C) 2013 Webgroup Media, LLC.
 
 What's this?
 ------------
-This plugin adds a platform-independent mobile interface and adds Virtual Attendant mobile behaviors.
+This plugin adds a platform-independent mobile interface and Virtual Attendant mobile behaviors.
 
 Installation
 ------------

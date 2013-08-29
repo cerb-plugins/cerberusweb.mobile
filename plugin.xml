@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.devblocks.com/schema/plugin.xsd">
+	<id>cerberusweb.mobile</id>
+	<name>Mobile Interface</name>
+	<description>This plugin provides an alternate mobile-friendly interface.</description>
+	<author>Webgroup Media, LLC.</author>
+	<version>0.0.1</version>
+	<link>http://www.cerberusweb.com/</link>
+	<!--<image>plugin.png</image>-->
+
+	<!-- Requirements -->
+
+	<requires>
+		<app_version min="6.5" max="6.5.99" />
+		<!--<php_extension name="curl" />-->
+	</requires>
+
+	<!-- Plugin Dependencies -->
+	
+	<dependencies>
+		<require plugin_id="cerberusweb.core" version="6.3.0" />
+	</dependencies>
+
+	<!-- Exported Classes -->
+	
+	<class_loader>
+		<file path="api/events/abstract_event_mobile_behavior.php">
+			<class name="AbstractEvent_MobileBehavior" />
+		</file>
+		
+		<file path="api/events/mobile_behavior.php">
+			<class name="Event_MobileBehavior" />
+		</file>
+	</class_loader>
+
+	<!-- Extensions -->
+
+	<extensions>
+
+		<!-- Controllers -->
+	
+		<extension point="devblocks.controller">
+			<id>core.controller.mobile</id>
+			<name>Mobile Controller</name>
+			<class>
+				<file>api/App.php</file>
+				<name>Controller_Mobile</name>
+			</class>
+			<params>
+				<param key="uri" value="m" />
+			</params>
+		</extension>
+
+		<!-- Events -->
+
+		<extension point="devblocks.event">
+			<id>event.api.mobile_behavior</id>
+			<name>Mobile behavior</name>
+			<class>
+				<file>api/events/mobile_behavior.php</file>
+				<name>Event_MobileBehavior</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.app" />
+						<data key="cerberusweb.contexts.role" />
+						<data key="cerberusweb.contexts.worker" />
+					</value>
+				</param>
+			</params>
+		</extension>
+
+	</extensions> 
+</plugin>
