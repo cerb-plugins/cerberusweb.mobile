@@ -136,7 +136,7 @@
 			top: 5px;
 		}
 
-		#page-notifications h3.ui-li-heading {
+		ul.ui-listview h3.ui-li-heading {
 			overflow: visible;
 			white-space: normal;
 		}
