@@ -136,7 +136,7 @@
 			top: 5px;
 		}
 
-		ul.ui-listview h3.ui-li-heading {
+		ul.ui-listview h3.ui-li-heading, ul.ui-listview p.ui-li-desc {
 			overflow: visible;
 			white-space: normal;
 		}
