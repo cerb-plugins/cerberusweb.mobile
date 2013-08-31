@@ -96,6 +96,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				
 				break;
 				
+			case 'pages':
+				$this->_renderPages($stack);
+				break;
+				
 			case 'workspaces':
 				$this->_renderWorkspaces($stack);
 				break;
@@ -145,12 +149,39 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->display('devblocks:cerberusweb.mobile::notifications/index.tpl');
 	}
 	
+	private function _renderPages($stack) {
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('page_title', 'Pages');
+		
+		$workspaces = DAO_WorkspacePage::getByWorker($active_worker);
+		$tpl->assign('workspaces', $workspaces);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/index.tpl');
+	}
+	
 	private function _renderWorkspaces($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		
-		$workspaces = DAO_WorkspacePage::getByWorker($active_worker);
+		$pages = DAO_WorkspacePage::getByWorker($active_worker);
+		$workspaces = array();
+		
+		if(null != ($menu_json = DAO_WorkerPref::get($active_worker->id, 'menu_json', null))) {
+			@$menu = json_decode($menu_json);
+			foreach($menu as $page_id)
+				if(isset($pages[$page_id]))
+				$workspaces[$page_id] = $pages[$page_id];
+				
+			$tpl->assign('menu', $menu);
+		}
+
+		if(empty($workspaces))
+			$workspaces = $pages;
+		
 		$tpl->assign('workspaces', $workspaces);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/index.tpl');
