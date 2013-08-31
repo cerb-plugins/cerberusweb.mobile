@@ -11,17 +11,22 @@
 	<ul data-role="listview" data-inset="true" data-icon="false" data-filter="false">
 		
 	{foreach from=$results item=result key=result_id}
-		{$meta = $context_ext->getMeta($result_id)}
-	
-		{* CerberusContexts::getContext($context_ext->id, $result_id, $labels, $values, null, true) *}
-		{* $dict = DevblocksDictionaryDelegate::instance($values) *}
+		{CerberusContexts::getContext($context_ext->id, $result_id, $labels, $values, null, true)}
+		{$dict = DevblocksDictionaryDelegate::instance($values)}
 	
 		<li>
-			<a href="{$meta.permalink}" data-transition="slideright" target="_blank">
-				<h3 class="ui-li-heading">{$meta.name}</h3>
-				{*<p class="ui-li-desc">({$workspace_tab->extension_id})</p>*}
+			<a href="{devblocks_url}c=m&w=profile&context={$context_ext->id}&context_id={$result_id}{/devblocks_url}" data-transition="slide">
+				{if isset($dict->updated)}{$updated = $dict->updated}{elseif isset($dict->updated_date)}{$updated = $dict->updated_date}{/if}
+				{if $updated}<p class="ui-li-aside ui-li-desc">{$updated|devblocks_prettytime}</p>{/if}
+				<h3 class="ui-li-heading">{$dict->_label}</h3>
 			</a>
 		</li>
+		
+	{foreachelse}
+		<li>
+			This worklist is empty.
+		</li>
+	
 	{/foreach}
 	
 	</ul>

@@ -100,6 +100,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				$this->_renderPages($stack);
 				break;
 				
+			case 'profile':
+				$this->_renderProfile($stack);
+				break;
+				
 			case 'workspaces':
 				$this->_renderWorkspaces($stack);
 				break;
@@ -160,6 +164,34 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('workspaces', $workspaces);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/index.tpl');
+	}
+	
+	private function _renderProfile($stack) {
+		@$context = array_shift($stack);
+		@$context_id = intval(array_shift($stack));
+
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		if(false == ($context_ext = Extension_DevblocksContext::get($context)))
+			return;
+		
+		if(false == $context_ext->authorize($context_id, $active_worker))
+			return;
+		
+		$tpl->assign('context', $context);
+		$tpl->assign('context_ext', $context_ext);
+		$tpl->assign('context_id', $context_id);
+		
+		CerberusContexts::getContext($context, $context_id, $labels, $values, null, true);
+
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+
+		$tpl->assign('labels', $dict->_labels);
+		$tpl->assign('types', $dict->_types);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/profile.tpl');
 	}
 	
 	private function _renderWorkspaces($stack) {
