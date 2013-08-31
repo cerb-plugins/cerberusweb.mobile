@@ -17,7 +17,7 @@
 <div data-role="content">
 
 	<div class="choice_list">
-		<h3>Workspaces</h3>
+		<h3>{$page_title|default:'Workspaces'}</h3>
 		
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$workspaces item=workspace key=workspace_id}

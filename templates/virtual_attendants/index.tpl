@@ -25,7 +25,7 @@
 				{$meta = $context_ext->getMeta($va->owner_context_id)}
 			
 				<li>
-					<a href="{devblocks_url}c=m&a=va&id={$va_id}{/devblocks_url}" data-transition="slidedown">
+					<a href="{devblocks_url}c=m&a=va&id={$va_id}{/devblocks_url}" data-transition="fade">
 						<h3 class="ui-li-heading">
 							{$va->name}
 						</h3>

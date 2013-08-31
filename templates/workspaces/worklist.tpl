@@ -16,8 +16,8 @@
 </div>
 
 <div data-role="content">
-	<a href="{devblocks_url}c=m&p=workspace&id={$workspace_page->id}{/devblocks_url}" data-role="button">{$workspace_page->name}</a>
-	<a href="{devblocks_url}c=m&p=workspace&a=tab&id={$workspace_tab->id}{/devblocks_url}" data-role="button">{$workspace_tab->name}</a>
+	<a href="{devblocks_url}c=m&p=workspace&id={$workspace_page->id}{/devblocks_url}" data-role="button" data-inline="true">{$workspace_page->name}</a><!--
+	--><a href="{devblocks_url}c=m&p=workspace&a=tab&id={$workspace_tab->id}{/devblocks_url}" data-role="button" data-inline="true" data-theme="b">{$workspace_tab->name}</a>
 
 	<h3 style="margin-bottom:0;">{$view->name}</h3>
 	

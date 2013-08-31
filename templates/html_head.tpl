@@ -69,10 +69,31 @@
 			margin: 0px 0px 15px 0px;
 		}
 		
+		ul.ui-listview h3.ui-li-heading, ul.ui-listview p.ui-li-desc {
+			overflow: visible;
+			white-space: normal;
+			word-wrap: break-word;
+			word-break: break-word;
+		}
+		
 		.ui-li-aside {
 			width: auto !important;
-			margin: 0px -20px 0px 0px;
+			margin: 0px -20px 0px 5px;
 			overflow: visible;
+		}
+		
+		.ui-collapsible-heading {
+		}
+		
+		.ui-collapsible-content {
+			margin-top: -10px;
+		}
+		
+		.ui-table td {
+			overflow: visible;
+			white-space: normal;
+			word-wrap: break-word;
+			word-break: break-word;
 		}
 		
 		#cerb-footer {
@@ -136,11 +157,6 @@
 			top: 5px;
 		}
 
-		ul.ui-listview h3.ui-li-heading, ul.ui-listview p.ui-li-desc {
-			overflow: visible;
-			white-space: normal;
-		}
-		
 		#page-va-behavior .cerb-va-message a {
 			font-weight: bold;
 			color: black;

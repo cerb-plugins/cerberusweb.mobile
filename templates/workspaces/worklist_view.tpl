@@ -8,7 +8,7 @@
 
 <div class="choice_list">
 
-	<ul data-role="listview" data-inset="true" data-filter="false">
+	<ul data-role="listview" data-inset="true" data-icon="false" data-filter="false">
 		
 	{foreach from=$results item=result key=result_id}
 		{$meta = $context_ext->getMeta($result_id)}

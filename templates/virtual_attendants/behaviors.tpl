@@ -23,7 +23,7 @@
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$behaviors item=behavior key=behavior_id}
 			<li>
-				<a href="{devblocks_url}c=m&a=va&w=behavior&id={$behavior_id}{/devblocks_url}" data-transition="slidedown">
+				<a href="{devblocks_url}c=m&a=va&w=behavior&id={$behavior_id}{/devblocks_url}" data-transition="fade">
 					<h3 class="ui-li-heading">{$behavior->title}</h3>
 				</a>
 			</li>
