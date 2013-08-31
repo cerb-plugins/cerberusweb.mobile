@@ -18,7 +18,10 @@
 <div data-role="content">
 
 	<div class="choice_list">
-		<a href="{devblocks_url}c=m&p=workspace&id={$workspace_page->id}{/devblocks_url}" data-role="button">{$workspace_page->name}</a>
+		<div data-role="controlgroup" data-mini="true" data-type="horizontal" data-theme="a" align="center" style="margin:0px 0px 10px 0px;">
+			<a href="{devblocks_url}c=m&p=workspaces{/devblocks_url}" data-role="button">Workspaces</a>
+			<a href="{devblocks_url}c=m&p=workspace&id={$workspace_page->id}{/devblocks_url}" data-role="button">{$workspace_page->name}</a>
+		</div>
 	
 		<h3 style="margin-bottom:0px;">{$workspace_tab->name}</h3>
 		<div style="margin-bottom:20px;">

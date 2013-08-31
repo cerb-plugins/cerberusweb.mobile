@@ -16,6 +16,10 @@
 </div>
 
 <div data-role="content">
+	<div data-role="controlgroup" data-mini="true" data-type="horizontal" data-theme="a" align="center" style="margin:0px 0px 10px 0px;">
+		<a href="{devblocks_url}c=m&p=search{/devblocks_url}" data-role="button">Search</a>
+	</div>
+
 	<h3 style="margin-bottom:0;">{$view->name}</h3>
 	
 	<div style="margin-bottom:10px;">

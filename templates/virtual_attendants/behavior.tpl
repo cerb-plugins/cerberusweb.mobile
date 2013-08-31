@@ -16,7 +16,10 @@
 </div>
 
 <div data-role="content">
-	<a href="{devblocks_url}c=m&p=va&id={$va->id}{/devblocks_url}" data-role="button">{$va->name}</a>
+	<div data-role="controlgroup" data-mini="true" data-type="horizontal" data-theme="a" align="center" style="margin:0px 0px 10px 0px;">
+		<a href="{devblocks_url}c=m&p=va{/devblocks_url}" data-role="button">Attendants</a>
+		<a href="{devblocks_url}c=m&p=va&id={$va->id}{/devblocks_url}" data-role="button">{$va->name}</a>
+	</div>
 
 	<form id="form-cerb-va-behavior-run" action="javascript:;" method="post" data-ajax="false" onsubmit="return false;">
 	<input type="hidden" name="behavior_id" value="{$behavior->id}">
@@ -52,7 +55,7 @@
 				</select>
 			{elseif $var.type == Model_CustomField::TYPE_CHECKBOX}
 				<div>
-					<select name="{$var_key}" id="{$var_key}" data-theme="" data-role="slider">
+					<select name="{$var_key}" id="{$var_key}" data-role="slider">
 						<option value="0">{'common.no'|devblocks_translate|capitalize}</option>
 						<option value="1">{'common.yes'|devblocks_translate|capitalize}</option>
 					</select>
