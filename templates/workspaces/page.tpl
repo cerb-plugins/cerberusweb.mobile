@@ -7,9 +7,12 @@
 
 <div data-role="page" id="page-workspace" data-theme="c">
 
+{include file="devblocks:cerberusweb.mobile::panel.tpl"}
+
 <div data-theme="a" data-role="header" data-id="cerb-header" data-position="fixed">
 	<a href="{devblocks_url}c=m&a=workspaces{/devblocks_url}" data-role="button" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">Workspaces</a>
 	<h1>Cerb Mobile</h1>
+	<a href="#cerb-panel" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-right">Menu</a>
 </div>
 
 <div data-role="content">
