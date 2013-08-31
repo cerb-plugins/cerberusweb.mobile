@@ -104,6 +104,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				$this->_renderProfile($stack);
 				break;
 				
+			case 'search':
+				if(empty($stack)) {
+					$this->_renderSearch($stack);
+					
+				} else {
+					$this->_renderSearchWorklist($stack);
+					
+				}
+				break;
+				
 			case 'workspaces':
 				$this->_renderWorkspaces($stack);
 				break;
@@ -192,6 +202,38 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('types', $dict->_types);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/profile.tpl');
+	}
+	
+	private function _renderSearch($stack) {
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$contexts = Extension_DevblocksContext::getAll(false, array('workspace'));
+		$tpl->assign('contexts', $contexts);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::search/index.tpl');
+	}
+	
+	private function _renderSearchWorklist($stack) {
+		@$context_ext_id = array_shift($stack);
+		
+		if(empty($context_ext_id))
+			return false;
+		
+		if(false == ($context_ext = Extension_DevblocksContext::get($context_ext_id)))
+			return false;
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+
+		$tpl->assign('context_ext', $context_ext);
+		
+		$view = $context_ext->getSearchView();
+		$tpl->assign('view', $view);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::search/worklist.tpl');
 	}
 	
 	private function _renderWorkspaces($stack) {
