@@ -7,13 +7,7 @@
 
 <div data-role="page" id="page-va-behaviors" data-theme="c">
 
-{include file="devblocks:cerberusweb.mobile::panel.tpl"}
-
-<div data-theme="a" data-role="header" data-id="cerb-header" data-position="fixed">
-	<a href="{devblocks_url}c=m&a=va{/devblocks_url}" data-role="button" data-icon="arrow-l" data-iconpos="left" class="ui-btn-left">Attendants</a>
-	<h1>Cerb Mobile</h1>
-	<a href="#cerb-panel" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-right">Menu</a>
-</div>
+{include file="devblocks:cerberusweb.mobile::header.tpl"}
 
 <div data-role="content">
 	<div data-role="controlgroup" data-mini="true" data-type="horizontal" data-theme="a" align="center" style="margin:0px 0px 10px 0px;">

@@ -7,12 +7,7 @@
 
 <div data-role="page" id="page-notifications" data-theme="c">
 
-{include file="devblocks:cerberusweb.mobile::panel.tpl"}
-
-<div data-theme="a" data-role="header" data-id="cerb-header" data-position="fixed">
-	<h1>Cerb Mobile</h1>
-	<a href="#cerb-panel" data-role="button" data-icon="bars" data-iconpos="notext" class="ui-btn-right">Menu</a>
-</div>
+{include file="devblocks:cerberusweb.mobile::header.tpl"}
 
 <div data-role="content">
 
