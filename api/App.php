@@ -323,6 +323,9 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('context_ext', $context_ext);
 		
 		$view = $context_ext->getSearchView();
+		
+		$view->renderLimit = 10;
+		
 		$tpl->assign('view', $view);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::search/worklist.tpl');
@@ -452,8 +455,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			C4_AbstractViewLoader::setView($view_id, $view);
 		}
 		
-		$view->renderPage = 0;
-		$view->renderLimit = 25;
+		$view->renderLimit = 10;
 		
 		$tpl->assign('view', $view);
 		
@@ -486,7 +488,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		if($widget_extension->id == 'core.workspace.widget.worklist') {
 			$view = $widget_extension->getView($widget);
-			$view->renderLimit = 25;
+			$view->renderLimit = 10;
 			$tpl->assign('view', $view);
 		}
 		
