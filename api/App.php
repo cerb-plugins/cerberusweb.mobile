@@ -25,10 +25,18 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 		
 		$stack = $request->path;
-		array_shift($stack); // example
+		array_shift($stack); // m
+
+		if(isset($_POST['c']) && isset($_POST['a'])) {
+			@$c = DevblocksPlatform::importGPC($_POST['c'], 'string', '');
+			@$a = DevblocksPlatform::importGPC($_POST['a'], 'string', '');
+			
+			if(!empty($c) && !empty($a))
+				$stack = array($a);
+		}
 		
 		@$action = array_shift($stack) . 'Action';
-
+		
 		switch($action) {
 			case NULL:
 				// [TODO] Index/page render
@@ -63,6 +71,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('translate', $translate);
 		$tpl->assign('settings', $settings);
 		$tpl->assign('controller', $controller);
+		$tpl->assign('response_path', '/' . implode('/', $response->path));
 		
 		$notification_count = DAO_Notification::getUnreadCountByWorker($active_worker->id);
 		$tpl->assign('notification_count', $notification_count);
@@ -144,6 +153,89 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				
 				break;
 		}
+	}
+	
+	function viewLoadPresetAction() {
+		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$preset_id = DevblocksPlatform::importGPC($_REQUEST['preset_id'], 'integer', 0);
+		
+		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
+			return;
+		
+		if(empty($preset_id)) {
+			$view->doResetCriteria();
+			
+		} else {
+			if(false == ($preset = DAO_ViewFiltersPreset::get($preset_id)))
+				return;
+			
+			$view->renderPage = 0;
+			$view->addParams($preset->params, true);
+			$view->renderSortAsc =  $preset->sort_asc;
+			$view->renderSortBy =  $preset->sort_by;
+		}
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+	}
+	
+	function viewQuickSearchAction() {
+		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$field_key = DevblocksPlatform::importGPC($_REQUEST['field_key'], 'string', '');
+		@$q = DevblocksPlatform::importGPC($_REQUEST['q'], 'string', '');
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
+			return;
+
+		$view->doQuickSearch($field_key, $q);
+		
+		DAO_WorkerPref::set($active_worker->id, 'quicksearch_' . strtolower(get_class($view)), $field_key);
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+	}
+	
+	function viewRemoveFilterAction() {
+		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$filter_key = DevblocksPlatform::importGPC($_REQUEST['filter_key'], 'string', '');
+		
+		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
+			return;
+
+		if('*' == $filter_key) {
+			$view->removeAllParams();
+			
+		} else {
+			$view->removeParam($filter_key);
+		}
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+	}
+	
+	function viewPageAction() {
+		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$page = DevblocksPlatform::importGPC($_REQUEST['page'], 'integer', 0);
+		
+		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
+			return;
+
+		$view->doPage($page);
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+	}
+	
+	function viewSortByAction() {
+		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$sort_by = DevblocksPlatform::importGPC($_REQUEST['sort_by'], 'string', '');
+		@$sort_asc = DevblocksPlatform::importGPC($_REQUEST['sort_asc'], 'integer', 0);
+		
+		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
+			return;
+
+		$view->renderSortBy = $sort_by;
+		$view->renderSortAsc = $sort_asc ? 1 : 0;
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
 	}
 	
 	private function _renderNotifications($stack) {
