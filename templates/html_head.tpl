@@ -159,7 +159,7 @@
 			top: 5px;
 		}
 
-		#page-va-behavior .cerb-va-message a {
+		.ui-page .cerb-page-va-behavior-results .cerb-va-message a {
 			font-weight: bold;
 			color: black;
 			word-wrap: break-word;

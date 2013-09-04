@@ -98,6 +98,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 						$this->_renderVirtualAttendantBehavior($stack);
 						break;
 					
+					case 'run':
+						$this->_renderVirtualAttendantBehaviorResults($stack);
+						break;
+					
 					default:
 						$this->_renderVirtualAttendants($stack);
 						break;
@@ -555,27 +559,27 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behavior.tpl');
 	}
 	
-	public function runVirtualAttendantBehaviorAction() {
-		@$behavior_id = DevblocksPlatform::importGPC($_REQUEST['behavior_id'], 'integer', 0);
-		
+	private function _renderVirtualAttendantBehaviorResults($stack) {
+		@$behavior_id = array_shift($stack);
+
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl = DevblocksPlatform::getTemplateService();
 		
-		if(false == ($behavior = DAO_TriggerEvent::get($behavior_id)))
-			return false;
+		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
+			return;
 		
-		if(false == ($va = $behavior->getVirtualAttendant()))
-			return false;
+		if(null == ($va = $behavior->getVirtualAttendant()))
+			return;
 		
-		if(false == $va->isReadableByActor($active_worker))
-			return false;
+		if(!$va->isReadableByActor($active_worker))
+			return;
 		
 		if($va->is_disabled)
 			return false;
 		
 		if($behavior->is_disabled)
 			return false;
-
+		
 		$tpl->assign('va', $va);
 		$tpl->assign('behavior', $behavior);
 		
@@ -588,13 +592,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				if(!empty($var['is_private']))
 					continue;
 				
-				// Complain if we're not given all the public vars
-				
-				//if(!isset($_REQUEST[$var_key]))
-					//return false;
-					//$this->error(self::ERRNO_CUSTOM, sprintf("The public variable '%s' is required.", $var_key));
-				
-				
 				// Format passed variables
 				
 				$var_val = null;
@@ -602,7 +599,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				try {
 					if(isset($_REQUEST[$var_key]))
 						@$var_val = $behavior->formatVariable($var, DevblocksPlatform::importGPC($_REQUEST[$var_key]));
-					
 					
 				} catch(Exception $e) {
 					//if(!isset($_REQUEST[$var_key]))
@@ -634,10 +630,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 
 		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
 		
-		$response = $dict->_response;
-		$tpl->assign('response', $response);
+		$responses = $dict->_responses;
+		$tpl->assign('responses', $responses);
 		
-		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/run_behavior.tpl');
+		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behavior_results.tpl');
 	}
 };

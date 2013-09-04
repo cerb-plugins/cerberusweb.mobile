@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-va-behavior" data-theme="c">
+<div data-role="page" id="page-va-behavior{$behavior->id}" data-theme="c" class="cerb-page-va-behavior">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
@@ -15,8 +15,7 @@
 		<a href="{devblocks_url}c=m&p=va&id={$va->id}{/devblocks_url}" data-role="button">{$va->name}</a>
 	</div>
 
-	<form id="form-cerb-va-behavior-run" action="javascript:;" method="post" data-ajax="false" onsubmit="return false;">
-	<input type="hidden" name="behavior_id" value="{$behavior->id}">
+	<form action="{devblocks_url}c=m&a=va&p=run&id={$behavior->id}{/devblocks_url}" method="post">
 
 	<h3 style="margin:20px 0px 0px 0px;">{$behavior->title}</h3>
 	
@@ -74,41 +73,13 @@
 	{/foreach}
 	{/if}
 	
-	<button type="button" class="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Send</button><!--
+	<button type="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Send</button><!--
 	--><button type="reset" data-theme="c" data-inline="true" class="ui-btn-hidden" aria-disabled="false">Reset</button>
 
 	</form>
-	
-	<div id="cerb-va-output" style="margin-top:20px;"></div>
 </div>
 
 {include file="devblocks:cerberusweb.mobile::footer.tpl"}
-
-<script type="text/javascript">
-
-$('#page-va-behavior').on('pageinit',function(event){
-	$(this).on('click','button.submit',function() {
-		$.mobile.loading('show', {
-			text: 'Sending...',
-			textVisible: true,
-			theme: 'a',
-			html: ''
-		});
-		
-		$.post("{devblocks_url}ajax.php?c=m&a=runVirtualAttendantBehavior{/devblocks_url}", $('#form-cerb-va-behavior-run').serialize(), function(out) {
-			var $output = $('#cerb-va-output');
-			$('#cerb-va-output').html(out);
-			
-			var top = $output.offset().top - 45;
-			
-			$.mobile.loading('hide');
-			$.mobile.silentScroll(top);
-		});
-	});
-  
-});
-
-</script>
 
 </div><!-- /page -->
 
