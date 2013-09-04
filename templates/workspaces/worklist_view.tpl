@@ -8,6 +8,7 @@
 {$params = $view->getEditableParams()}
 {$presets = $view->getPresets()}
 
+{if !$hide_filtering}
 <div id="viewFiltersPopup" data-role="popup" class="ui-content" data-theme="b" data-overlay-theme="a" data-transition="slidedown">
 	{capture "options"}
 	{foreach from=$view->getParamsAvailable() item=field key=token}
@@ -20,7 +21,7 @@
 	<h3 style="margin:0;padding:0;">{'common.filter'|devblocks_translate|capitalize}</h3>
 	
 	{if $smarty.capture.options}
-	<form action="{$response_path}" method="post" data-ajax="false">
+	<form action="javascript:;" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewQuickSearch">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -31,29 +32,31 @@
 		
 		<input type="search" name="q">
 	
-		<button type="submit" data-role="button" data-theme="b">{'common.filter.add'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" data-role="button" data-theme="b">{'common.filter.add'|devblocks_translate|capitalize}</button>
 	</form>
 	{/if}
 	
 	<h3 style="margin:0;padding:0;">Presets</h3>
 		
-	<form action="{$response_path}" method="post" data-ajax="false">
+	<form action="javascript:;" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewLoadPreset">
 		<input type="hidden" name="view_id" value="{$view->id}">
 	
 		{foreach from=$presets item=preset key=preset_id}
-		<button type="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="c">{$preset->name}</button>
+		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="c">{$preset->name}</button>
 		{/foreach}
 		
-		<button type="submit" name="preset_id" value="0" data-role="button" data-theme="b">{'common.reset'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="b">{'common.reset'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
+{/if}
 
+{if !$hide_sorting}
 <div id="viewSortPopup" data-role="popup" class="ui-content" data-theme="b" data-overlay-theme="a" data-transition="slidedown">
 	<h3 style="margin:0;padding:0;">Sort by</h3>
 	
-	<form action="{$response_path}" method="post" data-ajax="false">
+	<form action="javascript:;" method="post" class="cerb-form-worklist-sorting" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewSortBy">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -66,20 +69,19 @@
 		{/foreach}
 		</select>
 
-		<fieldset data-role="controlgroup" data-type="horizontal">
-			<input type="radio" name="sort_asc" id="viewWorklistSortAsc" value="1" {if $view->renderSortAsc}checked="checked"{/if} />
-			<label for="viewWorklistSortAsc">Ascending</label>
-			<input type="radio" name="sort_asc" id="viewWorklistSortDesc" value="0" {if !$view->renderSortAsc}checked="checked"{/if} />
-			<label for="viewWorklistSortDesc">Descending</label>
-		</fieldset>
+		<input type="radio" name="sort_asc" id="viewWorklistSortAsc" value="1" {if $view->renderSortAsc}checked="checked"{/if} />
+		<label for="viewWorklistSortAsc">Ascending</label>
 		
-		<button type="submit" data-role="button" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
+		<input type="radio" name="sort_asc" id="viewWorklistSortDesc" value="0" {if !$view->renderSortAsc}checked="checked"{/if} />
+		<label for="viewWorklistSortDesc">Descending</label>
+		
+		<button type="button" class="submit" data-role="button" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
+{/if}
 
-<div id="view{$view->id}">
-
-<form action="{$response_path}" method="post">
+{if !$hide_filtering}
+<form action="javascript:;" method="post" class="cerb-form-worklist-filtering" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="viewRemoveFilter">
 <input type="hidden" name="view_id" value="{$view->id}">
@@ -90,7 +92,7 @@
 	
 	{if !empty($params)}
 	{foreach from=$params item=param key=param_key}
-		<button type="submit" name="filter_key" value="{$param_key}" data-role="button" data-theme="c" data-mini="true" data-inline="true" data-icon="delete">
+		<button type="button" class="submit" name="filter_key" value="{$param_key}" data-role="button" data-theme="c" data-mini="true" data-inline="true" data-icon="delete">
 		{$fields.$param_key->db_label|capitalize} 
 		
 		{if $param->operator=='='}
@@ -118,11 +120,14 @@
 	{/foreach}
 	{/if}
 </form>
+{/if}
 
+{if !$hide_sorting}
 <a href="#viewSortPopup" data-rel="popup" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-iconpos="right" data-icon="{if $view->renderSortAsc}arrow-u{else}arrow-d{/if}">
 	Sorted by:
 	{$fields.{$view->renderSortBy}->db_label}
 </a>
+{/if}
 
 <div class="choice_list">
 
@@ -177,33 +182,157 @@
 	
 </div>
 
-{if !empty($results)}
 <div style="text-align:center;font-size:0.9em;">
-<form action="{$response_path}" method="post">
+<form action="javascript:;" method="post" class="cerb-form-worklist-paging" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="viewPage">
 <input type="hidden" name="view_id" value="{$view->id}">
-
 	{$page_current = $view->renderPage+1}
 	{$page_total = ceil($total/$view->renderLimit)}
 	
 	<div>
-		{if $page_current > 1}
-		<button type="submit" name="page" value="{$view->renderPage-1}" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext"></button>
+		{if !$hide_paging && $page_current > 1}
+		<button type="button" class="prev" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext"></button>
 		{/if}
 		
 		Page {$page_current} of {$page_total} ({$total} results)
 		
-		{if $page_current < $page_total}
-		<button type="submit" name="page" value="{$view->renderPage+1}" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext"></button>
+		{if !$hide_paging && $page_current < $page_total}
+		<button type="button" class="next" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext"></button>
 		{/if}
 	</div>
 	
-	{if $page_current > 1}
-	<button type="submit" name="page" value="0" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext"></button>
+	{if !$hide_paging && $page_current > 1}
+	<button type="button" class="first" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext"></button>
 	{/if}
 </form>
 </div>
-{/if}
 
-</div>
+<script type="text/javascript">
+var $view = $('#view{$view->id}');
+
+var $frm_search = $view.find('form.cerb-form-worklist-search');
+var $frm_presets = $view.find('form.cerb-form-worklist-presets');
+var $frm_filtering = $view.find('form.cerb-form-worklist-filtering');
+var $frm_sorting = $view.find('form.cerb-form-worklist-sorting');
+var $frm_paging = $view.find('form.cerb-form-worklist-paging');
+
+/* Search */
+
+$frm_search.find('button.submit').click(function() {
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}',
+		$frm_search.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+/* Presets */
+
+$frm_presets.find('button.submit').click(function() {
+	var preset_id = $(this).val();
+	
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}?preset_id=' + preset_id,
+		$frm_presets.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+/* Filtering */
+
+$frm_filtering.find('button.submit').click(function() {
+	var filter_key = $(this).val();
+	
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}?filter_key=' + filter_key,
+		$frm_filtering.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+/* Sorting */
+
+$frm_sorting.find('button.submit').click(function() {
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}',
+		$frm_sorting.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+/* Paging */
+
+$frm_paging.find('button.first').click(function() {
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}?page=0',
+		$frm_paging.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+$frm_paging.find('button.prev').click(function() {
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}?page={$view->renderPage-1}',
+		$frm_paging.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+$frm_paging.find('button.next').click(function() {
+	$.mobile.loading('show');
+	$.post(
+		'{devblocks_url}{/devblocks_url}?page={$view->renderPage+1}',
+		$frm_paging.serialize(),
+		function(out) {
+			$('#viewFiltersPopup').remove();
+			$('#viewSortPopup').remove();
+			$view.html(out).trigger('create');
+			$.mobile.loading('hide');
+			$.mobile.silentScroll(0);
+		}
+	);
+});
+
+</script>

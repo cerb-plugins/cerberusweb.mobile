@@ -25,7 +25,9 @@
 	<div id="widget{$widget->id}">
 	{if $widget_extension instanceof Extension_WorkspaceWidget}
 		{if $widget_extension->id == 'core.workspace.widget.worklist'}
+			<div id="view{$view->id}">
 			{include file="devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl" view=$view}
+			</div>
 		{else}
 			{$widget_extension->render($widget)}
 		{/if}

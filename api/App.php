@@ -180,6 +180,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('view', $view);
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
+		exit;
 	}
 	
 	function viewQuickSearchAction() {
@@ -193,10 +198,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->doQuickSearch($field_key, $q);
+		$view->renderPage = 0;
 		
 		DAO_WorkerPref::set($active_worker->id, 'quicksearch_' . strtolower(get_class($view)), $field_key);
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('view', $view);
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
+		exit;
 	}
 	
 	function viewRemoveFilterAction() {
@@ -213,7 +224,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view->removeParam($filter_key);
 		}
 		
+		$view->renderPage = 0;
+		
 		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('view', $view);
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
+		exit;
 	}
 	
 	function viewPageAction() {
@@ -226,6 +244,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$view->doPage($page);
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('view', $view);
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
+		exit;
 	}
 	
 	function viewSortByAction() {
@@ -238,8 +261,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 
 		$view->renderSortBy = $sort_by;
 		$view->renderSortAsc = $sort_asc ? 1 : 0;
+		$view->renderPage = 0;
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('view', $view);
+		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
+		exit;
 	}
 	
 	private function _renderNotifications($stack) {

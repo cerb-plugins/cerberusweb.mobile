@@ -22,7 +22,9 @@
 		Worklist
 	</div>
 
+	<div id="view{$view->id}">
 	{include file="devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl" view=$view}
+	</div>
 </div>
 
 {include file="devblocks:cerberusweb.mobile::footer.tpl"}
