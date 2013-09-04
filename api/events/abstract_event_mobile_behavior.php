@@ -258,7 +258,10 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 				'create_ticket' => array('label' =>'Create a ticket'),
 				'send_email' => array('label' => 'Send email'),
 				'set_links' => array('label' => 'Set links'),
-				'add_response' => array('label' => '(Add to response message)'),
+				
+				'send_response_text' => array('label' => '(Respond with text)'),
+				'send_response_html' => array('label' => '(Respond with HTML)'),
+				'send_response_worklist' => array('label' => '(Respond with worklist)'),
 			)
 			+ DevblocksEventHelper::getActionCustomFieldsFromLabels($this->getLabels())
 			;
@@ -277,8 +280,16 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 		$tpl->assign('token_labels', $labels);
 			
 		switch($token) {
-			case 'add_response':
-				$tpl->display('devblocks:cerberusweb.core::events/model/api/action_add_api_response.tpl');
+			case 'send_response_text':
+				$tpl->display('devblocks:cerberusweb.mobile::api/events/action_response_text.tpl');
+				break;
+				
+			case 'send_response_html':
+				$tpl->display('devblocks:cerberusweb.mobile::api/events/action_response_html.tpl');
+				break;
+				
+			case 'send_response_worklist':
+				$tpl->display('devblocks:cerberusweb.mobile::api/events/action_response_worklist.tpl');
 				break;
 				
 			case 'add_watchers':
@@ -330,19 +341,57 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 			return;
 		
 		switch($token) {
-			case 'add_response':
+			case 'send_response_text':
 				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
 
 				@$value = $params['value'];
 
 				@$out = $tpl_builder->build($value, $dict);
 				
-				$dict->_response .= $out;
+				$dict->_responses[] = array(
+					'type' => 'text',
+					'message' => $out,
+				);
 				
-				return sprintf(">>> Adding to API response message:\n%s\n",
+				return sprintf(">>> Sending text response:\n%s\n",
 					$out
 				);
 				break;
+				
+			case 'send_response_html':
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+
+				@$value = $params['value'];
+
+				@$out = $tpl_builder->build($value, $dict);
+				
+				$dict->_responses[] = array(
+					'type' => 'html',
+					'message' => $out,
+				);
+				
+				return sprintf(">>> Sending HTML response:\n%s\n",
+					$out
+				);
+				break;
+				
+			case 'send_response_worklist':
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+
+				@$value = $params['value'];
+
+				@$out = $tpl_builder->build($value, $dict);
+
+				$dict->_responses[] = array(
+					'type' => 'text',
+					'message' => $out,
+				);
+				
+				return sprintf(">>> Sending worklist response:\n%s\n",
+					$out
+				);
+				break;
+				
 			case 'add_watchers':
 				return DevblocksEventHelper::simulateActionAddWatchers($params, $dict, 'va_id');
 				break;
@@ -378,17 +427,49 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 			return;
 		
 		switch($token) {
-			case 'add_response':
+			case 'send_response_text':
 				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
 
 				@$value = $params['value'];
 
 				@$out = $tpl_builder->build($value, $dict);
 				
-				$response = rtrim($dict->_response);
+				if(false !== $out) {
+					$dict->_responses[] = array(
+						'type' => 'text',
+						'message' => $out,
+					);
+				}
+				break;
+			
+			case 'send_response_html':
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+
+				@$value = $params['value'];
+
+				@$out = $tpl_builder->build($value, $dict);
 				
 				if(false !== $out)
-					$dict->_response =  (!empty($response) ? $response . PHP_EOL : '') . $out;
+					$dict->_responses[] = array(
+						'type' => 'html',
+						'message' => $out,
+					);
+				break;
+			
+			case 'send_response_worklist':
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+
+				// [TODO] Verify the format
+				@$var_key = $params['var_key'];
+				@$context = substr($trigger->variables[$var_key]['type'], 4);
+
+				// Just send an ephemeral worklist id
+				$var_view_id_key = sprintf("%s_view_id", $var_key);
+				
+				$dict->_responses[] = array(
+					'type' => 'worklist',
+					'view_id' => $dict->$var_view_id_key,
+				);
 				break;
 			
 			case 'add_watchers':
