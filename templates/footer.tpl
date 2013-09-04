@@ -1,4 +1,4 @@
-<div id="cerb-footer" data-theme="a" data-role="footer" data-id="cerb-footer" data-position="fixed">
+<div id="cerb-footer" data-theme="a" data-role="footer" data-id="cerb-footer" data-position="fixed" data-tap-toggle="false">
 	<div data-role="navbar" data-iconpos="top">
 		<ul>
 			<li>
