@@ -161,6 +161,8 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	
 	function viewLoadPresetAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
+		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
 		@$preset_id = DevblocksPlatform::importGPC($_REQUEST['preset_id'], 'integer', 0);
 		
 		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
@@ -181,14 +183,20 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		
+		$view->renderLimit = 10;
+		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
+		$tpl->assign('hide_filtering', $hide_filtering);
+		$tpl->assign('hide_sorting', $hide_sorting);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
 	}
 	
 	function viewQuickSearchAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
+		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
 		@$field_key = DevblocksPlatform::importGPC($_REQUEST['field_key'], 'string', '');
 		@$q = DevblocksPlatform::importGPC($_REQUEST['q'], 'string', '');
 		
@@ -204,14 +212,20 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		
+		$view->renderLimit = 10;
+		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
+		$tpl->assign('hide_filtering', $hide_filtering);
+		$tpl->assign('hide_sorting', $hide_sorting);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
 	}
 	
 	function viewRemoveFilterAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
+		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
 		@$filter_key = DevblocksPlatform::importGPC($_REQUEST['filter_key'], 'string', '');
 		
 		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
@@ -228,6 +242,8 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		
+		$view->renderLimit = 10;
+		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
@@ -236,6 +252,8 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	
 	function viewPageAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
+		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
 		@$page = DevblocksPlatform::importGPC($_REQUEST['page'], 'integer', 0);
 		
 		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
@@ -245,14 +263,20 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		
+		$view->renderLimit = 10;
+		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
+		$tpl->assign('hide_filtering', $hide_filtering);
+		$tpl->assign('hide_sorting', $hide_sorting);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
 	}
 	
 	function viewSortByAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
+		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
+		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
 		@$sort_by = DevblocksPlatform::importGPC($_REQUEST['sort_by'], 'string', '');
 		@$sort_asc = DevblocksPlatform::importGPC($_REQUEST['sort_asc'], 'integer', 0);
 		
@@ -265,8 +289,12 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		
+		$view->renderLimit = 10;
+		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
+		$tpl->assign('hide_filtering', $hide_filtering);
+		$tpl->assign('hide_sorting', $hide_sorting);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
 	}
@@ -358,6 +386,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$view = $context_ext->getSearchView();
 		
 		$view->renderLimit = 10;
+		$view->renderTotal = true;
 		
 		$tpl->assign('view', $view);
 		

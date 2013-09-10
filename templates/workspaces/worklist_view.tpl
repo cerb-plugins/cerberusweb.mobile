@@ -25,6 +25,8 @@
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewQuickSearch">
 		<input type="hidden" name="view_id" value="{$view->id}">
+		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
+		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 	
 		<select name="field_key">
 			{$smarty.capture.options nofilter}
@@ -42,7 +44,9 @@
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewLoadPreset">
 		<input type="hidden" name="view_id" value="{$view->id}">
-	
+		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
+		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+
 		{foreach from=$presets item=preset key=preset_id}
 		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="c">{$preset->name}</button>
 		{/foreach}
@@ -60,6 +64,8 @@
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewSortBy">
 		<input type="hidden" name="view_id" value="{$view->id}">
+		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
+		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 		
 		<select name="sort_by">
 		{foreach from=$fields item=field key=field_key}
@@ -85,6 +91,8 @@
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="viewRemoveFilter">
 <input type="hidden" name="view_id" value="{$view->id}">
+<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
+<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 	
 	<a href="#viewFiltersPopup" data-rel="popup" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-icon="arrow-d" data-iconpos="right">
 		{'common.filters'|devblocks_translate|capitalize}
@@ -182,13 +190,17 @@
 	
 </div>
 
+{$page_current = $view->renderPage+1}
+{$page_total = ceil($total/$view->renderLimit)}
+
+{if $page_total > 1}
 <div style="text-align:center;font-size:0.9em;">
 <form action="javascript:;" method="post" class="cerb-form-worklist-paging" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="viewPage">
 <input type="hidden" name="view_id" value="{$view->id}">
-	{$page_current = $view->renderPage+1}
-	{$page_total = ceil($total/$view->renderLimit)}
+<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
+<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 	
 	<div>
 		{if !$hide_paging && $page_current > 1}
@@ -207,6 +219,7 @@
 	{/if}
 </form>
 </div>
+{/if}
 
 <script type="text/javascript">
 var $view = $('#view{$view->id}');
