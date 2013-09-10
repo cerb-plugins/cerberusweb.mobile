@@ -61,6 +61,7 @@
 
 	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/jquery.mobile.min.css{/devblocks_url}?v={$smarty.const.APP_BUILD}" />
 	
+	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/moment.js{/devblocks_url}?v={$smarty.const.APP_BUILD}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery-core.min.js{/devblocks_url}?v={$smarty.const.APP_BUILD}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/jquery.mobile.min.js{/devblocks_url}?v={$smarty.const.APP_BUILD}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.devblocksCharts.js{/devblocks_url}?v={$smarty.const.APP_BUILD}"></script>
