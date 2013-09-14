@@ -78,6 +78,22 @@
 		<!-- Mobile Profile Blocks -->
 
 		<extension point="mobile.profile.block">
+		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.message</id>
+			<name>Mobile message profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_Message</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.message" />
+					</value>
+				</param>
+			</params>
+		</extension>
+
 			<id>mobile.profile.block.task</id>
 			<name>Mobile task profile</name>
 			<class>
