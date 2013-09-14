@@ -21,7 +21,7 @@
 	<h3 style="margin:0;padding:0;">{'common.filter'|devblocks_translate|capitalize}</h3>
 	
 	{if $smarty.capture.options}
-	<form action="javascript:;" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
+	<form action="{devblocks_url}c=m{/devblocks_url}" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewQuickSearch">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -40,7 +40,7 @@
 	
 	<h3 style="margin:0;padding:0;">Presets</h3>
 		
-	<form action="javascript:;" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
+	<form action="{devblocks_url}c=m{/devblocks_url}" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewLoadPreset">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -140,42 +140,57 @@
 <div class="choice_list">
 
 	<ul data-role="listview" data-inset="true" data-icon="arrow-r" data-filter="false">
-		
+
 	{foreach from=$results item=result key=result_id}
 		{CerberusContexts::getContext($context_ext->id, $result_id, $labels, $values, null, true)}
 		{$dict = DevblocksDictionaryDelegate::instance($values)}
 	
+		{if method_exists($context_ext, 'getPropertyLabels')}
+			{$prop_labels = $context_ext->getPropertyLabels($dict)}
+		{else}
+			{$prop_labels = $dict->_labels}
+		{/if}
+		
 		<li>
-			<a href="{devblocks_url}c=m&w=profile&context={$context_ext->id}&context_id={$result_id}{/devblocks_url}" data-transition="slide">
-				<h3 class="ui-li-heading">{$dict->_label}</h3>
+			<a href="{devblocks_url}c=m&w=profile&context={$context_ext->id}&context_id={$result_id}{/devblocks_url}" data-transition="slide" style="margin:0;padding:5px 5px;">
+
+			<h3 style="margin:5px;">{$dict->_label}</h3>
+			
+			{if method_exists($context_ext, 'getDefaultProperties')}
+			{$props = $context_ext->getDefaultProperties()}
+			
+			<table cellspacing="2" cellpadding="2" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;">
+			{foreach from=$props item=prop_key}
+				{if method_exists($context_ext, 'formatDictionaryValue')}
+					{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}
+				{else}
+					{$val = $dict->$prop_key}
+				{/if}
 				
-				{if method_exists($context_ext, 'getDefaultProperties')}
-				{$props = $context_ext->getDefaultProperties()}
-				
-				{foreach from=$props item=prop_key}
-					{if method_exists($context_ext, 'formatDictionaryValue')}
-						{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}
-					{else}
-						{$val = $dict->$prop_key}
-					{/if}
-					
-					{if strlen($val) > 0}
-					<p class="ui-li-desc">
-						<b>{$dict->_labels.$prop_key}:</b>
-						
+				{if strlen($val) > 0}
+				<tr>
+					<td style="width:30%;" valign="top">
+						<div style="font-weight:bold;padding-left:5px;text-indent:-5px;">{$prop_labels.$prop_key}:</div>
+					</td>
+					<td style="width:70%;padding-left:5px;">
 						{$val_type = $dict->_types.$prop_key}
-						{if $val_type == 'context_url'}
+						
+						{if $val_type == 'context_url' && substr($val,0,6) == 'ctx://'}
 							{if preg_match('#ctx://(.*?):([0-9]+)/*(.*)$#', $val, $matches)}
 								{$matches[3]|default:'link'}
+								{*<a href="{devblocks_url}c=m=&p=profile&ctx={$matches[1]}&id={$matches[2]}{/devblocks_url}" data-transition="slide">{$matches[3]|default:'link'}</a>*}
 							{/if}
 							
 						{else}
 							{$val|escape:'htmlall'|nl2br nofilter}
 						{/if}
-					</p>
-					{/if}
-				{/foreach}
+					</td>
+				</tr>
 				{/if}
+			{/foreach}
+			</table>
+			{/if}
+			
 			</a>
 		</li>
 		
@@ -233,6 +248,9 @@ var $frm_paging = $view.find('form.cerb-form-worklist-paging');
 /* Search */
 
 $frm_search.find('button.submit').click(function() {
+	var $this = $(this);
+	var $frm_search = $this.closest('form');
+	
 	$.mobile.loading('show');
 	$.post(
 		'{devblocks_url}{/devblocks_url}',
@@ -249,7 +267,9 @@ $frm_search.find('button.submit').click(function() {
 /* Presets */
 
 $frm_presets.find('button.submit').click(function() {
-	var preset_id = $(this).val();
+	var $this = $(this);
+	var $frm_presets = $this.closest('form');
+	var preset_id = $this.val();
 	
 	$.mobile.loading('show');
 	$.post(
@@ -268,7 +288,9 @@ $frm_presets.find('button.submit').click(function() {
 /* Filtering */
 
 $frm_filtering.find('button.submit').click(function() {
-	var filter_key = $(this).val();
+	var $this = $(this);
+	var $frm_filtering = $this.closest('form');
+	var filter_key = $this.val();
 	
 	$.mobile.loading('show');
 	$.post(
@@ -287,6 +309,9 @@ $frm_filtering.find('button.submit').click(function() {
 /* Sorting */
 
 $frm_sorting.find('button.submit').click(function() {
+	var $this = $(this);
+	var $frm_sorting = $this.closest('form');
+	
 	$.mobile.loading('show');
 	$.post(
 		'{devblocks_url}{/devblocks_url}',
@@ -304,6 +329,9 @@ $frm_sorting.find('button.submit').click(function() {
 /* Paging */
 
 $frm_paging.find('button.first').click(function() {
+	var $this = $(this);
+	var $frm_paging = $this.closest('form');
+	
 	$.mobile.loading('show');
 	$.post(
 		'{devblocks_url}{/devblocks_url}?page=0',
@@ -319,6 +347,9 @@ $frm_paging.find('button.first').click(function() {
 });
 
 $frm_paging.find('button.prev').click(function() {
+	var $this = $(this);
+	var $frm_paging = $this.closest('form');
+	
 	$.mobile.loading('show');
 	$.post(
 		'{devblocks_url}{/devblocks_url}?page={$view->renderPage-1}',
@@ -334,6 +365,9 @@ $frm_paging.find('button.prev').click(function() {
 });
 
 $frm_paging.find('button.next').click(function() {
+	var $this = $(this);
+	var $frm_paging = $this.closest('form');
+	
 	$.mobile.loading('show');
 	$.post(
 		'{devblocks_url}{/devblocks_url}?page={$view->renderPage+1}',

@@ -16,7 +16,6 @@
 		<a href="{devblocks_url}c=m&p=va&m=behavior&id={$behavior->id}{/devblocks_url}" data-role="button">{$behavior->title}</a>
 	</div>
 
-	{* [TODO] Cerby icon w/ bubble *}
 	<b>{$va->name}</b> said:
 	
 	{foreach from=$responses item=response}
@@ -47,8 +46,6 @@
 	{/foreach}
 
 </div>
-
-{include file="devblocks:cerberusweb.mobile::footer.tpl"}
 
 </script>
 

@@ -23,7 +23,7 @@
 			{$workspace_tab_ext->manifest->params.label|devblocks_translate}
 		</div>
 		
-		{if !empty($workspace_lists)}
+		{if $workspace_tab->extension_id == 'core.workspace.tab.worklists' && !empty($workspace_lists)}
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$workspace_lists item=workspace_list key=workspace_list_id}
 			<li>
@@ -36,7 +36,7 @@
 		</ul>
 		{/if}
 		
-		{if !empty($workspace_widgets)}
+		{if $workspace_tab->extension_id == 'core.workspace.tab' && !empty($workspace_widgets)}
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$workspace_widgets item=workspace_widget key=workspace_widget_id}
 			<li>
