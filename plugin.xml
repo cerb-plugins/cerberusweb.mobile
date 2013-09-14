@@ -74,6 +74,25 @@
 				</param>
 			</params>
 		</extension>
+		
+		<!-- Mobile Profile Blocks -->
+
+
+		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.ticket</id>
+			<name>Mobile ticket profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_Ticket</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.ticket" />
+					</value>
+				</param>
+			</params>
+		</extension>
 
 	</extensions>
 </plugin>
