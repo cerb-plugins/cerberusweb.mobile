@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-workspace" data-theme="c">
+<div data-role="page" id="page-workspace" data-theme="c" data-dom-cache="true">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
