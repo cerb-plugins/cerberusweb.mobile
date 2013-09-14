@@ -1,0 +1,189 @@
+.ui-page h1, .ui-page h2, .ui-page h3 {
+	margin: 0px 0px 15px 0px;
+}
+
+ul.ui-listview h3.ui-li-heading, ul.ui-listview p.ui-li-desc {
+	overflow: visible;
+	white-space: normal;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+.ui-li-aside {
+	width: auto !important;
+	margin: 0px -20px 0px 5px;
+	overflow: visible;
+}
+
+.ui-collapsible-heading {
+}
+
+.ui-collapsible-content {
+	margin-top: 0px;
+	padding-top: 10px
+}
+
+.ui-table td {
+	overflow: visible;
+	white-space: normal;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+p.cerb-profile-properties {
+	margin-top:0;
+	margin-bottom:8px;
+	font-size:14px;
+}
+
+p.cerb-profile-properties b {
+}
+
+p.cerb-profile-properties span {
+	margin-left: 10px;
+}
+
+table.cerb-calendar {
+	border-top:1px solid rgb(190,190,190);
+	border-left:1px solid rgb(190,190,190);
+}
+
+table.cerb-calendar-headings th {
+	font-weight: normal;
+	width: 14%;
+}
+
+table.cerb-calendar td {
+	font-size: 14px;
+	border-right:1px solid rgb(190,190,190);
+	border-bottom:1px solid rgb(190,190,190);
+	text-align:center;
+	width:14%;
+	height:45px;
+}
+
+table.cerb-calendar td.cerb-calendar-padding {
+	background-color:rgb(220,220,220);
+}
+
+table.cerb-calendar td.cerb-calendar-day-with-events {
+	cursor: pointer;
+}
+
+table.cerb-calendar td.cerb-calendar-day-with-events div {
+	font-weight: bold;
+	text-shadow: none;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 20px;
+	padding: 3px;
+	background-color: rgb(255,255,255);
+	border: 2px solid rgb(110,110,110);
+	color: rgb(110,110,110);
+}
+
+table.cerb-calendar td.selected {
+	/*background-color: rgb(248,224,92);*/
+}
+
+/*
+table.cerb-calendar td.today div {
+	background-color: rgb(251,239,180);
+	border-color: rgb(252,150,33);
+	color: rgb(252,150,33);
+}
+*/
+
+/*
+table.cerb-calendar td.today div {
+	background-color: rgb(230,230,230);
+	border-color: rgb(110,110,110);
+	color: rgb(110,110,110);
+}
+*/
+
+table.cerb-calendar td.selected div {
+	background-color: rgb(200,230,250);
+	border: 2px solid rgb(0,94,159);
+	color: rgb(0,94,159);
+}
+
+div.cerb-message-contents {
+	border: 2px solid rgb(200,200,200);
+	background-color: white;
+	border-radius: 8px;
+	padding: 10px;
+	font-size: 12px;
+	/*font-family:monospace;*/
+	white-space:pre-wrap;
+}
+
+#cerb-footer {
+	border: 0;
+}
+
+#cerb-footer .ui-navbar .ui-btn-inner {
+	padding-top:35px;
+}
+
+#cerb-footer .ui-navbar .ui-btn-active {
+	background:none !important;
+	border-color:black;
+}
+
+#cerb-footer .ui-navbar .ui-icon {
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+#cerb-footer .ui-btn-text {
+	font-weight: normal;
+	top: 2px;
+}
+
+#cerb-footer .ui-icon-cerb-badge-count {
+	background-repeat: no-repeat !important;
+	background: none !important;
+	text-shadow: none;
+	height: 16px;
+	width: 30px;
+	line-height: 16px;
+	padding: 2px 4px;
+	margin-left: -19px;
+	top: 12px;
+	font-size: 16px;
+	{if $notification_count}background-color: rgb(200,0,0) !important;{/if}
+	{if !$notification_count}background-color: rgb(100,100,100) !important;{/if}
+}
+
+#cerb-footer .ui-icon-cerb-workspaces {
+	background-color: none;
+	background: url({devblocks_url}c=resource&p=cerberusweb.mobile&f=css/images/wgm/cerb-sprites.png{/devblocks_url}) no-repeat top left;
+	background-position: 0 -82px; width: 32px; height: 32px;
+	border-radius: 0;
+	height: 32px;
+	width: 32px;
+	margin-left: -16px;
+	top: 5px;
+}
+
+#cerb-footer .ui-icon-cerb-vas {
+	background-color: none;
+	background: url({devblocks_url}c=resource&p=cerberusweb.mobile&f=css/images/wgm/cerb-sprites.png{/devblocks_url}) no-repeat top left;
+	background-position: 0 0; width: 32px; height: 32px;
+	border-radius: 0;
+	height: 32px;
+	width: 32px;
+	margin-left: -16px;
+	top: 5px;
+}
+
+.ui-page .cerb-page-va-behavior-results .cerb-va-message a {
+	font-weight: bold;
+	color: black;
+	word-wrap: break-word;
+	word-break: break-all;
+}
