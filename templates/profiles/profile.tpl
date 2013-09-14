@@ -64,6 +64,10 @@
 	</div>
 	{/if}
 	
+	{foreach from=$mobile_profile_extensions item=mobile_profile_ext}
+		{$mobile_profile_ext->render($dict)}
+	{/foreach}
+	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
 	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>

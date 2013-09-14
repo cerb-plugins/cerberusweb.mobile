@@ -159,6 +159,19 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 	}
 	
+	function handleProfileBlockRequestAction() {
+		@$extension_id = DevblocksPlatform::importGPC($_REQUEST['extension'], 'string', '');
+		@$action = DevblocksPlatform::importGPC($_REQUEST['action'], 'string', '');
+		
+		if(false == ($ext = Extension_MobileProfileBlock::get($extension_id)))
+			return;
+
+		$action .= 'Action';
+		
+		if(method_exists($ext, $action)) {
+			call_user_func(array(&$ext, $action));
+		}
+	}
 	function viewLoadPresetAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
 		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
@@ -351,8 +364,29 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$dict = new DevblocksDictionaryDelegate($values);
 		$tpl->assign('dict', $dict);
 
-		$tpl->assign('labels', $dict->_labels);
+		//$tpl->assign('labels', $dict->_labels);
 		$tpl->assign('types', $dict->_types);
+		
+		// Load mobile profile extensions
+		$mobile_profile_extensions = Extension_MobileProfileBlock::getAll(true, $context);
+		$tpl->assign('mobile_profile_extensions', $mobile_profile_extensions);
+		
+		// VAs
+		
+		$events = Extension_DevblocksEvent::getAll();
+		
+		$events = array_filter($events, function($event) use ($context) {
+			@$event_context = $event->params['macro_context'];
+			return ($event_context == $context);
+		});
+		
+		$macros = array();
+		
+		foreach($events as $event) {
+			$macros += DAO_TriggerEvent::getReadableByActor($active_worker, $event->id, false);
+		}
+		
+		$tpl->assign('macros', $macros);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/profile.tpl');
 	}
@@ -455,11 +489,26 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$workspace_page = $workspace_tab->getWorkspacePage();
 		$tpl->assign('workspace_page', $workspace_page);
 
-		$workspace_lists = DAO_WorkspaceList::getByTab($workspace_tab_id);
-		$tpl->assign('workspace_lists', $workspace_lists);
+		// [TODO] Tab type handling (move to extensions)
 		
-		$workspace_widgets = DAO_WorkspaceWidget::getByTab($workspace_tab_id);
-		$tpl->assign('workspace_widgets', $workspace_widgets);
+		switch($workspace_tab->extension_id) {
+			case 'core.workspace.tab':
+				$workspace_widgets = DAO_WorkspaceWidget::getByTab($workspace_tab_id);
+				$tpl->assign('workspace_widgets', $workspace_widgets);
+				break;
+				
+			case 'core.workspace.tab.worklists':
+				$workspace_lists = DAO_WorkspaceList::getByTab($workspace_tab_id);
+				$tpl->assign('workspace_lists', $workspace_lists);
+				break;
+				
+			case 'core.workspace.tab.calendar':
+				$calendar_id = $workspace_tab->params['calendar_id'];
+				CerberusContexts::getContext(CerberusContexts::CONTEXT_CALENDAR, $calendar_id, $labels, $values);
+				$dict = new DevblocksDictionaryDelegate($values);
+				$tpl->assign('dict', $dict);
+				break;
+		}
 		
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/tab.tpl');
 	}

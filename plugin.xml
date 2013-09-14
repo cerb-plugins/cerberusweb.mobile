@@ -31,6 +31,10 @@
 		<file path="api/events/mobile_behavior.php">
 			<class name="Event_MobileBehavior" />
 		</file>
+		
+		<file path="api/profiles.php">
+			<class name="Extension_MobileProfileBlock" />
+		</file>
 	</class_loader>
 
 	<!-- Extensions -->
@@ -71,5 +75,5 @@
 			</params>
 		</extension>
 
-	</extensions> 
+	</extensions>
 </plugin>
