@@ -77,6 +77,21 @@
 		
 		<!-- Mobile Profile Blocks -->
 
+		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.task</id>
+			<name>Mobile task profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_Task</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.task" />
+					</value>
+				</param>
+			</params>
+		</extension>
 
 		<extension point="mobile.profile.block">
 			<id>mobile.profile.block.ticket</id>

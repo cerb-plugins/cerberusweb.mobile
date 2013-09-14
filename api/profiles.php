@@ -53,6 +53,82 @@ abstract class Extension_MobileProfileBlock extends DevblocksExtension {
 };
 
 if(class_exists('Extension_MobileProfileBlock')):
+class MobileProfile_Task extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.task';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/task.tpl');
+	}
+	
+	function showEditDialogAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl->assign('active_worker', $active_worker);
+
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_TASK, $id, $null, $values);
+		
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/task/edit_dialog.tpl');
+		exit;
+	}
+	
+	function saveEditDialogAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$title = DevblocksPlatform::importGPC($_REQUEST['title'], 'string', '');
+		@$status = DevblocksPlatform::importGPC($_REQUEST['status'], 'string', '');
+		@$due_date = DevblocksPlatform::importGPC($_REQUEST['due_date'], 'string', '');
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$fields = array();
+		
+		// Title
+		
+		if(!empty($title))
+			$fields[DAO_Task::TITLE] = $title;
+		
+		// Status
+		
+		switch($status) {
+			case 'active':
+				$fields[DAO_Task::IS_COMPLETED] = 0;
+				$fields[DAO_Task::COMPLETED_DATE] = 0;
+				break;
+				
+			case 'completed':
+				$fields[DAO_Task::IS_COMPLETED] = 1;
+				$fields[DAO_Task::COMPLETED_DATE] = time();
+				break;
+		}
+		
+		// Due date
+		
+		$fields[DAO_Task::DUE_DATE] = intval(@strtotime($due_date));
+		
+		// DAO
+		
+		DAO_Task::update($id, $fields);
+
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+		
+		exit;
+	}
+	
+};
+
 class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.ticket';
 	
