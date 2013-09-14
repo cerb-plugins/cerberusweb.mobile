@@ -5,59 +5,70 @@
 
 <body>
 
-<div data-role="page" id="page-profile" data-theme="c">
+<div data-role="page" id="page-profile-{$context|replace:'.':''}-{$context_id}" data-theme="c">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
 <div data-role="content">
 	<h3 style="margin:0px 0px 0px 0px;">{$dict->_label}</h3>
 	<div style="margin-bottom:20px;">
+		<div>
 		{$context_ext->manifest->name}
+		</div>
 	</div>
 
 	{if method_exists($context_ext, 'getDefaultProperties')}
 	{$props = $context_ext->getDefaultProperties()}
 	
-	<div data-role="collapsible" data-inset="false" data-collapsed="false" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" style="margin-bottom:0px;">
-		<h3 style="margin:0;">Properties</h3>
+	<h3 style="margin-bottom:5px;">Properties</h3>
 
-		<div>
-		{foreach from=$props item=prop_key}
-			{if method_exists($context_ext, 'formatDictionaryValue')}
-				{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}
-			{else}
-				{$val = $dict->$prop_key}
-			{/if}
-			
-			{if strlen($val) > 0}
-			<p style="margin-top:0;margin-bottom:10px;">
-				<b>{$dict->_labels.$prop_key}:</b>
-				
-				{$val_type = $dict->_types.$prop_key}
-				{if $val_type == 'context_url'}
-					{if preg_match('#ctx://(.*?):([0-9]+)/*(.*)$#', $val, $matches)}
-						<a href="{devblocks_url}c=m=&p=profile&ctx={$matches[1]}&id={$matches[2]}{/devblocks_url}" data-transition="slide">{$matches[3]|default:'link'}</a>
+	{if method_exists($context_ext, 'getPropertyLabels')}
+		{$prop_labels = $context_ext->getPropertyLabels($dict)}
+	{else}
+		{$prop_labels = $dict->_labels}
+	{/if}
+
+	<div style="padding:0px 5px 5px 5px;">
+	<table cellspacing="0" cellpadding="3" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;">
+	{foreach from=$props item=prop_key}
+		{if method_exists($context_ext, 'formatDictionaryValue')}
+			{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}
+		{else}
+			{$val = $dict->$prop_key}
+		{/if}
+		
+		{if strlen($val) > 0}
+			<tr>
+				<td style="width:30%;" valign="top">
+					<div style="font-weight:bold;padding-left:5px;text-indent:-5px;">{$prop_labels.$prop_key}:</div>
+				</td>
+				<td style="width:70%;padding-left:5px;">
+					{$val_type = $dict->_types.$prop_key}
+					{if $val_type == 'context_url'}
+						{if preg_match('#ctx://(.*?):([0-9]+)/*(.*)$#', $val, $matches)}
+							<a href="{devblocks_url}c=m=&p=profile&ctx={$matches[1]}&id={$matches[2]}{/devblocks_url}" data-transition="slide">{$matches[3]|default:'link'}</a>
+						{else}
+							{$val}
+						{/if}
+						
+					{elseif $val_type == Model_CustomField::TYPE_URL}
+						<a href="{$val}" target="_blank">{$val}</a>
+					{else}
+						{$val|escape:'htmlall'|nl2br nofilter}
 					{/if}
-					
-				{else}
-					{$val|escape:'htmlall'|nl2br nofilter}
-				{/if}
-			</p>
-			{/if}
-		{/foreach}
-		</div>
+				</td>
+			</tr>
+		{/if}
+	{/foreach}
+	</table>
 	</div>
 	{/if}
 	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
-	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View full record</a>
+	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>
 	{/if}
 </div>
-
-{include file="devblocks:cerberusweb.mobile::footer.tpl"}
-
-</script>
 
 </div><!-- /page -->
 
