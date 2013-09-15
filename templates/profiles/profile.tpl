@@ -15,6 +15,10 @@
 		<div>
 		{$context_ext->manifest->name}
 		</div>
+	
+		{if !empty($macros)}
+		<a href="{devblocks_url}ajax.php?c=m&a=showProfileVaBehaviorMenu&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="c" data-icon="arrow-d" data-iconpos="right">Virtual Attendants</a>
+		{/if}
 	</div>
 
 	{if method_exists($context_ext, 'getDefaultProperties')}

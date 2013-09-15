@@ -174,6 +174,131 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			call_user_func(array(&$ext, $action));
 		}
 	}
+	
+	function showProfileVaBehaviorMenuAction() {
+		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
+		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('context', $context);
+		$tpl->assign('context_id', $context_id);
+		
+		$events = Extension_DevblocksEvent::getAll();
+		
+		$events = array_filter($events, function($event) use ($context) {
+			@$event_context = $event->params['macro_context'];
+			return ($event_context == $context);
+		});
+		
+		$macros = array();
+		
+		foreach($events as $event) {
+			$macros += DAO_TriggerEvent::getReadableByActor($active_worker, $event->id, false);
+		}
+		
+		$tpl->assign('macros', $macros);
+
+		$vas = DAO_VirtualAttendant::getAll();
+		$tpl->assign('vas', $vas);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/va_macros.tpl');
+		exit;
+	}
+	
+	function showVaBehaviorDialogAction() {
+		@$behavior_id = DevblocksPlatform::importGPC($_REQUEST['behavior_id'], 'integer', 0);
+		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
+		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('context', $context);
+		$tpl->assign('context_id', $context_id);
+		
+		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
+			return;
+		
+		if(null == ($va = $behavior->getVirtualAttendant()))
+			return;
+		
+		if(!$va->isReadableByActor($active_worker))
+			return;
+		
+		$tpl->assign('behavior', $behavior);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/run_va_macro.tpl');
+		exit;
+	}
+	
+	function runVaProfileBehaviorAction() {
+		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
+		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
+		@$behavior_id = DevblocksPlatform::importGPC($_REQUEST['behavior_id'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
+			return;
+		
+		if(null == ($va = $behavior->getVirtualAttendant()))
+			return;
+		
+		if(!$va->isReadableByActor($active_worker))
+			return;
+		
+		if($va->is_disabled)
+			return false;
+		
+		if($behavior->is_disabled)
+			return false;
+		
+		// Vars
+
+		$vars = array();
+		
+		if(is_array($behavior->variables)) {
+			foreach($behavior->variables as $var_key => $var) {
+				if(!empty($var['is_private']))
+					continue;
+				
+				// Format passed variables
+				
+				$var_val = null;
+				
+				try {
+					if(isset($_REQUEST[$var_key]))
+						@$var_val = $behavior->formatVariable($var, DevblocksPlatform::importGPC($_REQUEST[$var_key]));
+					
+				} catch(Exception $e) {
+				}
+				
+				$vars[$var_key] = $var_val;
+			}
+		}
+		
+		// Load event manifest
+		if(null == ($ext = DevblocksPlatform::getExtension($behavior->event_point, false))) /* @var $ext DevblocksExtensionManifest */
+			return false;
+		
+		// Trigger a mobile behavior
+		call_user_func(array($ext->class, 'trigger'), $behavior->id, $context_id, $vars);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+		
+		exit;
+	}
+	
 	function viewLoadPresetAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
 		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
