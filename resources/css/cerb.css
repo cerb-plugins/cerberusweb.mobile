@@ -70,44 +70,32 @@ table.cerb-calendar td.cerb-calendar-day-with-events {
 	cursor: pointer;
 }
 
-table.cerb-calendar td.cerb-calendar-day-with-events div {
-	font-weight: bold;
-	text-shadow: none;
+table.cerb-calendar td div {
 	display: inline-block;
+	text-shadow: none;
 	width: 20px;
 	height: 20px;
 	line-height: 20px;
 	border-radius: 20px;
 	padding: 3px;
+	border: 0px solid rgb(110,110,110);
+}
+	
+table.cerb-calendar td.cerb-calendar-day-with-events div {
+	font-weight: bold;
 	background-color: rgb(255,255,255);
-	border: 2px solid rgb(110,110,110);
+	border-width: 2px;
 	color: rgb(110,110,110);
 }
 
 table.cerb-calendar td.selected {
-	/*background-color: rgb(248,224,92);*/
+	background-color: rgb(250,225,90);
 }
 
-/*
 table.cerb-calendar td.today div {
-	background-color: rgb(251,239,180);
-	border-color: rgb(252,150,33);
-	color: rgb(252,150,33);
-}
-*/
-
-/*
-table.cerb-calendar td.today div {
-	background-color: rgb(230,230,230);
-	border-color: rgb(110,110,110);
-	color: rgb(110,110,110);
-}
-*/
-
-table.cerb-calendar td.selected div {
-	background-color: rgb(200,230,250);
-	border: 2px solid rgb(0,94,159);
-	color: rgb(0,94,159);
+	background-color: rgb(50,85,115);
+	border: 2px solid rgb(50,85,115);
+	color: rgb(255,255,255);
 }
 
 div.cerb-message-contents {

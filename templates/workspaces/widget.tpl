@@ -29,7 +29,9 @@
 			{include file="devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl" view=$view}
 			</div>
 		{elseif $widget_extension->id == 'core.workspace.widget.calendar'}
+			<div class="cerb-calendar">
 			{include file="devblocks:cerberusweb.mobile::calendars/calendar.tpl"}
+			</div>
 		{else}
 			{$widget_extension->render($widget)}
 		{/if}

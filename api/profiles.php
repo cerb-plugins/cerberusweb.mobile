@@ -59,6 +59,28 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 	function render(DevblocksDictionaryDelegate $dict) {
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar.tpl');
+	}
+	
+	function calendarPageAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$month  = DevblocksPlatform::importGPC($_REQUEST['month'], 'integer', 0);
+		@$year  = DevblocksPlatform::importGPC($_REQUEST['year'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$visit = CerberusApplication::getVisit();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('month', $month);
+		$tpl->assign('year', $year);
+		
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_CALENDAR, $id, $labels, $values);
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+		
+		// Remember the month/year for this calendar
+		$visit->set(sprintf('calendar_%d_monthyear', $id), array('month'=>$month, 'year'=>$year));
+		
 		$tpl->display('devblocks:cerberusweb.mobile::calendars/calendar.tpl');
 	}
 };

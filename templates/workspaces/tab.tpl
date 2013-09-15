@@ -51,7 +51,9 @@
 		{/if}
 		
 		{if $workspace_tab->extension_id == 'core.workspace.tab.calendar' && isset($dict)}
+			<div class="cerb-calendar">
 			{include file="devblocks:cerberusweb.mobile::calendars/calendar.tpl"}
+			</div>
 		{/if}
 	</div>
 

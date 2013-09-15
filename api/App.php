@@ -60,14 +60,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		////////////
 		$tpl = DevblocksPlatform::getTemplateService();
 		$translate = DevblocksPlatform::getTranslationService();
-		$active_worker = CerberusApplication::getActiveWorker();
 		$settings = DevblocksPlatform::getPluginSettingsService();
+		$active_worker = CerberusApplication::getActiveWorker();
+		$visit = CerberusApplication::getVisit();
 		
 		$tpl->assign('active_worker', $active_worker);
 		
 		if($active_worker instanceof Model_Worker)
 			$tpl->assign('active_worker_memberships', $active_worker->getMemberships());
 		
+		$tpl->assign('visit', $visit);
 		$tpl->assign('translate', $translate);
 		$tpl->assign('settings', $settings);
 		$tpl->assign('controller', $controller);
