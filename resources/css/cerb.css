@@ -145,8 +145,7 @@ div.cerb-message-contents {
 }
 
 #cerb-footer .ui-icon-cerb-badge-count {
-	background-repeat: no-repeat !important;
-	background: none !important;
+	background: none;
 	text-shadow: none;
 	height: 16px;
 	width: 30px;
@@ -155,13 +154,16 @@ div.cerb-message-contents {
 	margin-left: -19px;
 	top: 12px;
 	font-size: 16px;
-	{if $notification_count}background-color: rgb(200,0,0) !important;{/if}
-	{if !$notification_count}background-color: rgb(100,100,100) !important;{/if}
+	background-color: rgb(100,100,100);
+}
+
+#cerb-footer .ui-icon-cerb-badge-count.nonzero {
+	background-color: rgb(200,0,0);
 }
 
 #cerb-footer .ui-icon-cerb-workspaces {
 	background-color: none;
-	background: url({devblocks_url}c=resource&p=cerberusweb.mobile&f=css/images/wgm/cerb-sprites.png{/devblocks_url}) no-repeat top left;
+	background: url(images/wgm/cerb-sprites.png) no-repeat top left;
 	background-position: 0 -82px; width: 32px; height: 32px;
 	border-radius: 0;
 	height: 32px;
@@ -172,7 +174,7 @@ div.cerb-message-contents {
 
 #cerb-footer .ui-icon-cerb-vas {
 	background-color: none;
-	background: url({devblocks_url}c=resource&p=cerberusweb.mobile&f=css/images/wgm/cerb-sprites.png{/devblocks_url}) no-repeat top left;
+	background: url(images/wgm/cerb-sprites.png) no-repeat top left;
 	background-position: 0 0; width: 32px; height: 32px;
 	border-radius: 0;
 	height: 32px;

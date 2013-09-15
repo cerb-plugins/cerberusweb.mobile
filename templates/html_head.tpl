@@ -74,6 +74,10 @@
 			var $badge = $('#cerb-footer .ui-icon-cerb-badge-count');
 			$badge.removeClass('ui-icon-shadow');
 			$badge.html('{$notification_count|default:0}');
+			
+			{if $notification_count}
+			$badge.addClass('nonzero');
+			{/if}
 		});
 	</script>
 
