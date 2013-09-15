@@ -78,6 +78,21 @@
 		<!-- Mobile Profile Blocks -->
 
 		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.calendar</id>
+			<name>Mobile calendar profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_Calendar</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.calendar" />
+					</value>
+				</param>
+			</params>
+		</extension>
+
 		<extension point="mobile.profile.block">
 			<id>mobile.profile.block.message</id>
 			<name>Mobile message profile</name>
@@ -94,6 +109,7 @@
 			</params>
 		</extension>
 
+		<extension point="mobile.profile.block">
 			<id>mobile.profile.block.task</id>
 			<name>Mobile task profile</name>
 			<class>

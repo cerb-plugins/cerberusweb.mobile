@@ -49,6 +49,10 @@
 			{/foreach}
 		</ul>
 		{/if}
+		
+		{if $workspace_tab->extension_id == 'core.workspace.tab.calendar' && isset($dict)}
+			{include file="devblocks:cerberusweb.mobile::calendars/calendar.tpl"}
+		{/if}
 	</div>
 
 </div>

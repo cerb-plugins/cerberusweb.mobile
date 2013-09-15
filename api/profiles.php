@@ -53,6 +53,15 @@ abstract class Extension_MobileProfileBlock extends DevblocksExtension {
 };
 
 if(class_exists('Extension_MobileProfileBlock')):
+class MobileProfile_Calendar extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.calendar';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::calendars/calendar.tpl');
+	}
+};
 
 class MobileProfile_Message extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.message';

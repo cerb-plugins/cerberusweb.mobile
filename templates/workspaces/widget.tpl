@@ -28,6 +28,8 @@
 			<div id="view{$view->id}">
 			{include file="devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl" view=$view}
 			</div>
+		{elseif $widget_extension->id == 'core.workspace.widget.calendar'}
+			{include file="devblocks:cerberusweb.mobile::calendars/calendar.tpl"}
 		{else}
 			{$widget_extension->render($widget)}
 		{/if}

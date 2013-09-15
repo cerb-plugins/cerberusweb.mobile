@@ -601,6 +601,12 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view = $widget_extension->getView($widget);
 			$view->renderLimit = 10;
 			$tpl->assign('view', $view);
+			
+		} elseif($widget_extension->id == 'core.workspace.widget.calendar') {
+			$calendar_id = $widget->params['calendar_id'];
+			CerberusContexts::getContext(CerberusContexts::CONTEXT_CALENDAR, $calendar_id, $labels, $values);
+			$dict = new DevblocksDictionaryDelegate($values);
+			$tpl->assign('dict', $dict);
 		}
 		
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/widget.tpl');
