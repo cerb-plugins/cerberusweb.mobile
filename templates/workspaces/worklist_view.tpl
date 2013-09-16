@@ -159,7 +159,7 @@
 			{if method_exists($context_ext, 'getDefaultProperties')}
 			{$props = $context_ext->getDefaultProperties()}
 			
-			<table cellspacing="2" cellpadding="2" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;">
+			<table cellspacing="2" cellpadding="2" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;word-break:break-word;">
 			{foreach from=$props item=prop_key}
 				{if method_exists($context_ext, 'formatDictionaryValue')}
 					{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}

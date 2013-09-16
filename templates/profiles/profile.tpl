@@ -33,7 +33,7 @@
 	{/if}
 
 	<div style="padding:0px 5px 5px 5px;">
-	<table cellspacing="0" cellpadding="3" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;">
+	<table cellspacing="0" cellpadding="3" width="100%" border="0" style="font-size:12px;font-weight:normal;white-space:normal;word-wrap:break-word;word-break:break-word;">
 	{foreach from=$props item=prop_key}
 		{if method_exists($context_ext, 'formatDictionaryValue')}
 			{$val = $context_ext->formatDictionaryValue($prop_key, $dict)}
