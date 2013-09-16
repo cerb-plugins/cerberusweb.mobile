@@ -34,6 +34,10 @@
 		
 		<file path="api/profiles.php">
 			<class name="Extension_MobileProfileBlock" />
+			<class name="MobileProfile_Calendar" />
+			<class name="MobileProfile_Message" />
+			<class name="MobileProfile_Task" />
+			<class name="MobileProfile_Ticket" />
 		</file>
 	</class_loader>
 
