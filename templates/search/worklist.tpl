@@ -14,10 +14,10 @@
 		<a href="{devblocks_url}c=m&p=search{/devblocks_url}" data-role="button">Search</a>
 	</div>
 
-	<h3 style="margin-bottom:0;">{$view->name}</h3>
+	<h3 style="margin-bottom:0;">{$context_ext->manifest->name}</h3>
 	
 	<div style="margin-bottom:10px;">
-		{$context_ext->manifest->name}
+		{$view->name}
 	</div>
 
 	<div id="view{$view->id}">

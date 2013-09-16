@@ -108,6 +108,10 @@ div.cerb-message-contents {
 	white-space:pre-wrap;
 }
 
+#cerb-panel li a {
+	white-space: normal;
+}
+
 #cerb-footer {
 	border: 0;
 }

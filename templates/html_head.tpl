@@ -78,7 +78,82 @@
 			{if $notification_count}
 			$badge.addClass('nonzero');
 			{/if}
+			
+			$.mobile.activePage.find('#cerb-panel').on('click', '.cerb-panel-toggle-bookmark', function(e) {
+				var $this = $(this);
+				var current_path = $.mobile.path.parseUrl($.mobile.urlHistory.getActive().url).pathname;
+				var bookmarks = (localStorage.bookmarks_json) ? JSON.parse(localStorage.bookmarks_json) : null;
+				
+				if(null == bookmarks || typeof bookmarks != 'object')
+					bookmarks = [];
+	
+				var is_current_page_bookmarked = false;
+				
+				for(idx in bookmarks) {
+					if(bookmarks[idx].path == current_path) {
+						is_current_page_bookmarked = idx;
+						break;
+					}
+				}
+				
+				if(false !== is_current_page_bookmarked) {
+					bookmarks.splice(is_current_page_bookmarked, 1);
+					
+				} else {
+					var bookmark = {
+						'label': $.mobile.activePage.find('h3:first').text(),
+						'path': current_path
+					};
+					
+					bookmarks.push(bookmark);
+				}
+	
+				// Alphabetize bookmarks
+				bookmarks.sort(function(a,b) { return a.label > b.label; });
+				
+				localStorage.bookmarks_json = JSON.stringify(bookmarks);
+				
+				// Redraw
+				$.mobile.activePage.find('#cerb-panel').trigger('panelrefresh');
+			});
+			
+			$.mobile.activePage.find('#cerb-panel').on('panelbeforeopen panelrefresh', function(e) {
+				var $ul = $(this).find('ul.cerb-panel-bookmarks');
+				var bookmarks = (localStorage.bookmarks_json) ? JSON.parse(localStorage.bookmarks_json) : null;
+				
+				var current_path = $.mobile.path.parseUrl($.mobile.urlHistory.getActive().url).pathname;
+				
+				var page_title = $.mobile.activePage.find('h3:first').text();
+				
+				$ul.find('li').not('.ui-li-divider').remove();
+	
+				if(null == bookmarks || typeof bookmarks != 'object')
+					bookmarks = [];
+				
+				var is_current_page_bookmarked = false;
+	
+				for(idx in bookmarks) {
+					if(bookmarks[idx].path == current_path)
+						is_current_page_bookmarked = true;
+					
+					var $li = $('<li><a href="' + bookmarks[idx].path + '">' + bookmarks[idx].label + '</a></li>');
+					$li.appendTo($ul);
+				}
+				
+				// Insert an add/remove button depending on current page
+				if(false !== is_current_page_bookmarked) {
+					var $li = $('<li data-theme="a" data-icon="minus" data-iconpos="left"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Remove: ' + page_title + '</a></li>');
+					$li.appendTo($ul);
+					
+				} else {
+					var $li = $('<li data-theme="a" data-icon="plus" data-iconpos="left"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Add: ' + page_title + '</a></li>');
+					$li.appendTo($ul);
+				}
+				
+				$ul.listview('refresh');
+			});
 		});
+		
 	</script>
 
 </head>
