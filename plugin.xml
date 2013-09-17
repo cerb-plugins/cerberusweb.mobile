@@ -132,6 +132,22 @@
 		</extension>
 
 		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.notification</id>
+			<name>Mobile notification profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_Notification</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.notification" />
+					</value>
+				</param>
+			</params>
+		</extension>
+
+		<extension point="mobile.profile.block">
 			<id>mobile.profile.block.org</id>
 			<name>Mobile org profile</name>
 			<class>

@@ -19,7 +19,7 @@
 				{$context_ext = Extension_DevblocksContext::get($notification->context)}
 				{$meta = $context_ext->getMeta($notification->context_id)}
 				<li>
-					<a href="{devblocks_url}c=preferences&a=redirectRead&id={$notification->id}{/devblocks_url}" data-ajax="false" target="_blank">
+					<a href="{devblocks_url}c=m&a=profile&ctx={CerberusContexts::CONTEXT_NOTIFICATION}&id={$notification->id}{/devblocks_url}">
 						<p class="ui-li-aside ui-li-desc">
 							{$notification->created_date|devblocks_prettytime}
 						</p>

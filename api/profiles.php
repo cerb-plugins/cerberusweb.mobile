@@ -187,6 +187,34 @@ class MobileProfile_Message extends Extension_MobileProfileBlock {
 	}
 };
 
+class MobileProfile_Notification extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.notification';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/notification.tpl');
+	}
+	
+	function markReadAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+
+		if(false == ($notification = DAO_Notification::get($id)))
+			return;
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if($notification->worker_id != $active_worker->id)
+			return;
+		
+		$notification->markRead();
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+};
+
 class MobileProfile_Org extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.org';
 	
