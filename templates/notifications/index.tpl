@@ -17,7 +17,6 @@
 		<ul data-role="listview" data-inset="true" data-icon="false" data-filter="true">
 			{foreach from=$notifications item=notification key=notification_id}
 				{$context_ext = Extension_DevblocksContext::get($notification->context)}
-				{$meta = $context_ext->getMeta($notification->context_id)}
 				<li>
 					<a href="{devblocks_url}c=m&a=profile&ctx={CerberusContexts::CONTEXT_NOTIFICATION}&id={$notification->id}{/devblocks_url}">
 						<p class="ui-li-aside ui-li-desc">
@@ -28,7 +27,7 @@
 						</h3>
 						<p class="ui-li-desc">
 							{$meta.name}
-							({$context_ext->manifest->name}) 
+							{if $context_ext}({$context_ext->manifest->name}){/if}
 						</p>
 					</a>
 				</li>

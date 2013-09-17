@@ -69,16 +69,6 @@
 	
 	<script type="text/javascript">
 		$(document).on('pagebeforeshow', function() {
-			$(".ui-icon-shadow").removeClass('ui-icon-shadow');
-			
-			var $badge = $('#cerb-footer .ui-icon-cerb-badge-count');
-			$badge.removeClass('ui-icon-shadow');
-			$badge.html('{$notification_count|default:0}');
-			
-			{if $notification_count}
-			$badge.addClass('nonzero');
-			{/if}
-			
 			$.mobile.activePage.find('#cerb-panel').on('click', '.cerb-panel-toggle-bookmark', function(e) {
 				var $this = $(this);
 				var current_path = $.mobile.path.parseUrl($.mobile.urlHistory.getActive().url).pathname;
