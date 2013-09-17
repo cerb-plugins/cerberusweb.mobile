@@ -560,10 +560,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$dict = new DevblocksDictionaryDelegate($values);
 		$tpl->assign('dict', $dict);
 
-		//$tpl->assign('labels', $dict->_labels);
 		$tpl->assign('types', $dict->_types);
 		
 		// Load mobile profile extensions
+		
 		$mobile_profile_extensions = Extension_MobileProfileBlock::getAll(true, $context);
 		$tpl->assign('mobile_profile_extensions', $mobile_profile_extensions);
 		

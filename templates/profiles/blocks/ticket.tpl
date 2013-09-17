@@ -3,9 +3,9 @@
 <h3 style="margin-top:10px;margin-bottom:10px;">Messages</h3>
 
 <div style="font-size:12px;" class="cerb-profile-ticket-message">
-	{CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $dict->latest_message_id, $message_labels, $message_values)}
-	{$message_dict = DevblocksDictionaryDelegate::instance($message_values)}
-	{include file="devblocks:cerberusweb.mobile::profiles/blocks/ticket/message.tpl" dict=$message_dict}
+{CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $dict->latest_message_id, $message_labels, $message_values)}
+{$message_dict = DevblocksDictionaryDelegate::instance($message_values)}
+{include file="devblocks:cerberusweb.mobile::profiles/blocks/ticket/message.tpl" dict=$message_dict}
 </div>
 
 <button data-role="button" class="cerb-profile-ticket-view-history">Search messages</button>

@@ -6,8 +6,7 @@
 {$page_current = $message_index + 1}
 
 {capture name=message_paging}
-{if $page_total > 1}
-<div style="text-align:center;">
+<div style="text-align:center;background-color:rgb(220,220,220);border:2px solid rgb(200,200,200);border-bottom-width:1px;border-radius:8px 8px 0px 0px;">
 <form action="javascript:;" method="post" class="cerb-profile-ticket-message-form{$uniqid}" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="profileTicketGetMessage">
@@ -21,7 +20,7 @@
 				{/if}
 			</td>
 			
-			<td align="center" width="70%">
+			<td align="center" width="70%" style="font-size:120%;">
 				Message <b>{$page_current}</b> of <b>{$page_total}</b>
 			</td>
 			
@@ -35,15 +34,15 @@
 	
 </form>
 </div>
-{/if}
 {/capture}
 
 <div class="cerb-message-paging-bottom">
 {$smarty.capture.message_paging nofilter}
 </div>
 
-{$dict->created|devblocks_prettytime}, <b>{$dict->sender__label}</b> wrote:
-<div class="cerb-message-contents">{$dict->content|trim|truncate:25000|escape:'htmlall'|devblocks_hyperlinks nofilter}</div>
+<div class="cerb-message-contents"><span style="color:rgb(75,75,75);font-style:italic;">{$dict->created|devblocks_prettytime}, <b>{$dict->sender__label}</b> wrote:</span>
+
+{$dict->content|trim|truncate:25000|escape:'htmlall'|devblocks_hyperlinks nofilter}</div>
 
 <a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showReplyDialog&message_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" ata-iconpos="left">Reply</a>
 
@@ -52,19 +51,23 @@ $(function() {
 	var $frm = $('form.cerb-profile-ticket-message-form{$uniqid}');
 	
 	$frm.find('button.prev').on('click', function() {
+		$.mobile.loading('show');
 		$.get(
 			'{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=getMessage&id={$message_timeline_ids.{$message_index-1}}{/devblocks_url}',
 			function(html) {
 				$page.find('div.cerb-profile-ticket-message').html(html).trigger('create');
+				$.mobile.loading('hide');
 			}
 		);
 	});
 	
 	$frm.find('button.next').on('click', function() {
+		$.mobile.loading('show');
 		$.get(
 			'{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=getMessage&id={$message_timeline_ids.{$message_index+1}}{/devblocks_url}',
 			function(html) {
 				$page.find('div.cerb-profile-ticket-message').html(html).trigger('create');
+				$.mobile.loading('hide');
 			}
 		);
 	});
