@@ -187,6 +187,126 @@ class MobileProfile_Message extends Extension_MobileProfileBlock {
 	}
 };
 
+class MobileProfile_Org extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.org';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/org.tpl');
+	}
+	
+	function showEditDialogAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl->assign('active_worker', $active_worker);
+
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_ORG, $id, $null, $values);
+		
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/org/edit_dialog.tpl');
+		exit;
+	}
+	
+	function saveEditDialogAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$name = DevblocksPlatform::importGPC($_REQUEST['name'], 'string', '');
+		@$street = DevblocksPlatform::importGPC($_REQUEST['street'], 'string', '');
+		@$city = DevblocksPlatform::importGPC($_REQUEST['city'], 'string', '');
+		@$province = DevblocksPlatform::importGPC($_REQUEST['province'], 'string', '');
+		@$postal = DevblocksPlatform::importGPC($_REQUEST['postal'], 'string', '');
+		@$country = DevblocksPlatform::importGPC($_REQUEST['country'], 'string', '');
+		@$phone = DevblocksPlatform::importGPC($_REQUEST['phone'], 'string', '');
+		@$website = DevblocksPlatform::importGPC($_REQUEST['website'], 'string', '');
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$fields = array();
+		
+		// Fields
+		
+		$fields[DAO_ContactOrg::NAME] = $name;
+		$fields[DAO_ContactOrg::STREET] = $street;
+		$fields[DAO_ContactOrg::CITY] = $city;
+		$fields[DAO_ContactOrg::PROVINCE] = $province;
+		$fields[DAO_ContactOrg::POSTAL] = $postal;
+		$fields[DAO_ContactOrg::COUNTRY] = $country;
+		$fields[DAO_ContactOrg::PHONE] = $phone;
+		$fields[DAO_ContactOrg::WEBSITE] = $website;
+		
+		// DAO
+		
+		DAO_ContactOrg::update($id, $fields);
+
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+		
+		exit;
+	}
+	
+	function viewSearchContactsAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		if(false == ($org = DAO_ContactOrg::get($id)))
+			return;
+		
+		$context_ext = Extension_DevblocksContext::get(CerberusContexts::CONTEXT_ADDRESS);
+		
+		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
+		
+		$view->addParams(array(
+			new DevblocksSearchCriteria(SearchFields_Address::ORG_NAME, '=', $org->name)
+		), true);
+		
+		$view->renderSortBy = SearchFields_Address::NUM_NONSPAM;
+		$view->renderSortAsc = false;
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+	
+	function viewSearchTicketsAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		if(false == ($org = DAO_ContactOrg::get($id)))
+			return;
+				
+		$context_ext = Extension_DevblocksContext::get(CerberusContexts::CONTEXT_TICKET);
+		
+		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
+		
+		$view->addParams(array(
+			new DevblocksSearchCriteria(SearchFields_Ticket::ORG_NAME, '=', $org->name)
+		), true);
+		
+		$view->renderSortBy = SearchFields_Ticket::TICKET_UPDATED_DATE;
+		$view->renderSortAsc = false;
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+};
+
 class MobileProfile_Task extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.task';
 	
