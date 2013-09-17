@@ -75,7 +75,7 @@
 			$.mobile.loading('show');
 			
 			$.post(
-				'{devblocks_url}c=m{/devblocks_url}',
+				'{devblocks_url}ajax.php{/devblocks_url}',
 				$frm.serialize(),
 				function(json) {
 					if(json.success && json.message_id !== undefined) {

@@ -54,6 +54,9 @@
 						{else}
 							{$val}
 						{/if}
+
+					{elseif $val_type == 'phone'}
+						<a href="tel:{$val}">{$val}</a>
 						
 					{elseif $val_type == Model_CustomField::TYPE_URL}
 						<a href="{$val}" target="_blank">{$val}</a>

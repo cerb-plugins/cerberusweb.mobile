@@ -5,6 +5,8 @@
 	</div>
 	
 	<div data-role="content">
+		<h3 style="margin:0;">{$dict->_label}</h3>
+	
 		<form id="frm{$uniqid}" method="post">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="handleProfileBlockRequest">
@@ -93,7 +95,7 @@
 			$.mobile.loading('show');
 			
 			$.post(
-				'{devblocks_url}c=m{/devblocks_url}',
+				'{devblocks_url}ajax.php{/devblocks_url}',
 				$frm.serialize(),
 				function(json) {
 					if(json.success) {

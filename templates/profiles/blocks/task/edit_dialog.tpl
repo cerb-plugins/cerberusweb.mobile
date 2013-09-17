@@ -5,6 +5,8 @@
 	</div>
 	
 	<div data-role="content">
+		<h3 style="margin:0;">{$dict->_label}</h3>
+	
 		<form id="frm{$uniqid}" method="post">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="handleProfileBlockRequest">
@@ -13,7 +15,7 @@
 		<input type="hidden" name="id" value="{$dict->id}">
 
 		<div data-role="fieldcontain">
-			<label for="frm-cerb-task-edit-title"> {'task.title'|devblocks_translate}:</label>
+			<label for="frm-cerb-task-edit-title"> {'common.title'|devblocks_translate}:</label>
 			 
 			<input type="text" name="title" id="frm-cerb-task-edit-title" value="{$dict->title}" />
 		</div>
@@ -53,7 +55,7 @@
 			$.mobile.loading('show');
 			
 			$.post(
-				'{devblocks_url}c=m{/devblocks_url}',
+				'{devblocks_url}ajax.php{/devblocks_url}',
 				$frm.serialize(),
 				function(json) {
 					if(json.success) {
