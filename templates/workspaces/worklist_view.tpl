@@ -21,7 +21,7 @@
 	<h3 style="margin:0;padding:0;">{'common.filter'|devblocks_translate|capitalize}</h3>
 	
 	{if $smarty.capture.options}
-	<form action="{devblocks_url}c=m{/devblocks_url}" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
+	<form action="javascript:;" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewQuickSearch">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -40,7 +40,7 @@
 	
 	<h3 style="margin:0;padding:0;">Presets</h3>
 		
-	<form action="{devblocks_url}c=m{/devblocks_url}" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
+	<form action="javascript:;" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewLoadPreset">
 		<input type="hidden" name="view_id" value="{$view->id}">
@@ -108,13 +108,13 @@
 		{elseif $param->operator=='!='}
 			is not 
 		{elseif $param->operator=='in'}
-			is    
+			is 
 		{elseif $param->operator=='in or null'}
 			is blank{if !empty($param->value)} or{/if} 
 		{elseif $param->operator=='not in'}
 			is not
 		{elseif $param->operator=='not in or null'}
-			is blank{if !empty($param->value)} or not{/if}  
+			is blank{if !empty($param->value)} or not{/if} 
 		{elseif $param->operator=='is null'}
 			is {if empty($param->value)}blank{/if}
 		{elseif $param->operator=='is not null'}
@@ -253,7 +253,7 @@ $frm_search.find('button.submit').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}',
+		'{devblocks_url}ajax.php{/devblocks_url}',
 		$frm_search.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -273,7 +273,7 @@ $frm_presets.find('button.submit').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}?preset_id=' + preset_id,
+		'{devblocks_url}ajax.php{/devblocks_url}?preset_id=' + preset_id,
 		$frm_presets.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -294,7 +294,7 @@ $frm_filtering.find('button.submit').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}?filter_key=' + filter_key,
+		'{devblocks_url}ajax.php{/devblocks_url}?filter_key=' + filter_key,
 		$frm_filtering.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -314,7 +314,7 @@ $frm_sorting.find('button.submit').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}',
+		'{devblocks_url}ajax.php{/devblocks_url}',
 		$frm_sorting.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -334,7 +334,7 @@ $frm_paging.find('button.first').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}?page=0',
+		'{devblocks_url}ajax.php{/devblocks_url}?page=0',
 		$frm_paging.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -352,7 +352,7 @@ $frm_paging.find('button.prev').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}?page={$view->renderPage-1}',
+		'{devblocks_url}ajax.php{/devblocks_url}?page={$view->renderPage-1}',
 		$frm_paging.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
@@ -370,7 +370,7 @@ $frm_paging.find('button.next').click(function() {
 	
 	$.mobile.loading('show');
 	$.post(
-		'{devblocks_url}{/devblocks_url}?page={$view->renderPage+1}',
+		'{devblocks_url}ajax.php{/devblocks_url}?page={$view->renderPage+1}',
 		$frm_paging.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();

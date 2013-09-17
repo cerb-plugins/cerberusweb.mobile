@@ -73,8 +73,7 @@
 	{/foreach}
 	{/if}
 	
-	<button type="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Run behavior</button><!--
-	--><button type="reset" data-theme="c" data-inline="true" class="ui-btn-hidden" aria-disabled="false">Reset</button>
+	<button type="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Run behavior</button>
 
 	</form>
 </div>

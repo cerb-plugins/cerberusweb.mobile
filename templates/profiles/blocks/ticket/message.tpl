@@ -6,6 +6,7 @@
 {$page_current = $message_index + 1}
 
 {capture name=message_paging}
+{if $page_total > 1}
 <div style="text-align:center;">
 <form action="javascript:;" method="post" class="cerb-profile-ticket-message-form{$uniqid}" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
@@ -34,6 +35,7 @@
 	
 </form>
 </div>
+{/if}
 {/capture}
 
 <div class="cerb-message-paging-bottom">

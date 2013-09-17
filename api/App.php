@@ -789,6 +789,8 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$workspace_page = $workspace_tab->getWorkspacePage();
 		$tpl->assign('workspace_page', $workspace_page);
+
+		// [TODO] Mobile widget overrides should come from extensions
 		
 		if($widget_extension->id == 'core.workspace.widget.worklist') {
 			$view = $widget_extension->getView($widget);
