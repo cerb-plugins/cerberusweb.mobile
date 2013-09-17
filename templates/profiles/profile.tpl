@@ -75,6 +75,16 @@
 		{$mobile_profile_ext->render($dict)}
 	{/foreach}
 	
+	{if isset($comments)}
+		<h3 style="margin-top:10px;margin-bottom:10px;">Comments</h3>
+		
+		<div style="font-size:12px;" class="cerb-profile-comment">
+		{CerberusContexts::getContext(CerberusContexts::CONTEXT_COMMENT, end($comments), $null, $comment_values)}
+		{$comment_dict = DevblocksDictionaryDelegate::instance($comment_values)}
+		{include file="devblocks:cerberusweb.mobile::profiles/comments/comment.tpl" context=$dict->_context context_id=$dict->id dict=$comment_dict}
+		</div>
+	{/if}
+	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
 	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>

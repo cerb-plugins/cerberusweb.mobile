@@ -6,13 +6,14 @@
 {$page_current = $message_index + 1}
 
 {capture name=message_paging}
+{if $page_total > 0}
 <div style="text-align:center;background-color:rgb(220,220,220);border:2px solid rgb(200,200,200);border-bottom-width:1px;border-radius:8px 8px 0px 0px;">
 <form action="javascript:;" method="post" class="cerb-profile-ticket-message-form{$uniqid}" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="profileTicketGetMessage">
 <input type="hidden" name="ticket_id" value="{$dict->ticket_id}">
 
-	<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" style="min-height:32px;">
 		<tr>
 			<td align="left" width="15%">
 				{if $page_current > 1}
@@ -34,6 +35,7 @@
 	
 </form>
 </div>
+{/if}
 {/capture}
 
 <div class="cerb-message-paging-bottom">

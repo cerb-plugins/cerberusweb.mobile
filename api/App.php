@@ -164,6 +164,65 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 	}
 	
+	function profileAddCommentDialogAction() {
+		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
+		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('context', $context);
+		$tpl->assign('context_id', $context_id);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl->assign('active_worker', $active_worker);
+
+		$tpl->assign('workers', DAO_Worker::getAllActive());
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/comments/comment_dialog.tpl');
+	}
+	
+	function saveProfileAddCommentDialogAction() {
+		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
+		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
+		@$comment = DevblocksPlatform::importGPC($_REQUEST['comment'], 'string', '');
+		@$also_notify_worker_ids = DevblocksPlatform::importGPC($_REQUEST['also_notify_worker_ids'], 'array', array());
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+
+		$fields = array(
+			DAO_Comment::CONTEXT => $context,
+			DAO_Comment::CONTEXT_ID => $context_id,
+			DAO_Comment::COMMENT => $comment,
+			DAO_Comment::CREATED => time(),
+			DAO_Comment::OWNER_CONTEXT => CerberusContexts::CONTEXT_WORKER,
+			DAO_Comment::OWNER_CONTEXT_ID => $active_worker->id,
+		);
+		
+		DAO_Comment::create($fields, $also_notify_worker_ids);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+	
+	function profileGetCommentAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_COMMENT, $id, $labels, $values);
+		$dict = new DevblocksDictionaryDelegate($values);
+
+		$comments = DAO_Comment::getByContext($dict->context, $dict->context_id);
+		$tpl->assign('comments', array_reverse($comments, true));
+
+		$tpl->assign('dict', $dict);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/comments/comment.tpl');
+	}
+	
 	function saveComposeAction() {
 		@$group_id = DevblocksPlatform::importGPC($_REQUEST['group_id'], 'integer', 0);
 		@$bucket_id = DevblocksPlatform::importGPC($_REQUEST['bucket_id'], 'integer', 0);
@@ -566,6 +625,13 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$mobile_profile_extensions = Extension_MobileProfileBlock::getAll(true, $context);
 		$tpl->assign('mobile_profile_extensions', $mobile_profile_extensions);
+
+		// Comments
+		
+		if($context_ext instanceof IDevblocksContextProfile) {
+			$comments = DAO_Comment::getByContext($context, $context_id);
+			$tpl->assign('comments', array_reverse($comments, true));
+		}
 		
 		// VAs
 		
