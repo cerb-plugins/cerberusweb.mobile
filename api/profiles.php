@@ -85,6 +85,98 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 	}
 };
 
+class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.email_address';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/address.tpl');
+	}
+	
+	function showEditDialogAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl->assign('active_worker', $active_worker);
+
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_ADDRESS, $id, $null, $values);
+		
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/address/edit_dialog.tpl');
+		exit;
+	}
+	
+	function saveEditDialogAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$first_name = DevblocksPlatform::importGPC($_REQUEST['first_name'], 'string', '');
+		@$last_name = DevblocksPlatform::importGPC($_REQUEST['last_name'], 'string', '');
+		@$org_name = DevblocksPlatform::importGPC($_REQUEST['org'], 'string', '');
+		@$is_banned = DevblocksPlatform::importGPC($_REQUEST['is_banned'], 'integer', 0);
+		@$is_defunct = DevblocksPlatform::importGPC($_REQUEST['is_defunct'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$fields = array();
+		
+		// Fields
+		
+		$fields[DAO_Address::FIRST_NAME] = $first_name;
+		$fields[DAO_Address::LAST_NAME] = $last_name;
+		$fields[DAO_Address::IS_BANNED] = $is_banned;
+		$fields[DAO_Address::IS_DEFUNCT] = $is_defunct;
+		
+		if(!empty($org_name) && false !== ($org_id = DAO_ContactOrg::lookup($org_name, true))) {
+			if(false !== ($org = DAO_ContactOrg::get($org_id)))
+				$fields[DAO_Address::CONTACT_ORG_ID] = $org_id;
+		}
+		
+		// DAO
+		
+		DAO_Address::update($id, $fields);
+
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+		
+		exit;
+	}
+	
+	function viewSearchTicketsAction() {
+		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		if(false == ($address = DAO_Address::get($id)))
+			return;
+		
+		$context_ext = Extension_DevblocksContext::get(CerberusContexts::CONTEXT_TICKET);
+		
+		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
+		
+		$view->addParams(array(
+			new DevblocksSearchCriteria(SearchFields_Ticket::REQUESTER_ADDRESS, '=', $address->email)
+		), true);
+		
+		$view->renderSortBy = SearchFields_Ticket::TICKET_UPDATED_DATE;
+		$view->renderSortAsc = false;
+		
+		C4_AbstractViewLoader::setView($view->id, $view);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+};
+
 class MobileProfile_Message extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.message';
 	
@@ -168,7 +260,6 @@ class MobileProfile_Task extends Extension_MobileProfileBlock {
 		
 		exit;
 	}
-	
 };
 
 class MobileProfile_Ticket extends Extension_MobileProfileBlock {

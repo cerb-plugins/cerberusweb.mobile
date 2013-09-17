@@ -35,6 +35,7 @@
 		<file path="api/profiles.php">
 			<class name="Extension_MobileProfileBlock" />
 			<class name="MobileProfile_Calendar" />
+			<class name="MobileProfile_EmailAddress" />
 			<class name="MobileProfile_Message" />
 			<class name="MobileProfile_Task" />
 			<class name="MobileProfile_Ticket" />
@@ -92,6 +93,22 @@
 				<param key="contexts">
 					<value>
 						<data key="cerberusweb.contexts.calendar" />
+					</value>
+				</param>
+			</params>
+		</extension>
+
+		<extension point="mobile.profile.block">
+			<id>mobile.profile.block.email_address</id>
+			<name>Mobile email address profile</name>
+			<class>
+				<file>api/profiles.php</file>
+				<name>MobileProfile_EmailAddress</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.address" />
 					</value>
 				</param>
 			</params>

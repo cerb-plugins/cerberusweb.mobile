@@ -496,6 +496,9 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl = DevblocksPlatform::getTemplateService();
 		
+		@$to = DevblocksPlatform::importGPC($_REQUEST['to'], 'string', '');
+		$tpl->assign('to', $to);
+		
 		$groups = DAO_Group::getAll();
 		$tpl->assign('groups', $groups);
 		

@@ -41,7 +41,7 @@
 	
 	<div data-role="fieldcontain">
 		<label for="cerb-compose-to"> {'message.header.to'|devblocks_translate|capitalize}:</label>
-		<input type="text" name="to" id="cerb-compose-to">
+		<input type="text" name="to" id="cerb-compose-to" value="{$to}">
 		<ul id="cerb-compose-to-autocomplete" class="cerb-ul-autocomplete" data-role="listview" data-inset="true" data-filter-theme="d" style="margin:0;"></ul>
 	</div>
 	
