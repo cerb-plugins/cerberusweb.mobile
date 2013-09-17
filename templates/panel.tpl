@@ -2,7 +2,7 @@
 
 	<ul class="cerb-panel-menu" data-role="listview" data-theme="c" data-inset="true">
 		<li data-role="list-divider" data-theme="b">Navigation</li>
-		{*<li><a href="{devblocks_url}c=m&p=compose{/devblocks_url}">Compose</a></li>*}
+		<li><a href="{devblocks_url}c=m&p=compose{/devblocks_url}">Compose</a></li>
 		<li><a href="{devblocks_url}c=m&p=notifications{/devblocks_url}">Notifications</a></li>
 		<li><a href="{devblocks_url}c=m&p=pages{/devblocks_url}">Pages</a></li>
 		<li><a href="{devblocks_url}c=m&p=search{/devblocks_url}">Search</a></li>

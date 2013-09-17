@@ -80,6 +80,9 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		////////////
 		
 		switch($controller) {
+			case 'compose':
+				$this->_renderCompose($stack);
+				break;
 				
 			default:
 			case 'notifications':
@@ -159,6 +162,56 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				
 				break;
 		}
+	}
+	
+	function saveComposeAction() {
+		@$group_id = DevblocksPlatform::importGPC($_REQUEST['group_id'], 'integer', 0);
+		@$bucket_id = DevblocksPlatform::importGPC($_REQUEST['bucket_id'], 'integer', 0);
+		@$org = DevblocksPlatform::importGPC($_REQUEST['org'], 'string', '');
+		@$to = DevblocksPlatform::importGPC($_REQUEST['to'], 'string', '');
+		@$subject = DevblocksPlatform::importGPC($_REQUEST['subject'], 'string', '');
+		@$body = DevblocksPlatform::importGPC($_REQUEST['body'], 'string', '');
+		@$status = DevblocksPlatform::importGPC($_REQUEST['status'], 'string', '');
+		@$reopen_at = DevblocksPlatform::importGPC($_REQUEST['reopen_at'], 'string', '');
+
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		$properties = array(
+			'group_id' => $group_id,
+			'bucket_id' => $bucket_id,
+			'worker_id' => $active_worker->id,
+			'to' => $to,
+			'subject' => $subject,
+			'content' => $body,
+		);
+		
+		if(!empty($org) && false != ($org_id = DAO_ContactOrg::lookup($org, true)))
+			$properties['org_id'] = $org_id;
+		
+		switch($status) {
+			case 'open':
+				$properties['closed'] = 0;
+				break;
+				
+			case 'waiting':
+				$properties['closed'] = 2;
+				$properties['ticket_reopen'] = $reopen_at;
+				break;
+				
+			case 'closed':
+				$properties['closed'] = 1;
+				$properties['ticket_reopen'] = $reopen_at;
+				break;
+		}
+		
+		$ticket_id = CerberusMail::compose($properties);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+			'ticket_id' => $ticket_id,
+		));
 	}
 	
 	function handleProfileBlockRequestAction() {
@@ -437,6 +490,19 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('hide_sorting', $hide_sorting);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
+	}
+	
+	private function _renderCompose($stack) {
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$groups = DAO_Group::getAll();
+		$tpl->assign('groups', $groups);
+		
+		$buckets = DAO_Bucket::getAll();
+		$tpl->assign('buckets', $buckets);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::compose/index.tpl');
 	}
 	
 	private function _renderNotifications($stack) {
