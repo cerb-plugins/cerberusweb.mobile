@@ -14,6 +14,11 @@
 	
 		<h3>{$behavior->title}</h3>
 		
+		<div data-role="fieldcontain">
+			<label for="cerb-profile-va-when"> When should this behavior happen?</label> 
+			<input name="when" id="cerb-profile-va-when" placeholder="e.g. now; tomorrow 5pm; +3 days" value="" type="text">
+		</div>
+		
 		{* Public variables *}
 		{if is_array($behavior->variables)}
 		{foreach from=$behavior->variables item=var key=var_key}

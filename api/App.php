@@ -353,6 +353,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
 		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
 		@$behavior_id = DevblocksPlatform::importGPC($_REQUEST['behavior_id'], 'integer', 0);
+		@$when = DevblocksPlatform::importGPC($_REQUEST['when'], 'string', '');
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		
@@ -395,12 +396,27 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			}
 		}
 		
-		// Load event manifest
-		if(null == ($ext = DevblocksPlatform::getExtension($behavior->event_point, false))) /* @var $ext DevblocksExtensionManifest */
-			return false;
+		// Are we scheduling this behavior now or in the future?
 		
-		// Trigger a mobile behavior
-		call_user_func(array($ext->class, 'trigger'), $behavior->id, $context_id, $vars);
+		$run_timestamp = @strtotime($when) or time();
+		
+		// Create
+		$behavior_id = DAO_ContextScheduledBehavior::create(array(
+			DAO_ContextScheduledBehavior::BEHAVIOR_ID => $behavior->id,
+			DAO_ContextScheduledBehavior::CONTEXT => $context,
+			DAO_ContextScheduledBehavior::CONTEXT_ID => $context_id,
+			DAO_ContextScheduledBehavior::RUN_DATE => $run_timestamp,
+			DAO_ContextScheduledBehavior::RUN_RELATIVE => '',
+			DAO_ContextScheduledBehavior::RUN_LITERAL => $when,
+			DAO_ContextScheduledBehavior::VARIABLES_JSON => json_encode($vars),
+			DAO_ContextScheduledBehavior::REPEAT_JSON => json_encode(array()),
+		));
+		
+		// Execute now if the start time is in the past
+		if($run_timestamp <= time()) {
+			$scheduled_behavior = DAO_ContextScheduledBehavior::get($behavior_id);
+			$scheduled_behavior->run();
+		}
 		
 		header('Content-type: application/json');
 		
