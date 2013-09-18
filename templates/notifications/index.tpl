@@ -26,7 +26,10 @@
 							{$notification->message}
 						</h3>
 						<p class="ui-li-desc">
-							{$meta.name}
+							{if method_exists($context_ext, 'getMeta')}
+								{$meta = $context_ext->getMeta($notification->context_id)}
+								{$meta.name}
+							{/if}
 							{if $context_ext}({$context_ext->manifest->name}){/if}
 						</p>
 					</a>
