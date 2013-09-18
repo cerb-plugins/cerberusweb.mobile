@@ -77,6 +77,9 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$notification_count = DAO_Notification::getUnreadCountByWorker($active_worker->id);
 		$tpl->assign('notification_count', $notification_count);
+		
+		$plugin_manifest = DevblocksPlatform::getPlugin('cerberusweb.mobile');
+		$tpl->assign('plugin_manifest', $plugin_manifest);
 		////////////
 		
 		switch($controller) {
