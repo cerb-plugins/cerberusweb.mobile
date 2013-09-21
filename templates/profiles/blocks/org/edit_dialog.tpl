@@ -5,7 +5,7 @@
 	</div>
 	
 	<div data-role="content">
-		<h3 style="margin:0;">{$dict->_label}</h3>
+		<h3 style="margin:0;white-space:normal;word-wrap:break-word;word-break:break-word;">{$dict->_label}</h3>
 		
 		<form id="frm{$uniqid}" method="post">
 		<input type="hidden" name="c" value="m">

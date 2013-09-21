@@ -10,7 +10,7 @@
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
 <div data-role="content">
-	<h3 style="margin:0px 0px 0px 0px;">{$dict->_label}</h3>
+	<h3 style="margin:0;white-space:normal;word-wrap:break-word;word-break:break-word;">{$dict->_label}</h3>
 	<div style="margin-bottom:20px;">
 		<div>
 		{$context_ext->manifest->name}
