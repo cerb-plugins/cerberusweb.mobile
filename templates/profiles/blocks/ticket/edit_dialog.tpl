@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="b">
+	<div data-role="header" data-theme="f">
 		<h1>Edit</h1>
 	</div>
 	
@@ -62,7 +62,7 @@
 		</div>
 		{/if}
 		
-		<button data-role="button" type="button" class="submit" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
+		<button data-role="button" type="button" class="submit" data-theme="f">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	</div>
 	
 	<script type="text/javascript">

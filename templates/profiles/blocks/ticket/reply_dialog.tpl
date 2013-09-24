@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="b">
+	<div data-role="header" data-theme="f">
 		<h1>Reply</h1>
 	</div>
 	
@@ -46,7 +46,7 @@
 			<input type="text" name="reopen_at" id="frm-cerb-reply-reopen" />
 		</div>
 		
-		<button data-role="button" type="button" class="submit" data-theme="b">Send message</button>
+		<button data-role="button" type="button" class="submit" data-theme="f">Send message</button>
 	</div>
 	
 	<script type="text/javascript">

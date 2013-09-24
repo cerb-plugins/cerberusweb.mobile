@@ -87,7 +87,7 @@
 	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
-	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>
+	<a href="{$meta.permalink}" target="_blank" data-theme="a" data-role="button">View record in full site</a>
 	{/if}
 </div>
 

@@ -44,8 +44,10 @@ p.cerb-profile-properties span {
 }
 
 table.cerb-calendar {
+	/*
 	border-top:1px solid rgb(190,190,190);
 	border-left:1px solid rgb(190,190,190);
+	*/
 }
 
 table.cerb-calendar-headings th {
@@ -55,8 +57,10 @@ table.cerb-calendar-headings th {
 
 table.cerb-calendar td {
 	font-size: 14px;
+	/*
 	border-right:1px solid rgb(190,190,190);
 	border-bottom:1px solid rgb(190,190,190);
+	*/
 	text-align:center;
 	width:14%;
 	height:45px;
@@ -89,7 +93,7 @@ table.cerb-calendar td.cerb-calendar-day-with-events div {
 }
 
 table.cerb-calendar td.selected {
-	background-color: rgb(250,225,90);
+	background-color:rgb(250,225,90);
 }
 
 table.cerb-calendar td.today div {
@@ -99,7 +103,7 @@ table.cerb-calendar td.today div {
 }
 
 div.cerb-message-contents {
-	border: 1px solid rgb(200,200,200);
+	border: 1px solid rgb(242,242,242);
 	background-color: white;
 	border-radius: 0px 0px 8px 8px;
 	padding: 8px;
@@ -179,9 +183,37 @@ div.cerb-message-contents {
 	top: 5px;
 }
 
+#cerb-footer .ui-navbar .ui-btn-active {
+	border: 0;
+}
+
 .ui-page .cerb-page-va-behavior-results .cerb-va-message a {
 	font-weight: bold;
 	color: black;
 	word-wrap: break-word;
 	word-break: break-word;
 }
+
+.ui-panel a {
+	text-decoration: none;
+}
+
+.ui-listview a {
+	text-decoration: none;
+}
+
+.ui-btn-active {
+	border: 1px solid #999;
+	background: #999;
+	font-weight: bold;
+	color: #ffffff;
+	cursor: pointer;
+	text-decoration: none;
+	font-family: Lato, sans-serif
+}
+
+.ui-body-c .ui-link-inherit{color:#2489ce}
+.ui-body-c .ui-link{color:#2489ce;font-weight:bold;}
+.ui-body-c .ui-link:visited,.ui-body-c .ui-link:hover,.ui-body-c .ui-link:active{color:#2489ce}
+
+.ui-bar-h{border:1px solid #1E6089;background:#1E6089;color:#fff;font-weight:bold;font-family:Lato,sans-serif;}

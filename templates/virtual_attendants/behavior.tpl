@@ -73,12 +73,10 @@
 	{/foreach}
 	{/if}
 	
-	<button type="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Run behavior</button>
+	<button type="submit" data-inline="true" data-theme="a" class="ui-btn-hidden" aria-disabled="false">Run behavior</button>
 
 	</form>
 </div>
-
-{include file="devblocks:cerberusweb.mobile::footer.tpl"}
 
 </div><!-- /page -->
 

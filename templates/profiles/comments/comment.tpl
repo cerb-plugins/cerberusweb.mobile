@@ -7,7 +7,7 @@
 
 {capture name=comment_paging}
 {if $page_total > 0}
-<div style="text-align:center;background-color:rgb(220,220,220);border:2px solid rgb(200,200,200);border-bottom-width:1px;border-radius:8px 8px 0px 0px;">
+<div style="text-align:center;background-color:rgb(242,242,242);border:2px solid rgb(242,242,242);border-bottom-width:1px;border-radius:8px 8px 0px 0px;">
 <form action="javascript:;" method="post" class="cerb-profile-comment-form{$uniqid}" onsubmit="return false;">
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="profileGetComment">
@@ -18,17 +18,17 @@
 		<tr>
 			<td align="left" width="15%">
 				{if $page_current > 1}
-				<button type="button" class="prev" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext"></button>
+				<button type="button" class="prev ui-icon-nodisc" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext"></button>
 				{/if}
 			</td>
 			
-			<td align="center" width="70%" style="font-size:120%;">
-				Comment <b>{$page_current}</b> of <b>{$page_total}</b>
+			<td align="center" width="70%" style="font-size:16px;color:#000;">
+				<b>Comment {$page_current} of {$page_total}</b>
 			</td>
 			
 			<td align="right" width="15%">
 				{if $page_current < $page_total}
-				<button type="button" class="next" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext"></button>
+				<button type="button" class="next ui-icon-nodisc" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext"></button>
 				{/if}
 			</td>
 		</tr>

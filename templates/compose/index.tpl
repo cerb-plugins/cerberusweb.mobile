@@ -74,7 +74,7 @@
 		<input type="text" name="reopen_at" id="frm-cerb-reply-reopen" />
 	</div>
 	
-	<button type="button" class="submit" data-inline="true" data-theme="b" class="ui-btn-hidden" aria-disabled="false">{'display.ui.send_message'|devblocks_translate|capitalize}</button>
+	<button type="button" class="submit" data-inline="true" data-theme="a" class="ui-btn-hidden" aria-disabled="false">{'display.ui.send_message'|devblocks_translate|capitalize}</button>
 	
 	</form>
 	

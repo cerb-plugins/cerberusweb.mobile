@@ -59,7 +59,7 @@
 			 and (-webkit-device-pixel-ratio: 2)"
 		  rel="apple-touch-startup-image">
 
-	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/jquery.mobile.min.css{/devblocks_url}?v={$plugin_manifest->version}" />
+	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/flat/jquery.mobile.flatui.min.css{/devblocks_url}?v={$plugin_manifest->version}" />
 	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/cerb.css{/devblocks_url}?v={$plugin_manifest->version}" />
 	
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/moment.js{/devblocks_url}?v={$plugin_manifest->version}"></script>

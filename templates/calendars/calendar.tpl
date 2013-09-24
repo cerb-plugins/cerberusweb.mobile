@@ -134,7 +134,7 @@ $calendar.off('devblocks-calendar-click').on('devblocks-calendar-click', functio
 	var $output = $table.siblings('div.cerb-calendar-events').html('');
 
 	$output.append($('<h3 style="margin-left:-10px;">' + moment(day.ts * 1000).format('ddd, MMM DD YYYY') + '</h3>'));
-	var $choicelist = $('<div data-role="choicelist"><ul data-role="listview" data-inset="false" data-theme="d"></ul></div>');
+	var $choicelist = $('<div data-role="choicelist"><ul data-role="listview" data-inset="false" data-theme="c"></ul></div>');
 	var $ul = $choicelist.find('ul');
 	
 	if(events.length == 0) {

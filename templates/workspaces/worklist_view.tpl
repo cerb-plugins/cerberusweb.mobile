@@ -34,7 +34,7 @@
 		
 		<input type="search" name="q">
 	
-		<button type="button" class="submit" data-role="button" data-theme="b">{'common.filter.add'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" data-role="button" data-theme="f">{'common.filter.add'|devblocks_translate|capitalize}</button>
 	</form>
 	{/if}
 	
@@ -51,7 +51,7 @@
 		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="c">{$preset->name}</button>
 		{/foreach}
 		
-		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="b">{'common.reset'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="f">{'common.reset'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
 {/if}
@@ -81,7 +81,7 @@
 		<input type="radio" name="sort_asc" id="viewWorklistSortDesc" value="0" {if !$view->renderSortAsc}checked="checked"{/if} />
 		<label for="viewWorklistSortDesc">Descending</label>
 		
-		<button type="button" class="submit" data-role="button" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" data-role="button" data-theme="f">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
 {/if}

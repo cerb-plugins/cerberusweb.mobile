@@ -1,5 +1,5 @@
-<div data-role="dialog" data-close-btn="right" data-theme="c" data-overlay-theme="a">
-	<div data-role="header" data-theme="b">
+<div data-role="dialog" data-close-btn="right">
+	<div data-role="header" data-theme="f">
 		<h1>Virtual Attendants</h1>
 	</div>
 	
@@ -21,7 +21,7 @@
 			{/capture}
 			
 			{if strlen(trim($smarty.capture.behaviors))}
-			<li data-role="list-divider" data-theme="d">
+			<li data-role="list-divider" data-theme="h">
 				{$va->name}
 			</li>
 			{$smarty.capture.behaviors nofilter}
