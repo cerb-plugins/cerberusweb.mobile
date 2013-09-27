@@ -1,4 +1,4 @@
-<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_EmailAddress::ID}&action=showEditDialog&id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" ata-iconpos="left">Edit</a>
+<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_EmailAddress::ID}&action=showEditDialog&id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Edit</a>
 
 <a href="{devblocks_url}c=m&a=compose{/devblocks_url}?to={$dict->address}" data-role="button" class="cerb-profile-addy-compose">Compose</a>
 

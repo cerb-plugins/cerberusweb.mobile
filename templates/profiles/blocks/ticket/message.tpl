@@ -46,7 +46,7 @@
 
 {$dict->content|trim|truncate:25000|escape:'htmlall'|devblocks_hyperlinks nofilter}</div>
 
-<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showReplyDialog&message_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" ata-iconpos="left">Reply</a>
+<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showReplyDialog&message_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Reply</a>
 
 <script type="text/javascript">
 $(function() {

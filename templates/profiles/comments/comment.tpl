@@ -49,7 +49,7 @@
 {$dict->comment|trim|truncate:25000|escape:'htmlall'|devblocks_hyperlinks nofilter}</div>
 {/if}
 
-<a href="{devblocks_url}ajax.php?c=m&a=profileAddCommentDialog&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" ata-iconpos="left">Add Comment</a>
+<a href="{devblocks_url}ajax.php?c=m&a=profileAddCommentDialog&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Add Comment</a>
 
 <script type="text/javascript">
 $(function() {

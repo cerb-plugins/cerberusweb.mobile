@@ -33,11 +33,11 @@
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 				<legend>{'common.status'|devblocks_translate|capitalize}:</legend>
 				
-				<input type="radio" name="is_available" id="frm-cerb-addy-isavailable-no" value="0" {if !$calendar->is_available}checked="checked"{/if}>
-				<label for="frm-cerb-addy-isavailable-no">busy</label>
+				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-no" value="0" >
+				<label for="frm-cerb-event-isavailable-no">busy</label>
 				
-				<input type="radio" name="is_available" id="frm-cerb-addy-isavailable-yes" value="1" {if $calendar->is_available}checked="checked"{/if}>
-				<label for="frm-cerb-addy-isavailable-yes">available</label>
+				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-yes" value="1">
+				<label for="frm-cerb-event-isavailable-yes">available</label>
 			</fieldset>
 		</div>
 		
