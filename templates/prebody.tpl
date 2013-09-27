@@ -44,6 +44,12 @@ $(function() {
 		$mobile_tip.dialog({ modal: true, width: document.width-25, drag: false, resizable: false, show: true });
 	}
 	
+	// Add a mobile interface option to the worker menu
+	
+	var $worker_menu = $('#menuSignedIn');
+	var $signout_item = $worker_menu.find('a[href="{devblocks_url}c=login&a=signout{/devblocks_url}"]').closest('li');
+	var $mobile_item = $('<li><a href="{devblocks_url}c=m{/devblocks_url}">switch to mobile</a></li>');
+	$mobile_item.insertBefore($signout_item);
 });
 </script>
 
