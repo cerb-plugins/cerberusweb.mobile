@@ -83,6 +83,62 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 		
 		$tpl->display('devblocks:cerberusweb.mobile::calendars/calendar.tpl');
 	}
+	
+	function showAddEventDialogAction() {
+		@$calendar_id  = DevblocksPlatform::importGPC($_REQUEST['calendar_id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(false == ($calendar = DAO_Calendar::get($calendar_id)))
+			return;
+		
+		if(!$calendar->isWriteableByActor($active_worker))
+			return;
+		
+		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
+			return;
+		
+		$tpl->assign('calendar', $calendar);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar/add_event_dialog.tpl');
+	}
+	
+	function saveAddEventDialogAction() {
+		@$calendar_id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$name = DevblocksPlatform::importGPC($_REQUEST['name'], 'string', '');
+		@$is_available = DevblocksPlatform::importGPC($_REQUEST['is_available'], 'integer', 0);
+		@$start = DevblocksPlatform::importGPC($_REQUEST['start'], 'string', '');
+		@$end = DevblocksPlatform::importGPC($_REQUEST['end'], 'string', '');
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(false == ($calendar = DAO_Calendar::get($calendar_id)))
+			return;
+		
+		if(!$calendar->isWriteableByActor($active_worker))
+			return;
+		
+		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
+			return;
+
+		@$start = strtotime($start);
+		@$end = strtotime($end, $start);
+		
+		$event_id = DAO_CalendarEvent::create(array(
+			DAO_CalendarEvent::CALENDAR_ID => $calendar->id,
+			DAO_CalendarEvent::NAME => $name,
+			DAO_CalendarEvent::IS_AVAILABLE => $is_available,
+			DAO_CalendarEvent::DATE_START => intval($start),
+			DAO_CalendarEvent::DATE_END => intval($end),
+		));
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+			'event_id' => $event_id,
+		));
+	}
 };
 
 class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
