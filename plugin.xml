@@ -61,6 +61,19 @@
 				<param key="uri" value="m" />
 			</params>
 		</extension>
+		
+		<!-- Renderers Render -->	
+		
+		<extension point="cerberusweb.renderer.prebody">
+			<id>mobile.renderer.prebody</id>
+			<name>Mobile Pre-body Renderer</name>
+			<class>
+				<file>api/App.php</file>
+				<name>MobilePreBodyRenderer</name>
+			</class>
+			<params>
+			</params>
+		</extension>
 
 		<!-- Events -->
 
