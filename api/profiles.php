@@ -141,6 +141,84 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 	}
 };
 
+class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
+	const ID = 'mobile.profile.block.calendar_event';
+	
+	function render(DevblocksDictionaryDelegate $dict) {
+		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl->assign('dict', $dict);
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar_event.tpl');
+	}
+	
+	function showEditDialogAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(false == ($calendar_event = DAO_CalendarEvent::get($id)))
+			return;
+		
+		if(false == ($calendar = DAO_Calendar::get($calendar_event->calendar_id)))
+			return;
+		
+		if(!$calendar->isWriteableByActor($active_worker))
+			return;
+		
+		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
+			return;
+		
+		$tpl->assign('calendar', $calendar);
+		$tpl->assign('calendar_event', $calendar_event);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar_event/edit_dialog.tpl');
+	}
+	
+	function saveEditDialogAction() {
+		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
+		@$name = DevblocksPlatform::importGPC($_REQUEST['name'], 'string', '');
+		@$is_available = DevblocksPlatform::importGPC($_REQUEST['is_available'], 'integer', 0);
+		@$start = DevblocksPlatform::importGPC($_REQUEST['start'], 'string', '');
+		@$end = DevblocksPlatform::importGPC($_REQUEST['end'], 'string', '');
+		@$do_delete = DevblocksPlatform::importGPC($_REQUEST['do_delete'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		if(false == ($calendar_event = DAO_CalendarEvent::get($id)))
+			return;
+		
+		if(false == ($calendar = DAO_Calendar::get($calendar_event->calendar_id)))
+			return;
+		
+		if(!$calendar->isWriteableByActor($active_worker))
+			return;
+		
+		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
+			return;
+
+		if(!empty($do_delete)) {
+			DAO_CalendarEvent::delete($id);
+			
+		} else {
+			@$start = strtotime($start);
+			@$end = strtotime($end, $start);
+			
+			$event_id = DAO_CalendarEvent::update($id, array(
+				DAO_CalendarEvent::NAME => $name,
+				DAO_CalendarEvent::IS_AVAILABLE => $is_available,
+				DAO_CalendarEvent::DATE_START => intval($start),
+				DAO_CalendarEvent::DATE_END => intval($end),
+			));
+		}
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
+	}
+};
+
 class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.email_address';
 	

@@ -33,7 +33,7 @@
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 				<legend>{'common.status'|devblocks_translate|capitalize}:</legend>
 				
-				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-no" value="0" >
+				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-no" value="0" checked="checked">
 				<label for="frm-cerb-event-isavailable-no">busy</label>
 				
 				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-yes" value="1">
