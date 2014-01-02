@@ -123,21 +123,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 		$labels['va_link'] = 'Virtual attendant is linked';
 		$labels['va_watcher_count'] = 'Virtual attendant watcher count';
 		
-		$types = array(
-			'va_name' => Model_CustomField::TYPE_SINGLE_LINE,
-			'va_is_disabled' => Model_CustomField::TYPE_CHECKBOX,
-			'va_created' => Model_CustomField::TYPE_DATE,
-			'va_updated' => Model_CustomField::TYPE_DATE,
-				
-			'va_link' => null,
-			'va_watcher_count' => null,
-				
-			'active_worker_first_name' => Model_CustomField::TYPE_SINGLE_LINE,
-			'active_worker_full_name' => Model_CustomField::TYPE_SINGLE_LINE,
-			'active_worker_last_name' => Model_CustomField::TYPE_SINGLE_LINE,
-			'active_worker_is_disabled' => Model_CustomField::TYPE_CHECKBOX,
-		);
-
+		$types['va_link'] = null;
+		$types['va_watcher_count'] = null;
+		
 		$conditions = $this->_importLabelsTypesAsConditions($labels, $types);
 
 		return $conditions;
