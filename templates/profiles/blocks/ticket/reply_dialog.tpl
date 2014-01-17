@@ -70,6 +70,45 @@
 					break;
 			}
 		});
+
+		$frm.find('textarea').keyup(function(e) {
+			if(e.which != 13)
+				return;
+
+			var $this = $(this);
+			var pos = $this.caret();
+			
+			// Check for possible hash commands
+			
+			// #dq - Delete quoted lines starting at the cursor
+			if($this.val().substr(pos - 4, 4) == "#dq\n") {
+				e.preventDefault();
+				
+				var lines = $this.val().split("\n");
+				var txt = [];
+				var is_removing = false;
+				
+				for(idx in lines) {
+					var line = $.trim(lines[idx]);
+					
+					if(line == "#dq") {
+						is_removing = true;
+						continue;
+					}
+					
+					if(is_removing && !line.match(/^\>/)) {
+						is_removing = false;
+					}
+					
+					if(!is_removing) {
+						txt.push(line);
+					}
+				}
+				
+				$this.val(txt.join("\n"));
+				$this.caret(pos - 4);
+			}
+		});
 		
 		$frm.find('button.submit').click(function(e) {
 			$.mobile.loading('show');
