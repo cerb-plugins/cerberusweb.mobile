@@ -713,6 +713,56 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		exit;
 	}
 	
+	function showRelayDialogAction() {
+		@$message_id  = DevblocksPlatform::importGPC($_REQUEST['message_id'], 'integer', 0);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl->assign('active_worker', $active_worker);
+
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $message_id, $null, $values);
+		
+		$dict = new DevblocksDictionaryDelegate($values);
+		$tpl->assign('dict', $dict);
+
+		// Relay addresses
+		
+		$workers_with_relays = DAO_AddressToWorker::getByWorkers();
+		$tpl->assign('workers_with_relays', $workers_with_relays);
+		
+		// Template
+		
+		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/ticket/relay_dialog.tpl');
+		exit;
+	}
+	
+	function saveRelayDialogAction() {
+		@$ticket_id = DevblocksPlatform::importGPC($_REQUEST['ticket_id'], 'integer', 0);
+		@$message_id = DevblocksPlatform::importGPC($_REQUEST['message_id'], 'integer', 0);
+		@$emails = DevblocksPlatform::importGPC($_REQUEST['emails'], 'array', array());
+		@$include_attachments = DevblocksPlatform::importGPC($_REQUEST['include_attachments'], 'integer', 0);
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+
+		header('Content-type: application/json');
+		
+		try {
+			CerberusMail::relay($message_id, $emails, $include_attachments, null, CerberusContexts::CONTEXT_WORKER, $active_worker->id);
+			
+			echo json_encode(array(
+				'success' => true,
+			));
+			
+		} catch(Exception $e) {
+			echo json_encode(array(
+				'success' => false,
+			));
+		}
+		
+		exit;
+	}
+	
 	function viewSearchMessagesAction() {
 		@$ticket_id = DevblocksPlatform::importGPC($_REQUEST['ticket_id'], 'integer', 0);
 		

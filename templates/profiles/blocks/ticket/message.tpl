@@ -48,6 +48,8 @@
 
 <a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showReplyDialog&message_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Reply</a>
 
+<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showRelayDialog&message_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Relay to worker email</a>
+
 <script type="text/javascript">
 $(function() {
 	var $frm = $('form.cerb-profile-ticket-message-form{$uniqid}');
