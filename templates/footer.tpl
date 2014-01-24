@@ -25,8 +25,10 @@
 
 <script type="text/javascript">
 // Update the footer on all cached pages
+$(function() {
 $.mobile.pageContainer.find('.ui-footer .ui-icon-cerb-badge-count')
 	.html('{$notification_count}')
 	{if $notification_count}.addClass('nonzero'){else}.removeClass('nonzero'){/if}
 	;
+});
 </script>
