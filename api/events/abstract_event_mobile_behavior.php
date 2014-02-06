@@ -119,6 +119,7 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 	
 	function getConditionExtensions() {
 		$labels = $this->getLabels();
+		$types = $this->getTypes();
 		
 		$labels['va_link'] = 'Virtual attendant is linked';
 		$labels['va_watcher_count'] = 'Virtual attendant watcher count';
