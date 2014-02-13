@@ -619,6 +619,14 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
 		$fields = array();
+
+		// Spam training
+		if(!empty($spam_training)) {
+			if($spam_training == 'S')
+				CerberusBayes::markTicketAsSpam($id);
+			elseif($spam_training == 'N')
+				CerberusBayes::markTicketAsNotSpam($id);
+		}
 		
 		// [TODO] Check permissions
 		if($status == 'deleted') {
@@ -628,12 +636,6 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			$fields[DAO_Ticket::REOPEN_AT] = 0;
 			
 		} else {
-			// Spam training
-			if(!empty($spam_training)) {
-				if($spam_training == 'S')
-					CerberusBayes::markTicketAsSpam($id);
-				elseif($spam_training == 'N')
-					CerberusBayes::markTicketAsNotSpam($id);
 			
 			// Move
 			if(!empty($group_id)

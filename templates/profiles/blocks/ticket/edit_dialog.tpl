@@ -74,7 +74,7 @@
 		</div>
 		
 		{if empty($dict->spam_training)}
-		<div data-role="fieldcontain" class="status-dependent status-open status-waiting status-closed" {if !in_array($dict->status,[deleted])}{else}style="display:none;"{/if}>
+		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 				<legend>Spam training:</legend>
 				
