@@ -592,6 +592,14 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		
 		$dict = new DevblocksDictionaryDelegate($values);
 		$tpl->assign('dict', $dict);
+
+		// Groups
+		
+		$groups = DAO_Group::getAll();
+		$tpl->assign('groups', $groups);
+		
+		$buckets = DAO_Bucket::getAll();
+		$tpl->assign('buckets', $buckets);
 		
 		// Template
 		
@@ -603,6 +611,8 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		@$reopen_at = DevblocksPlatform::importGPC($_REQUEST['reopen_at'], 'string', '');
 		@$status = DevblocksPlatform::importGPC($_REQUEST['status'], 'string', '');
+		@$group_id = DevblocksPlatform::importGPC($_REQUEST['group_id'], 'integer', 0);
+		@$bucket_id = DevblocksPlatform::importGPC($_REQUEST['bucket_id'], 'integer', 0);
 		@$owner_id = DevblocksPlatform::importGPC($_REQUEST['owner_id'], 'integer', 0);
 		@$spam_training = DevblocksPlatform::importGPC($_REQUEST['spam_training'], 'string', '');
 		
@@ -624,6 +634,13 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 					CerberusBayes::markTicketAsSpam($id);
 				elseif($spam_training == 'N')
 					CerberusBayes::markTicketAsNotSpam($id);
+			
+			// Move
+			if(!empty($group_id)
+				&& false !== DAO_Group::get($group_id)
+				&& (empty($bucket_id) || false !== DAO_Bucket::get($bucket_id))) {
+					$fields[DAO_Ticket::GROUP_ID] = $group_id;
+					$fields[DAO_Ticket::BUCKET_ID] = $bucket_id;
 			}
 			
 			// Owner

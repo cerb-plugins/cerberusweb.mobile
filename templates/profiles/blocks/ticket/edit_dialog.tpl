@@ -32,6 +32,34 @@
 			 
 			<input type="text" name="reopen_at" id="frm-cerb-ticket-edit-reopen" value="{$dict->reopen_date|devblocks_date}" />
 		</div>
+
+		<div data-role="fieldcontain" class="status-dependent status-open status-waiting status-closed" {if !in_array($dict->status,[deleted])}{else}style="display:none;"{/if}>
+			<label for="frm-cerb-ticket-group"> {'common.group'|devblocks_translate|capitalize}:</label>
+			
+			<div>
+				<select name="group_id" id="frm-cerb-ticket-group" data-inline="true" data-mini="true">
+					{foreach from=$groups item=group}
+					<option value="{$group->id}" {if $dict->group_id == $group->id}selected="selected"{/if}>{$group->name}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+		
+		<div data-role="fieldcontain" class="status-dependent status-open status-waiting status-closed" {if !in_array($dict->status,[deleted])}{else}style="display:none;"{/if}>
+			<label for="frm-cerb-ticket-bucket"> {'common.bucket'|devblocks_translate|capitalize}:</label>
+			
+			<div>
+				<select name="bucket_id" id="frm-cerb-ticket-bucket" data-inline="true" data-mini="true">
+					<option value="0">{'common.inbox'|devblocks_translate|capitalize}</option>
+					{$group_id = key($groups)}
+					{foreach from=$buckets item=bucket}
+					 {if $bucket->group_id == $dict->group_id}
+					<option value="{$bucket->id}" {if $dict->bucket_id == $bucket->id}selected="selected"{/if}>{$bucket->name}</option>
+					{/if}
+					{/foreach}
+				</select>
+			</div>
+		</div>
 		
 		<div data-role="fieldcontain" class="status-dependent status-open status-waiting status-closed" {if !in_array($dict->status,[deleted])}{else}style="display:none;"{/if}>
 			<label for="frm-cerb-ticket-edit-owner"> Owner:</label>
@@ -67,6 +95,40 @@
 	
 	<script type="text/javascript">
 		var $frm = $('#frm{$uniqid}');
+		
+		$frm.find('select[name=group_id]').each(function() {
+			var buckets = [];
+			
+			{foreach from=$buckets item=bucket}
+			buckets.push({
+				'id': {$bucket->id},
+				'name': '{$bucket->name|escape:'javascript'}',
+				'group_id': {$bucket->group_id},
+			});
+			{/foreach}
+			
+			$(this).jqmData('buckets', buckets);
+		});
+		
+		$frm.find('select[name=group_id]').change(function() {
+			var $frm = $(this).closest('form');
+			var group_id = $(this).val();
+			var buckets = $(this).jqmData('buckets');
+			var $buckets = $frm.find('select[name=bucket_id]');
+			
+			$buckets.find('option').remove();
+			
+			if(group_id != 0)
+				$buckets.append($('<option value="0">{'common.inbox'|devblocks_translate|capitalize|escape:'javascript'}</option>'));
+			
+			if(typeof buckets == 'object')
+			for(idx in buckets) {
+				if(buckets[idx].group_id == group_id)
+					$buckets.append($('<option value="' + buckets[idx].id + '">' + buckets[idx].name + '</option>'));
+			}
+			
+			$buckets.selectmenu('refresh');
+		});
 		
 		$frm.find('input:radio[name=status]').on('change', function(e) {
 			var $frm = $(this).closest('form');
