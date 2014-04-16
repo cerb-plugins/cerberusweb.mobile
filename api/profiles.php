@@ -203,12 +203,17 @@ class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
 			@$start = strtotime($start);
 			@$end = strtotime($end, $start);
 			
-			$event_id = DAO_CalendarEvent::update($id, array(
+			$fields = array(
 				DAO_CalendarEvent::NAME => $name,
 				DAO_CalendarEvent::IS_AVAILABLE => $is_available,
 				DAO_CalendarEvent::DATE_START => intval($start),
 				DAO_CalendarEvent::DATE_END => intval($end),
-			));
+			);
+			
+			$changed_fields = Cerb_ORMHelper::uniqueFields($fields, $calendar_event);
+			
+			if(!empty($changed_fields))
+				DAO_CalendarEvent::update($id, $changed_fields);
 		}
 		
 		header('Content-type: application/json');
@@ -618,6 +623,9 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		
+		if(false == ($ticket = DAO_Ticket::get($id)))
+			return;
+		
 		$fields = array();
 
 		// Spam training
@@ -673,7 +681,11 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			}
 		}
 		
-		DAO_Ticket::update($id, $fields);
+		// Only update fields that changed
+		$fields = Cerb_ORMHelper::uniqueFields($fields, $ticket);
+
+		if(!empty($fields))
+			DAO_Ticket::update($id, $fields);
 
 		header('Content-type: application/json');
 		

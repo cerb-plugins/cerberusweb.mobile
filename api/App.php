@@ -1030,6 +1030,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		if(null != (@$runner = $runners[$behavior->id])) {
 			// Return the whole scope of the behavior to the caller
+			// [TODO] Does this need _labels and _types?
 			$values = $runner->getDictionary();
 			//@$message = $runner->_output ?: ''; /* @var $runner DevblocksDictionaryDelegate */
 		}
