@@ -336,6 +336,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 				@$value = $params['value'];
 
 				@$out = $tpl_builder->build($value, $dict);
+
+				if(!$dict->exists('_responses'))
+					$dict->_responses = array();
 				
 				$dict->_responses[] = array(
 					'type' => 'text',
@@ -354,6 +357,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 
 				@$out = $tpl_builder->build($value, $dict);
 				
+				if(!$dict->exists('_responses'))
+					$dict->_responses = array();
+				
 				$dict->_responses[] = array(
 					'type' => 'html',
 					'message' => $out,
@@ -371,6 +377,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 
 				@$out = $tpl_builder->build($value, $dict);
 
+				if(!$dict->exists('_responses'))
+					$dict->_responses = array();
+				
 				$dict->_responses[] = array(
 					'type' => 'text',
 					'message' => $out,
@@ -420,10 +429,13 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
 
 				@$value = $params['value'];
-
+				
 				@$out = $tpl_builder->build($value, $dict);
 				
 				if(false !== $out) {
+					if(!$dict->exists('_responses'))
+						$dict->_responses = array();
+					
 					$dict->_responses[] = array(
 						'type' => 'text',
 						'message' => $out,
@@ -435,10 +447,13 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
 
 				@$value = $params['value'];
-
+				
 				@$out = $tpl_builder->build($value, $dict);
 				
 				if(false !== $out)
+					if(!$dict->exists('_responses'))
+						$dict->_responses = array();
+				
 					$dict->_responses[] = array(
 						'type' => 'html',
 						'message' => $out,
@@ -454,6 +469,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 
 				// Just send an ephemeral worklist id
 				$var_view_id_key = sprintf("%s_view_id", $var_key);
+				
+				if(!$dict->exists('_responses'))
+					$dict->_responses = array();
 				
 				$dict->_responses[] = array(
 					'type' => 'worklist',
