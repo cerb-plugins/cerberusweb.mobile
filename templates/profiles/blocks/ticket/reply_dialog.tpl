@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="f">
+	<div data-role="header" data-theme="a">
 		<h1>Reply</h1>
 	</div>
 	
@@ -31,22 +31,26 @@
 		</div>
 	
 		<div data-role="fieldcontain">
-			<label for="frm-cerb-reply-status"> Status:</label>
+			<label>Status:</label>
 			 
-			<select name="status" id="frm-cerb-reply-status">
-				<option value="open">open</option>
-				<option value="waiting" selected="selected">waiting for reply</option>
-				<option value="closed">closed</option>
-			</select>
+			<div style="padding:5px;">
+				<select name="status" id="frm-cerb-reply-status">
+					<option value="open">open</option>
+					<option value="waiting" selected="selected">waiting for reply</option>
+					<option value="closed">closed</option>
+				</select>
+			</div>
 		</div>
 		
 		<div data-role="fieldcontain" class="status-dependent status-waiting status-closed">
-			<label for="frm-cerb-reply-reopen"> {'display.reply.next.resume'|devblocks_translate|capitalize}</label>
+			<label> {'display.reply.next.resume'|devblocks_translate|capitalize}</label>
 			 
-			<input type="text" name="reopen_at" id="frm-cerb-reply-reopen" />
+			<div style="padding:5px;">
+				<input type="text" name="reopen_at" id="frm-cerb-reply-reopen" />
+			</div>
 		</div>
 		
-		<button data-role="button" type="button" class="submit" data-theme="f">Send message</button>
+		<button data-role="button" type="button" class="submit" data-theme="b">Send message</button>
 	</div>
 	
 	<script type="text/javascript">
@@ -76,7 +80,7 @@
 				return;
 
 			var $this = $(this);
-			var pos = $this.caret();
+			var pos = $this.caret('pos');
 			
 			// Check for possible hash commands
 			
@@ -106,7 +110,7 @@
 				}
 				
 				$this.val(txt.join("\n"));
-				$this.caret(pos - 4);
+				$this.caret('pos', pos - 4);
 			}
 		});
 		

@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-notifications" data-theme="c">
+<div data-role="page" id="page-notifications" data-theme="a">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
@@ -19,18 +19,18 @@
 				{$context_ext = Extension_DevblocksContext::get($notification->context)}
 				<li>
 					<a href="{devblocks_url}c=m&a=profile&ctx={CerberusContexts::CONTEXT_NOTIFICATION}&id={$notification->id}{/devblocks_url}">
-						<p class="ui-li-aside ui-li-desc">
-							{$notification->created_date|devblocks_prettytime}
-						</p>
-						<h3 class="ui-li-heading">
+						<h3>
 							{$notification->message}
 						</h3>
-						<p class="ui-li-desc">
+						<p>
 							{if method_exists($context_ext, 'getMeta')}
 								{$meta = $context_ext->getMeta($notification->context_id)}
 								{$meta.name}
 							{/if}
 							{if $context_ext}({$context_ext->manifest->name}){/if}
+						</p>
+						<p>
+							{$notification->created_date|devblocks_prettytime}
 						</p>
 					</a>
 				</li>

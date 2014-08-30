@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
-<div data-role="dialog" data-close-btn="right" data-theme="c">
-	<div data-role="header" data-theme="f">
+<div data-role="dialog" data-close-btn="right" data-theme="a">
+	<div data-role="header" data-theme="a">
 		<h1>Relay</h1>
 	</div>
 	
@@ -12,14 +12,14 @@
 		<input type="hidden" name="action" value="saveRelayDialog">
 		<input type="hidden" name="message_id" value="{$dict->id}">
 
-		<div data-role="fieldcontain" data-theme="f">
+		<div data-role="fieldcontain" data-theme="a">
 			<label for="frm-cerb-relay-to"> {'message.header.to'|devblocks_translate|capitalize}:</label>
 			 
 			<select name="emails[]" id="frm-cerb-relay-to" multiple="multiple" data-native-menu="false" data-divider-theme="f">
 				<option>Choose recipients</option>
 				{foreach from=$workers_with_relays item=worker key=worker_id}
 					{if !empty($worker->relay_emails)}
-						<optgroup label="{$worker->getName()}" data-theme="c">
+						<optgroup label="{$worker->getName()}" data-theme="a">
 							{foreach from=$worker->relay_emails item=relay}
 							<option value="{$relay}">{$relay}</option>
 							{/foreach}
@@ -29,11 +29,11 @@
 			</select>
 		</div>
 		
-		<div data-role="fieldcontain" data-theme="f">
+		<div data-role="fieldcontain" data-theme="a">
 			<label><input type="checkbox" id="frm-cerb-relay-include-files" name="include_attachments" value="1"> Include attachments</label>
 		</div>
 	
-		<button data-role="button" type="button" class="submit" data-theme="f">Relay message</button>
+		<button data-role="button" type="button" class="submit" data-theme="b">Relay message</button>
 	</div>
 	
 	<script type="text/javascript">

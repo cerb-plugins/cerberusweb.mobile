@@ -9,7 +9,8 @@
 {$presets = $view->getPresets()}
 
 {if !$hide_filtering}
-<div id="viewFiltersPopup" data-role="popup" class="ui-content" data-theme="b" data-overlay-theme="a" data-transition="slidedown">
+<div id="viewFiltersPopup" data-role="popup" class="ui-content" data-theme="a" data-overlay-theme="a" data-dismissible="false" data-transition="slidedown">
+	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 	{capture "options"}
 	{foreach from=$view->getParamsAvailable() item=field key=token}
 	{if !empty($field->db_label) && (!empty($field->type) || ($view instanceof IAbstractView_QuickSearch && $view->isQuickSearchField($token)))}
@@ -34,7 +35,7 @@
 		
 		<input type="search" name="q">
 	
-		<button type="button" class="submit" data-role="button" data-theme="f">{'common.filter.add'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" data-role="button" data-theme="c">{'common.filter.add'|devblocks_translate|capitalize}</button>
 	</form>
 	{/if}
 	
@@ -48,16 +49,17 @@
 		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 
 		{foreach from=$presets item=preset key=preset_id}
-		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="c">{$preset->name}</button>
+		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="a">{$preset->name}</button>
 		{/foreach}
 		
-		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="f">{'common.reset'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="c">{'common.reset'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
 {/if}
 
 {if !$hide_sorting}
-<div id="viewSortPopup" data-role="popup" class="ui-content" data-theme="b" data-overlay-theme="a" data-transition="slidedown">
+<div id="viewSortPopup" data-role="popup" class="ui-content" data-theme="a" data-overlay-theme="a" data-dismissible="false" data-transition="slidedown" style="width:250px;">
+	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 	<h3 style="margin:0;padding:0;">Sort by</h3>
 	
 	<form action="javascript:;" method="post" class="cerb-form-worklist-sorting" onsubmit="return false;">
@@ -74,14 +76,18 @@
 			{/if}
 		{/foreach}
 		</select>
+		
+		<fieldset data-role="controlgroup" data-type="horizontal" data-theme="a">
+	        <legend>Sort order:</legend>		
 
-		<input type="radio" name="sort_asc" id="viewWorklistSortAsc" value="1" {if $view->renderSortAsc}checked="checked"{/if} />
-		<label for="viewWorklistSortAsc">Ascending</label>
-		
-		<input type="radio" name="sort_asc" id="viewWorklistSortDesc" value="0" {if !$view->renderSortAsc}checked="checked"{/if} />
-		<label for="viewWorklistSortDesc">Descending</label>
-		
-		<button type="button" class="submit" data-role="button" data-theme="f">{'common.save_changes'|devblocks_translate|capitalize}</button>
+			<input type="radio" name="sort_asc" id="viewWorklistSortAsc" value="1" {if $view->renderSortAsc}checked="checked"{/if} />
+			<label for="viewWorklistSortAsc">Ascending</label>
+			
+			<input type="radio" name="sort_asc" id="viewWorklistSortDesc" value="0" {if !$view->renderSortAsc}checked="checked"{/if} />
+			<label for="viewWorklistSortDesc">Descending</label>
+		</fieldset>
+			
+		<button type="button" class="submit" data-role="button" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
 {/if}
@@ -94,13 +100,13 @@
 <input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 <input type="hidden" name="hide_sorting" value="{$hide_sorting}">
 	
-	<a href="#viewFiltersPopup" data-rel="popup" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-icon="arrow-d" data-iconpos="right">
+	<a href="#viewFiltersPopup" data-rel="popup" data-role="button" data-theme="b" data-mini="true" data-inline="true" data-icon="carat-d" data-iconpos="right" class="ui-nodisc-icon" style="font-size:80%;">
 		{'common.filters'|devblocks_translate|capitalize}
 	</a>
 	
 	{if !empty($params)}
 	{foreach from=$params item=param key=param_key}
-		<button type="button" class="submit" name="filter_key" value="{$param_key}" data-role="button" data-theme="c" data-mini="true" data-inline="true" data-icon="delete">
+		<button type="button" class="submit" name="filter_key" value="{$param_key}" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-icon="delete" style="font-size:80%;">
 		{$fields.$param_key->db_label|capitalize} 
 		
 		{if $param->operator=='='}
@@ -131,7 +137,7 @@
 {/if}
 
 {if !$hide_sorting}
-<a href="#viewSortPopup" data-rel="popup" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-iconpos="right" data-icon="{if $view->renderSortAsc}arrow-u{else}arrow-d{/if}">
+<a href="#viewSortPopup" data-rel="popup" data-role="button" data-theme="b" data-mini="true" data-inline="true" data-iconpos="right" data-icon="{if $view->renderSortAsc}carat-u{else}carat-d{/if}" class="ui-nodisc-icon" style="font-size:80%;">
 	Sorted by:
 	{$fields.{$view->renderSortBy}->db_label}
 </a>
@@ -139,7 +145,7 @@
 
 <div class="choice_list">
 
-	<ul data-role="listview" data-inset="true" data-icon="arrow-r" data-filter="false">
+	<ul data-role="listview" data-inset="true" data-icon="carat-r" data-filter="false">
 
 	{foreach from=$results item=result key=result_id}
 		{CerberusContexts::getContext($context_ext->id, $result_id, $labels, $values, null, true)}

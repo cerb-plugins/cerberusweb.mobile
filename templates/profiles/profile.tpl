@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-profile-{$context|replace:'.':''}-{$context_id}" data-theme="c">
+<div data-role="page" id="page-profile-{$context|replace:'.':''}-{$context_id}" data-theme="a">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 
@@ -17,12 +17,14 @@
 		</div>
 	
 		{if !empty($macros)}
-		<a href="{devblocks_url}ajax.php?c=m&a=showProfileVaBehaviorMenu&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="c" data-icon="arrow-d" data-iconpos="right">Virtual Attendants</a>
+		<a href="{devblocks_url}ajax.php?c=m&a=showProfileVaBehaviorMenu&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a" data-icon="carat-d" data-iconpos="right">Virtual Attendants</a>
 		{/if}
 	</div>
 
 	{if method_exists($context_ext, 'getDefaultProperties')}
 	{$props = $context_ext->getDefaultProperties()}
+	
+	{if !empty($props)}
 	
 	<h3 style="margin-bottom:5px;">Properties</h3>
 
@@ -69,6 +71,8 @@
 	{/foreach}
 	</table>
 	</div>
+	
+	{/if}
 	{/if}
 	
 	{foreach from=$mobile_profile_extensions item=mobile_profile_ext}
@@ -78,7 +82,7 @@
 	{if isset($comments)}
 		<h3 style="margin-top:10px;margin-bottom:10px;">Comments</h3>
 		
-		<div style="font-size:12px;" class="cerb-profile-comment">
+		<div class="cerb-profile-comment">
 		{CerberusContexts::getContext(CerberusContexts::CONTEXT_COMMENT, end($comments), $null, $comment_values)}
 		{$comment_dict = DevblocksDictionaryDelegate::instance($comment_values)}
 		{include file="devblocks:cerberusweb.mobile::profiles/comments/comment.tpl" context=$dict->_context context_id=$dict->id dict=$comment_dict}
@@ -87,7 +91,7 @@
 	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
-	<a href="{$meta.permalink}" target="_blank" data-theme="a" data-role="button">View record in full site</a>
+	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>
 	{/if}
 </div>
 

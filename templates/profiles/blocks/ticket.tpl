@@ -1,8 +1,8 @@
-<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showEditDialog&id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button">Edit</a>
+<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Ticket::ID}&action=showEditDialog&id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a">Edit</a>
 
 <h3 style="margin-top:10px;margin-bottom:10px;">Messages</h3>
 
-<div style="font-size:12px;" class="cerb-profile-ticket-message">
+<div class="cerb-profile-ticket-message">
 {CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $dict->latest_message_id, $message_labels, $message_values)}
 {$message_dict = DevblocksDictionaryDelegate::instance($message_values)}
 {include file="devblocks:cerberusweb.mobile::profiles/blocks/ticket/message.tpl" dict=$message_dict}

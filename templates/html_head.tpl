@@ -59,20 +59,24 @@
 			 and (-webkit-device-pixel-ratio: 2)"
 		  rel="apple-touch-startup-image">
 
-	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/flat/jquery.mobile.flatui.min.css{/devblocks_url}?v={$plugin_manifest->version}" />
+	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/cerb-jquery-mobile.css{/devblocks_url}?v={$plugin_manifest->version}" />
+	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/jquery.mobile.icons.min.css{/devblocks_url}?v={$plugin_manifest->version}" />
+	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/jquery.mobile.structure.min.css{/devblocks_url}?v={$plugin_manifest->version}" />
 	<link rel="stylesheet" href="{devblocks_url}c=resource&p=cerberusweb.mobile&f=css/cerb.css{/devblocks_url}?v={$plugin_manifest->version}" />
 	
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/moment.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery-core.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
-	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.caret.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
+	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.caret.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/jquery.mobile.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
+	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.atwho.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.devblocksCharts.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	
 	<script type="text/javascript">
 		$(document).on('pagebeforeshow', function() {
 			$.mobile.activePage.find('#cerb-panel').on('click', '.cerb-panel-toggle-bookmark', function(e) {
 				var $this = $(this);
-				var current_path = $.mobile.path.parseUrl($.mobile.urlHistory.getActive().url).pathname;
+
+				var current_path = $.mobile.path.parseUrl(document.location).pathname;
 				var bookmarks = (localStorage.bookmarks_json) ? JSON.parse(localStorage.bookmarks_json) : null;
 				
 				if(null == bookmarks || typeof bookmarks != 'object')
@@ -112,7 +116,7 @@
 				var $ul = $(this).find('ul.cerb-panel-bookmarks');
 				var bookmarks = (localStorage.bookmarks_json) ? JSON.parse(localStorage.bookmarks_json) : null;
 				
-				var current_path = $.mobile.path.parseUrl($.mobile.urlHistory.getActive().url).pathname;
+				var current_path = $.mobile.path.parseUrl(document.location).pathname;
 				
 				var page_title = $.mobile.activePage.find('h3:first').text();
 				
@@ -133,11 +137,11 @@
 				
 				// Insert an add/remove button depending on current page
 				if(false !== is_current_page_bookmarked) {
-					var $li = $('<li data-theme="a" data-icon="minus" data-iconpos="left"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Remove: ' + page_title + '</a></li>');
+					var $li = $('<li data-theme="c" data-icon="minus" data-iconpos="left" class="ui-nodisc-icon"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Remove: ' + page_title + '</a></li>');
 					$li.appendTo($ul);
 					
 				} else {
-					var $li = $('<li data-theme="a" data-icon="plus" data-iconpos="left"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Add: ' + page_title + '</a></li>');
+					var $li = $('<li data-theme="c" data-icon="plus" data-iconpos="left" class="ui-nodisc-icon"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Add: ' + page_title + '</a></li>');
 					$li.appendTo($ul);
 				}
 				

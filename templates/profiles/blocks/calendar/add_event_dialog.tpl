@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="f">
+	<div data-role="header" data-theme="a">
 		<h1>Add Event</h1>
 	</div>
 	
@@ -41,7 +41,7 @@
 			</fieldset>
 		</div>
 		
-		<button data-role="button" type="button" class="submit" data-theme="f">{'common.save_changes'|devblocks_translate|capitalize}</button>
+		<button data-role="button" type="button" class="submit" data-theme="a">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	</div>
 	
 	<script type="text/javascript">

@@ -1,12 +1,12 @@
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="f">
+	<div data-role="header" data-theme="a">
 		<h1>Virtual Attendants</h1>
 	</div>
 	
 	<div data-role="content">
 	
 		<div class="choice_list">
-		<ul data-role="listview" data-inset="false" data-icon="arrow-r" data-filter="false" data-theme="c">
+		<ul data-role="listview" data-inset="false" data-icon="arrow-r" data-filter="false" data-theme="a">
 		{foreach from=$vas item=va}
 			{capture name=behaviors}
 			{foreach from=$macros item=macro}

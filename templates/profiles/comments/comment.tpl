@@ -18,17 +18,17 @@
 		<tr>
 			<td align="left" width="15%">
 				{if $page_current > 1}
-				<button type="button" class="prev ui-icon-nodisc" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext"></button>
+				<button type="button" class="prev ui-icon-nodisc" data-role="button" data-inline="true" data-icon="carat-l" data-iconpos="notext"></button>
 				{/if}
 			</td>
 			
 			<td align="center" width="70%" style="font-size:16px;color:#000;">
-				<b>Comment {$page_current} of {$page_total}</b>
+				<b>{$page_current} of {$page_total}</b>
 			</td>
 			
 			<td align="right" width="15%">
 				{if $page_current < $page_total}
-				<button type="button" class="next ui-icon-nodisc" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext"></button>
+				<button type="button" class="next ui-icon-nodisc" data-role="button" data-inline="true" data-icon="carat-r" data-iconpos="notext"></button>
 				{/if}
 			</td>
 		</tr>

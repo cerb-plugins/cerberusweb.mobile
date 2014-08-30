@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
-	<div data-role="header" data-theme="f">
+	<div data-role="header" data-theme="a">
 		<h1>Virtual Attendants</h1>
 	</div>
 	
@@ -73,7 +73,7 @@
 		{/foreach}
 		{/if}
 		
-		<button type="button" class="submit" data-inline="true" data-theme="f" class="ui-btn-hidden" aria-disabled="false">Run behavior</button>
+		<button type="button" class="submit" data-inline="true" data-theme="a" class="ui-btn-hidden" aria-disabled="false">Run behavior</button>
 	
 		</form>
 		

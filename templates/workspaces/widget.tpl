@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-workspace-widget" data-theme="c">
+<div data-role="page" id="page-workspace-widget" data-theme="a">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 

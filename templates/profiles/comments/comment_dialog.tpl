@@ -1,6 +1,6 @@
 {$uniqid = uniqid()}
-<div data-role="dialog" data-close-btn="right" data-theme="c">
-	<div data-role="header" data-theme="f">
+<div data-role="dialog" data-close-btn="right" data-theme="a">
+	<div data-role="header" data-theme="a">
 		<h1>{'common.comment'|devblocks_translate|capitalize}</h1>
 	</div>
 	
@@ -27,7 +27,7 @@
 			</select>
 		</div>
 		
-		<button data-role="button" type="button" class="submit" data-theme="f">Send message</button>
+		<button data-role="button" type="button" class="submit" data-theme="b">Save comment</button>
 	</div>
 	
 	<script type="text/javascript">

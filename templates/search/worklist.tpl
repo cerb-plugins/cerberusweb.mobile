@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-search-context" data-theme="c">
+<div data-role="page" id="page-search-context" data-theme="a">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 

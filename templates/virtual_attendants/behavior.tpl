@@ -5,7 +5,7 @@
 
 <body>
 
-<div data-role="page" id="page-va-behavior{$behavior->id}" data-theme="c" class="cerb-page-va-behavior">
+<div data-role="page" id="page-va-behavior{$behavior->id}" data-theme="a" class="cerb-page-va-behavior">
 
 {include file="devblocks:cerberusweb.mobile::header.tpl"}
 

@@ -66,7 +66,7 @@
 <div class="cerb-calendar-events ui-content"></div>
 
 {if $calendar->isWriteableByActor($active_worker) && empty($calendar->params.manual_disabled)}
-<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Calendar::ID}&action=showAddEventDialog&calendar_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="c" data-icon="false">Add calendar event</a>
+<a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Calendar::ID}&action=showAddEventDialog&calendar_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a" data-icon="false">Add calendar event</a>
 {/if}
 
 <script type="text/javascript">
@@ -138,7 +138,7 @@ $calendar.off('devblocks-calendar-click').on('devblocks-calendar-click', functio
 	var $output = $table.siblings('div.cerb-calendar-events').html('');
 
 	$output.append($('<h3 style="margin-left:-10px;">' + moment(day.ts * 1000).format('ddd, MMM DD YYYY') + '</h3>'));
-	var $choicelist = $('<div data-role="choicelist"><ul data-role="listview" data-inset="false" data-theme="c"></ul></div>');
+	var $choicelist = $('<div data-role="choicelist"><ul data-role="listview" data-inset="false" data-theme="a"></ul></div>');
 	var $ul = $choicelist.find('ul');
 	
 	if(events.length == 0) {
