@@ -8,6 +8,7 @@
 		<li><a href="{devblocks_url}c=m&p=search{/devblocks_url}">Search</a></li>
 		<li><a href="{devblocks_url}c=m&p=workspaces{/devblocks_url}">Workspaces</a></li>
 		<li><a href="{devblocks_url}c=m&p=va{/devblocks_url}">Virtual Attendants</a></li>
+		<li><a href="{devblocks_url}c=m&p=settings{/devblocks_url}">Settings</a></li>
 	</ul>
 	
 	<ul class="cerb-panel-bookmarks" data-role="listview" data-theme="a" data-inset="true">

@@ -144,6 +144,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				}
 				break;
 				
+			case 'settings':
+				$this->_renderSettings($stack);
+				break;
+			
 			case 'workspaces':
 				$this->_renderWorkspaces($stack);
 				break;
@@ -283,6 +287,20 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		echo json_encode(array(
 			'success' => true,
 			'ticket_id' => $ticket_id,
+		));
+	}
+	
+	function saveSettingsAction() {
+		@$mobile_mail_signature_pos = DevblocksPlatform::importGPC($_REQUEST['mobile_mail_signature_pos'], 'integer', 0);
+
+		$active_worker = CerberusApplication::getActiveWorker();
+		
+		DAO_WorkerPref::set($active_worker->id, 'mobile_mail_signature_pos', $mobile_mail_signature_pos);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
 		));
 	}
 	
@@ -594,6 +612,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('buckets', $buckets);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::compose/index.tpl');
+	}
+	
+	private function _renderSettings($stack) {
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$worker_prefs = DAO_WorkerPref::getByWorker($active_worker->id);
+		$tpl->assign('worker_prefs', $worker_prefs);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::settings/index.tpl');
 	}
 	
 	private function _renderNotifications($stack) {
