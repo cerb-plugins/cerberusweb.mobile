@@ -22,12 +22,30 @@
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-reply-content"> Message:</label>
 {$group = DAO_Group::get($dict->ticket_group_id)} 
+{$signature_pos = DAO_WorkerPref::get($active_worker->id, 'mobile_mail_signature_pos', 2)}
+
+{if 0 == $signature_pos}{* Signature disabled *}
+<textarea name="content" id="frm-cerb-reply-content">On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
+{$dict->content|devblocks_email_quotes_cull|indent:1:'> '}
+</textarea>
+{elseif 1 == $signature_pos}{* Signature above *}
+<textarea name="content" id="frm-cerb-reply-content">
+
+
+#signature
+#cut
+
+On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
+{$dict->content|devblocks_email_quotes_cull|indent:1:'> '}</textarea>
+{else}{* Signature below *}
 <textarea name="content" id="frm-cerb-reply-content">On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 {$dict->content|devblocks_email_quotes_cull|indent:1:'> '}
 
 
-{$group->getReplySignature($dict->ticket_bucket_id, $active_worker)}
+#signature
+#cut
 </textarea>
+{/if}
 		</div>
 	
 		<div data-role="fieldcontain">

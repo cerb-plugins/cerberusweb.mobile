@@ -16,6 +16,20 @@
 	<input type="hidden" name="a" value="saveSettings">
 	
 	<h3>Settings</h3>
+
+	<fieldset data-role="controlgroup">
+		<legend>{'preferences.account.mail.signature'|devblocks_translate}</legend>
+		
+ 		<input type="radio" name="mobile_mail_signature_pos" id="mobile_mail_signature_pos-0" value="0" {if empty($worker_prefs.mobile_mail_signature_pos)}checked="checked"{/if}>
+        <label for="mobile_mail_signature_pos-0">{'preferences.account.mail.signature.none'|devblocks_translate}</label>
+		
+ 		<input type="radio" name="mobile_mail_signature_pos" id="mobile_mail_signature_pos-1" value="1" {if 1==$worker_prefs.mobile_mail_signature_pos}checked="checked"{/if}>
+        <label for="mobile_mail_signature_pos-1">{'preferences.account.mail.signature.above'|devblocks_translate}</label>
+		
+ 		<input type="radio" name="mobile_mail_signature_pos" id="mobile_mail_signature_pos-2" value="2" {if 2==$worker_prefs.mobile_mail_signature_pos}checked="checked"{/if}>
+        <label for="mobile_mail_signature_pos-2">{'preferences.account.mail.signature.below'|devblocks_translate}</label>
+	</fieldset>
+
 	<button type="button" class="submit" data-theme="b">{'common.save_changes'|devblocks_translate|capitalize}</button>
 	
 	</form>
