@@ -717,31 +717,123 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	
 	function saveReplyDialogAction() {
 		@$message_id = DevblocksPlatform::importGPC($_REQUEST['reply_to_message_id'], 'integer', 0);
-		@$content = DevblocksPlatform::importGPC($_REQUEST['content'], 'string', '');
+		@$raw_content = DevblocksPlatform::importGPC($_REQUEST['content'], 'string', '');
 		@$reopen_at = DevblocksPlatform::importGPC($_REQUEST['reopen_at'], 'string', '');
 		@$status = DevblocksPlatform::importGPC($_REQUEST['status'], 'string', '');
 		
-		$active_worker = CerberusApplication::getActiveWorker();
-		
-		$new_message_id = CerberusMail::sendTicketMessage(array(
-			'message_id' => $message_id,
-			'closed' => array_search($status, array('open','closed','waiting')),
-			'ticket_reopen' => ($status != 'open') ? $reopen_at : 0,
-			'content' => $content,
-			'worker_id' => $active_worker->id,
-		));
-		
-		$message = DAO_Message::get($new_message_id);
-		
 		header('Content-type: application/json');
 		
-		echo json_encode(array(
-			'success' => true,
-			'message_id' => $message->id,
-			'ticket_id' => $message->ticket_id,
-		));
+		try {
+			$active_worker = CerberusApplication::getActiveWorker();
+			
+			if(false == ($ticket = DAO_Ticket::getTicketByMessageId($message_id)))
+				return false;
+			
+			$content = '';
+			$commands = array();
+			
+			$this->_parseReplyHashCommands($raw_content, $ticket, $active_worker, $content, $commands);
+			
+			$new_message_id = CerberusMail::sendTicketMessage(array(
+				'message_id' => $message_id,
+				'closed' => array_search($status, array('open','closed','waiting')),
+				'ticket_reopen' => ($status != 'open') ? $reopen_at : 0,
+				'content' => $content,
+				'worker_id' => $active_worker->id,
+			));
+			
+			if(!empty($commands))
+				$this->_handleReplyHashCommands($commands, $ticket, $active_worker);
+			
+			echo json_encode(array(
+				'success' => true,
+				'message_id' => $new_message_id,
+				'ticket_id' => $ticket->id,
+			));
+			
+		} catch (Exception $e) {
+			echo json_encode(array(
+				'success' => false,
+				'error' => 'An error occurred.',
+			));
+			
+		}
 		
 		exit;
+	}
+	
+	private function _parseReplyHashCommands($string, Model_Ticket $ticket, Model_worker $worker, &$content, array &$commands) {
+		$lines_in = DevblocksPlatform::parseCrlfString($string, true);
+		$lines_out = array();
+		
+		$is_cut = false;
+		
+		foreach($lines_in as $line) {
+			$handled = false;
+			
+			if(preg_match('/^\#([A-Za-z0-9_]+)(.*)$/', $line, $matches)) {
+				@$command = $matches[1];
+				@$args = ltrim($matches[2]);
+				
+				switch($command) {
+					case 'cut':
+						$is_cut = true;
+						$handled = true;
+						break;
+						
+					case 'signature':
+						$group = $ticket->getGroup();
+						$line = $group->getReplySignature($ticket->bucket_id, $worker);
+						break;
+						
+					default:
+						$commands[] = array(
+							'command' => $command,
+							'args' => $args,
+						);
+						$handled = true;
+						break;
+				}
+			}
+			
+			if(!$handled && !$is_cut) {
+				$lines_out[] = $line;
+			}
+		}
+		
+		$content = implode("\n", $lines_out);
+	}
+	
+	private function _handleReplyHashCommands(array $commands, Model_Ticket $ticket, Model_Worker $worker) {
+		foreach($commands as $command_data) {
+			switch($command_data['command']) {
+				case 'comment':
+					@$comment = $command_data['args'];
+					
+					if(!empty($comment)) {
+						$also_notify_worker_ids = array_keys(CerberusApplication::getWorkersByAtMentionsText($comment));
+						
+						$fields = array(
+							DAO_Comment::CONTEXT => CerberusContexts::CONTEXT_TICKET,
+							DAO_Comment::CONTEXT_ID => $ticket->id,
+							DAO_Comment::OWNER_CONTEXT => CerberusContexts::CONTEXT_WORKER,
+							DAO_Comment::OWNER_CONTEXT_ID => $worker->id,
+							DAO_Comment::CREATED => time()+2,
+							DAO_Comment::COMMENT => $comment,
+						);
+						$comment_id = DAO_Comment::create($fields, $also_notify_worker_ids);
+					}
+					break;
+		
+				case 'watch':
+					CerberusContexts::addWatchers(CerberusContexts::CONTEXT_TICKET, $ticket->id, array($worker->id));
+					break;
+		
+				case 'unwatch':
+					CerberusContexts::removeWatchers(CerberusContexts::CONTEXT_TICKET, $ticket->id, array($worker->id));
+					break;
+			}
+		}
 	}
 	
 	function showRelayDialogAction() {
@@ -751,7 +843,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
-
+		
 		CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $message_id, $null, $values);
 		
 		$dict = new DevblocksDictionaryDelegate($values);

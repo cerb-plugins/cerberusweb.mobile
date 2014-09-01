@@ -18,10 +18,13 @@
 			{$req.email}{if !$smarty.foreach.reqs.last}, {/if}
 			{/foreach}
 		</div>
-		
-		<div data-role="fieldcontain">
-			<label for="frm-cerb-reply-content"> Message:</label>
-{$group = DAO_Group::get($dict->ticket_group_id)} 
+
+		{$group = DAO_Group::get($dict->ticket_group_id)} 
+		<div>		
+			<label> Message:</label>
+			<div style="color:rgb(120,120,120);">Use <b>#commands</b> to perform additional actions.</div>
+			<div>
+
 {$signature_pos = DAO_WorkerPref::get($active_worker->id, 'mobile_mail_signature_pos', 2)}
 
 {if 0 == $signature_pos}{* Signature disabled *}
@@ -46,6 +49,7 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 #cut
 </textarea>
 {/if}
+			</div>
 		</div>
 	
 		<div data-role="fieldcontain">
@@ -93,43 +97,71 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			}
 		});
 
-		$frm.find('textarea').keyup(function(e) {
-			if(e.which != 13)
-				return;
-
+		$frm.find('textarea').on('delete_quote_from_cursor', function(e) {
 			var $this = $(this);
 			var pos = $this.caret('pos');
 			
-			// Check for possible hash commands
+			var lines = $this.val().split("\n");
+			var txt = [];
+			var is_removing = false;
 			
-			// #dq - Delete quoted lines starting at the cursor
-			if($this.val().substr(pos - 4, 4) == "#dq\n") {
-				e.preventDefault();
+			for(idx in lines) {
+				var line = $.trim(lines[idx]);
 				
-				var lines = $this.val().split("\n");
-				var txt = [];
-				var is_removing = false;
-				
-				for(idx in lines) {
-					var line = $.trim(lines[idx]);
-					
-					if(line == "#dq") {
-						is_removing = true;
-						continue;
-					}
-					
-					if(is_removing && !line.match(/^\>/)) {
-						is_removing = false;
-					}
-					
-					if(!is_removing) {
-						txt.push(line);
-					}
+				if(line == "#delete quote from here") {
+					is_removing = true;
+					continue;
 				}
 				
-				$this.val(txt.join("\n"));
-				$this.caret('pos', pos - 4);
+				if(is_removing && !line.match(/^\>/) && !line.match(/^On .* wrote:/)) {
+					is_removing = false;
+				}
+				
+				if(!is_removing) {
+					txt.push(line);
+				}
 			}
+
+			$this.val(txt.join("\n"));
+			$this.caret('pos', pos - "#delete quote from here\n".length);
+		});
+		
+		var atwho_workers = {CerberusApplication::getAtMentionsWorkerDictionaryJson() nofilter};
+		
+		$frm.find('textarea')
+			.atwho({
+				at: '#',
+				data: [
+					'comment',
+					'cut\n',
+					'delete quote from here\n',
+					'signature\n',
+					'unwatch\n',
+					'watch\n'
+				],
+				limit: 10,
+				suffix: '',
+				hide_without_suffix: true,
+				callbacks: {
+					before_insert: function(value, $li) {
+						if(value.substr(-1) != '\n')
+							value += ' ';
+						
+						return value;
+					}
+				}
+			})
+			.atwho({
+				at: '@',
+				{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+				data: atwho_workers,
+				limit: 10
+			})
+			;
+		
+		$frm.find('textarea').on('inserted.atwho', function(event, $li) {
+			if($li.text() == 'delete quote from here\n')
+				$(this).trigger('delete_quote_from_cursor');
 		});
 		
 		$frm.find('button.submit').click(function(e) {

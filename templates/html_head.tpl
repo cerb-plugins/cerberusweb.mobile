@@ -69,6 +69,7 @@
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.caret.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=cerberusweb.mobile&f=js/jquery.mobile.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.atwho.min.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
+	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.insertatcursor.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	<script type="text/javascript" src="{devblocks_url}c=resource&p=devblocks.core&f=js/jquery/_development/jquery.devblocksCharts.js{/devblocks_url}?v={$plugin_manifest->version}"></script>
 	
 	<script type="text/javascript">
