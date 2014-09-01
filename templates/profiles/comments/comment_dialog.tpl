@@ -14,24 +14,15 @@
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-comment-content"> {'common.comment'|devblocks_translate|capitalize}:</label>
 			<textarea name="comment" id="frm-cerb-comment-content"></textarea>
+			<div style="float:right;color:rgb(120,120,120);">{'comment.notify.at_mention'|devblocks_translate}</div>
 		</div>
 	
-		<div data-role="fieldcontain">
-			<label for="frm-cerb-comment-notify"> {'common.notify_workers'|devblocks_translate|capitalize}:</label>
-			 
-			<select name="also_notify_worker_ids[]" id="frm-cerb-comment-notify" multiple="multiple" data-native-menu="false">
-				<option>Choose workers</option>
-				{foreach from=$workers item=worker key=worker_id}
-				<option value="{$worker_id}">{$worker->getName()}</option>
-				{/foreach}
-			</select>
-		</div>
-		
 		<button data-role="button" type="button" class="submit" data-theme="b">Save comment</button>
 	</div>
 	
 	<script type="text/javascript">
 		var $frm = $('#frm{$uniqid}');
+		var $textarea = $frm.find('textarea[name=comment]');
 		
 		$frm.find('button.submit').click(function(e) {
 			$.mobile.loading('show');
@@ -53,6 +44,17 @@
 					}
 				}
 			);
+		});
+		
+		// @mentions
+		
+		var atwho_workers = {CerberusApplication::getAtMentionsWorkerDictionaryJson() nofilter};
+
+		$textarea.atwho({
+			at: '@',
+			{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+			data: atwho_workers,
+			limit: 10
 		});
 	</script>
 </div>

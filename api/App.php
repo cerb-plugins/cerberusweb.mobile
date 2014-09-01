@@ -197,10 +197,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
 		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
 		@$comment = DevblocksPlatform::importGPC($_REQUEST['comment'], 'string', '');
-		@$also_notify_worker_ids = DevblocksPlatform::importGPC($_REQUEST['also_notify_worker_ids'], 'array', array());
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 
+		$also_notify_worker_ids = array_keys(CerberusApplication::getWorkersByAtMentionsText($comment));
+		
 		$fields = array(
 			DAO_Comment::CONTEXT => $context,
 			DAO_Comment::CONTEXT_ID => $context_id,
