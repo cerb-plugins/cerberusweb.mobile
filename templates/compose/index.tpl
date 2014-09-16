@@ -52,10 +52,16 @@
 	
 	<div data-role="fieldcontain">
 		<label for="cerb-compose-body"> {'common.message'|devblocks_translate|capitalize}:</label>
-		<textarea name="body" id="cerb-compose-body" placeholder=""></textarea>
+		
+		<div style="color:rgb(120,120,120);">Use <b>#commands</b> to perform additional actions.</div>
 		
 		<div>
-			<a href="javascript:;" class="cerb-compose-btn-insert-sig" data-role="button" data-mini="true" data-inline="true">{'display.reply.insert_sig'|devblocks_translate|capitalize}</a>
+			<textarea name="body" id="cerb-compose-body" placeholder="">
+
+
+#signature
+#cut
+</textarea>
 		</div>
 	</div>
 	
@@ -179,21 +185,6 @@ $(document).one('pageinit', function() {
 		)
 	});
 	
-	$frm.find('a.cerb-compose-btn-insert-sig').on('click', function(e) {
-		var $frm = $(this).closest('form');
-		var group_id = $frm.find('select[name=group_id]').val();
-		var bucket_id = $frm.find('select[name=bucket_id]').val();
-		
-		$.get(
-			'{devblocks_url}ajax.php{/devblocks_url}?c=tickets&a=getComposeSignature&group_id=' + group_id + '&bucket_id=' + bucket_id,
-			function(out) {
-				var $textarea = $frm.find('textarea[name=body]');
-				$textarea.val($textarea.val() + "\n" + out);
-				$textarea.trigger('change');
-			}
-		);
-	});
-	
 	$frm.find('select[name=status]').on('change', function(e) {
 		var $frm = $(this).closest('form');
 		$frm.find('div.status-dependent').hide();
@@ -212,6 +203,52 @@ $(document).one('pageinit', function() {
 				break;
 		}
 	});
+	
+	// #commands and @mentions
+	
+	var atwho_file_bundles = {CerberusApplication::getFileBundleDictionaryJson() nofilter};
+	var atwho_workers = {CerberusApplication::getAtMentionsWorkerDictionaryJson() nofilter};
+	
+	$frm.find('textarea')
+		.atwho({
+			at: '#attach ',
+			{literal}tpl: '<li data-value="#attach ${tag}\n">${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+			suffix: '',
+			data: atwho_file_bundles,
+			limit: 10
+		})
+		.atwho({
+			at: '#',
+			data: [
+				'attach',
+				'comment',
+				'comment @',
+				'cut\n',
+				'signature\n',
+				'unwatch\n',
+				'watch\n'
+			],
+			limit: 10,
+			suffix: '',
+			hide_without_suffix: true,
+			callbacks: {
+				before_insert: function(value, $li) {
+					if(value.substr(-1) != '\n' && value.substr(-1) != '@')
+						value += ' ';
+					
+					return value;
+				}
+			}
+		})
+		.atwho({
+			at: '@',
+			{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+			data: atwho_workers,
+			limit: 10
+		})
+		;
+	
+	// Submit
 	
 	$frm.find('button.submit').click(function() {
 		$.mobile.loading('show');
