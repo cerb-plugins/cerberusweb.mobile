@@ -732,15 +732,17 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			$content = '';
 			$commands = array();
 			
-			$this->_parseReplyHashCommands($raw_content, $ticket, $active_worker, $content, $commands);
-			
-			$new_message_id = CerberusMail::sendTicketMessage(array(
+			$message_properties = array(
 				'message_id' => $message_id,
 				'closed' => array_search($status, array('open','closed','waiting')),
 				'ticket_reopen' => ($status != 'open') ? $reopen_at : 0,
-				'content' => $content,
+				'content' => $raw_content,
 				'worker_id' => $active_worker->id,
-			));
+			);
+			
+			$this->_parseReplyHashCommands($ticket, $active_worker, $message_properties, $commands);
+			
+			$new_message_id = CerberusMail::sendTicketMessage($message_properties);
 			
 			if(!empty($commands))
 				$this->_handleReplyHashCommands($commands, $ticket, $active_worker);
@@ -762,8 +764,8 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		exit;
 	}
 	
-	private function _parseReplyHashCommands($string, Model_Ticket $ticket, Model_worker $worker, &$content, array &$commands) {
-		$lines_in = DevblocksPlatform::parseCrlfString($string, true);
+	private function _parseReplyHashCommands(Model_Ticket $ticket, Model_worker $worker, array &$message_properties, array &$commands) {
+		$lines_in = DevblocksPlatform::parseCrlfString($message_properties['content'], true);
 		$lines_out = array();
 		
 		$is_cut = false;
@@ -776,6 +778,26 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 				@$args = ltrim($matches[2]);
 				
 				switch($command) {
+					case 'attach':
+						@$bundle_tag = $args;
+						$handled = true;
+						
+						if(empty($bundle_tag))
+							break;
+						
+						if(false == ($bundle = DAO_FileBundle::getByTag($bundle_tag)))
+							break;
+						
+						$attachments = $bundle->getAttachments();
+						
+						$message_properties['link_forward_files'] = true;
+						
+						if(!isset($message_properties['forward_files']))
+							$message_properties['forward_files'] = array();
+						
+						$message_properties['forward_files'] = array_merge($message_properties['forward_files'], array_keys($attachments));
+						break;
+					
 					case 'cut':
 						$is_cut = true;
 						$handled = true;
@@ -801,7 +823,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			}
 		}
 		
-		$content = implode("\n", $lines_out);
+		$message_properties['content'] = implode("\n", $lines_out);
 	}
 	
 	private function _handleReplyHashCommands(array $commands, Model_Ticket $ticket, Model_Worker $worker) {

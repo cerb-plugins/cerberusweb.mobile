@@ -97,6 +97,8 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			}
 		});
 
+		// #commands and @mentions
+		
 		$frm.find('textarea').on('delete_quote_from_cursor', function(e) {
 			var $this = $(this);
 			var pos = $this.caret('pos');
@@ -126,13 +128,23 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			$this.caret('pos', pos - "#delete quote from here\n".length);
 		});
 		
+		var atwho_file_bundles = {CerberusApplication::getFileBundleDictionaryJson() nofilter};
 		var atwho_workers = {CerberusApplication::getAtMentionsWorkerDictionaryJson() nofilter};
 		
 		$frm.find('textarea')
 			.atwho({
+				at: '#attach ',
+				{literal}tpl: '<li data-value="#attach ${tag}\n">${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+				suffix: '',
+				data: atwho_file_bundles,
+				limit: 10
+			})
+			.atwho({
 				at: '#',
 				data: [
+					'attach',
 					'comment',
+					'comment @',
 					'cut\n',
 					'delete quote from here\n',
 					'signature\n',
@@ -144,7 +156,7 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 				hide_without_suffix: true,
 				callbacks: {
 					before_insert: function(value, $li) {
-						if(value.substr(-1) != '\n')
+						if(value.substr(-1) != '\n' && value.substr(-1) != '@')
 							value += ' ';
 						
 						return value;
@@ -163,6 +175,8 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			if($li.text() == 'delete quote from here\n')
 				$(this).trigger('delete_quote_from_cursor');
 		});
+		
+		// Submit
 		
 		$frm.find('button.submit').click(function(e) {
 			$.mobile.loading('show');
