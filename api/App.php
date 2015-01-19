@@ -598,18 +598,12 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
 		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
 		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
-		@$field_key = DevblocksPlatform::importGPC($_REQUEST['field_key'], 'string', '');
 		@$q = DevblocksPlatform::importGPC($_REQUEST['q'], 'string', '');
-		
-		$active_worker = CerberusApplication::getActiveWorker();
 		
 		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
 			return;
 
-		$view->doQuickSearch($field_key, $q);
-		$view->renderPage = 0;
-		
-		DAO_WorkerPref::set($active_worker->id, 'quicksearch_' . strtolower(get_class($view)), $field_key);
+		$view->addParamsWithQuickSearch($q);
 		
 		C4_AbstractViewLoader::setView($view->id, $view);
 		

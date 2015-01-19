@@ -11,33 +11,20 @@
 {if !$hide_filtering}
 <div id="viewFiltersPopup" data-role="popup" class="ui-content" data-theme="a" data-overlay-theme="a" data-dismissible="false" data-transition="slidedown">
 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-	{capture "options"}
-	{foreach from=$view->getParamsAvailable() item=field key=token}
-	{if !empty($field->db_label) && (!empty($field->type) || ($view instanceof IAbstractView_QuickSearch && $view->isQuickSearchField($token)))}
-	<option value="{$token}" {if $pref_token==$token}selected="selected"{/if} field_type="{$field->type}">{$field->db_label|capitalize}</option>
-	{/if}
-	{/foreach}
-	{/capture}
 
 	<h3 style="margin:0;padding:0;">{'common.filter'|devblocks_translate|capitalize}</h3>
 	
-	{if $smarty.capture.options}
 	<form action="javascript:;" method="post" class="cerb-form-worklist-search" onsubmit="return false;">
 		<input type="hidden" name="c" value="m">
 		<input type="hidden" name="a" value="viewQuickSearch">
 		<input type="hidden" name="view_id" value="{$view->id}">
 		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
-	
-		<select name="field_key">
-			{$smarty.capture.options nofilter}
-		</select>
-		
+
 		<input type="search" name="q">
 	
-		<button type="button" class="submit" data-role="button" data-theme="c">{'common.filter.add'|devblocks_translate|capitalize}</button>
+		<button type="button" class="submit" data-role="button" data-theme="c">{'common.search'|devblocks_translate|capitalize}</button>
 	</form>
-	{/if}
 	
 	<h3 style="margin:0;padding:0;">Presets</h3>
 		
