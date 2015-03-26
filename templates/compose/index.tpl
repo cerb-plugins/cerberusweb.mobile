@@ -220,7 +220,7 @@ $(document).one('pageinit', function() {
 		.atwho({
 			at: '#',
 			data: [
-				'attach',
+				'attach ',
 				'comment',
 				'comment @',
 				'cut\n',

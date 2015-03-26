@@ -1040,7 +1040,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		// Only show VAs with mobile behaviors
 		$vas = array_filter($vas, function($va) {
-			$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false);
+			$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false, 'name');
 			return !empty($behaviors);
 		});
 		
@@ -1062,7 +1062,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$tpl->assign('va', $va);
 		
-		$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false);
+		$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false, 'name');
 		$tpl->assign('behaviors', $behaviors);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behaviors.tpl');

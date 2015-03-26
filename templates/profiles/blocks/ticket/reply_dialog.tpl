@@ -142,7 +142,7 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			.atwho({
 				at: '#',
 				data: [
-					'attach',
+					'attach ',
 					'comment',
 					'comment @',
 					'cut\n',

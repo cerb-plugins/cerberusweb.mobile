@@ -8,17 +8,17 @@
 	
 	<h2>Try the mobile interface</h2>
 	
-	<p>
+	<div>
 		You're currently using a small screen.  Would you like to switch to the mobile interface for an optimized experience?
-	</p>
+	</div>
 	
-	<p>
+	<div>
 		<form action="javascript:;">
 		<button type="button" class="mobile-switch" style="font-size:3em;padding:20px">Switch to mobile</button>
 		 &nbsp; 
 		<button type="button" class="mobile-cancel" style="font-size:3em;padding:20px;">No thanks</button>
 		</form>
-	</p>
+	</div>
 
 </div>
 
