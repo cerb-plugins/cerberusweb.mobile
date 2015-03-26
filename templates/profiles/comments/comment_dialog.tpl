@@ -13,8 +13,7 @@
 
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-comment-content"> {'common.comment'|devblocks_translate|capitalize}:</label>
-			<textarea name="comment" id="frm-cerb-comment-content"></textarea>
-			<div style="float:right;color:rgb(120,120,120);">{'comment.notify.at_mention'|devblocks_translate}</div>
+			<textarea name="comment" id="frm-cerb-comment-content" placeholder="{'comment.notify.at_mention'|devblocks_translate}"></textarea>
 		</div>
 	
 		<button data-role="button" type="button" class="submit" data-theme="b">Save comment</button>
@@ -52,8 +51,10 @@
 
 		$textarea.atwho({
 			at: '@',
-			{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+			{literal}displayTpl: '<li>${name} <small style="margin-left:10px;">${title}</small> <small style="margin-left:10px;">@${at_mention}</small></li>',{/literal}
+			{literal}insertTpl: '@${at_mention}',{/literal}
 			data: atwho_workers,
+			searchKey: '_index',
 			limit: 10
 		});
 	</script>

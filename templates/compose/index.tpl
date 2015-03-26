@@ -212,7 +212,8 @@ $(document).one('pageinit', function() {
 	$frm.find('textarea')
 		.atwho({
 			at: '#attach ',
-			{literal}tpl: '<li data-value="#attach ${tag}\n">${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+			{literal}displayTpl: '<li>${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+			{literal}insertTpl: '#attach ${tag}\n',{/literal}
 			suffix: '',
 			data: atwho_file_bundles,
 			limit: 10
@@ -242,8 +243,10 @@ $(document).one('pageinit', function() {
 		})
 		.atwho({
 			at: '@',
-			{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+			{literal}displayTpl: '<li>${name} <small style="margin-left:10px;">${title}</small> <small style="margin-left:10px;">@${at_mention}</small></li>',{/literal}
+			{literal}insertTpl: '@${at_mention}',{/literal}
 			data: atwho_workers,
+			searchKey: '_index',
 			limit: 10
 		})
 		;

@@ -582,8 +582,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view->renderSortBy =  $preset->sort_by;
 		}
 		
-		C4_AbstractViewLoader::setView($view->id, $view);
-		
 		$view->renderLimit = 10;
 		
 		$tpl = DevblocksPlatform::getTemplateService();
@@ -604,8 +602,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->addParamsWithQuickSearch($q);
-		
-		C4_AbstractViewLoader::setView($view->id, $view);
 		
 		$view->renderLimit = 10;
 		
@@ -635,8 +631,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$view->renderPage = 0;
 		
-		C4_AbstractViewLoader::setView($view->id, $view);
-		
 		$view->renderLimit = 10;
 		
 		$tpl = DevblocksPlatform::getTemplateService();
@@ -655,8 +649,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->doPage($page);
-		
-		C4_AbstractViewLoader::setView($view->id, $view);
 		
 		$view->renderLimit = 10;
 		
@@ -681,8 +673,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$view->renderSortBy = $sort_by;
 		$view->renderSortAsc = $sort_asc ? 1 : 0;
 		$view->renderPage = 0;
-		
-		C4_AbstractViewLoader::setView($view->id, $view);
 		
 		$view->renderLimit = 10;
 		
@@ -977,8 +967,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	
 			$view->setPlaceholderLabels($labels);
 			$view->setPlaceholderValues($values);
-				
-			C4_AbstractViewLoader::setView($view_id, $view);
 		}
 		
 		$view->renderLimit = 10;

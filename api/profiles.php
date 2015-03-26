@@ -306,8 +306,6 @@ class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 		$view->renderSortBy = SearchFields_Ticket::TICKET_UPDATED_DATE;
 		$view->renderSortAsc = false;
 		
-		C4_AbstractViewLoader::setView($view->id, $view);
-		
 		header('Content-type: application/json');
 		
 		echo json_encode(array(
@@ -438,8 +436,6 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 		$view->renderSortBy = SearchFields_Address::NUM_NONSPAM;
 		$view->renderSortAsc = false;
 		
-		C4_AbstractViewLoader::setView($view->id, $view);
-		
 		header('Content-type: application/json');
 		
 		echo json_encode(array(
@@ -463,8 +459,6 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 		
 		$view->renderSortBy = SearchFields_Ticket::TICKET_UPDATED_DATE;
 		$view->renderSortAsc = false;
-		
-		C4_AbstractViewLoader::setView($view->id, $view);
 		
 		header('Content-type: application/json');
 		
@@ -575,8 +569,6 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			$view->renderTotal = true;
 			
 			// [TODO] Overload the default properties for the messages worklist (e.g. no need to see ticket listed every time)
-			
-			C4_AbstractViewLoader::setView($view->id, $view);
 			
 			$tpl->assign('view', $view);
 		}
@@ -918,8 +910,6 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		$view->addParams(array(
 			new DevblocksSearchCriteria(SearchFields_Message::TICKET_MASK, '=', $ticket->mask)
 		), true);
-		
-		C4_AbstractViewLoader::setView($view->id, $view);
 	}
 	
 	function getMessageAction() {

@@ -134,7 +134,8 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 		$frm.find('textarea')
 			.atwho({
 				at: '#attach ',
-				{literal}tpl: '<li data-value="#attach ${tag}\n">${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+				{literal}displayTpl: '<li>${name} <small style="margin-left:10px;">${tag}</small></li>',{/literal}
+				{literal}insertTpl: '#attach ${tag}\n',{/literal}
 				suffix: '',
 				data: atwho_file_bundles,
 				limit: 10
@@ -165,8 +166,10 @@ On {$dict->created|devblocks_date:'D, d M Y'}, {$dict->sender__label} wrote:
 			})
 			.atwho({
 				at: '@',
-				{literal}tpl: '<li data-value="@${at_mention}">${name} <small style="margin-left:10px;">${title}</small></li>',{/literal}
+				{literal}displayTpl: '<li>${name} <small style="margin-left:10px;">${title}</small> <small style="margin-left:10px;">@${at_mention}</small></li>',{/literal}
+				{literal}insertTpl: '@${at_mention}',{/literal}
 				data: atwho_workers,
+				searchKey: '_index',
 				limit: 10
 			})
 			;
