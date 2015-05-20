@@ -50,10 +50,9 @@
 			
 			<div>
 				<select name="bucket_id" id="frm-cerb-ticket-bucket" data-inline="true" data-mini="true">
-					<option value="0">{'common.inbox'|devblocks_translate|capitalize}</option>
 					{$group_id = key($groups)}
 					{foreach from=$buckets item=bucket}
-					 {if $bucket->group_id == $dict->group_id}
+					{if $bucket->group_id == $dict->group_id}
 					<option value="{$bucket->id}" {if $dict->bucket_id == $bucket->id}selected="selected"{/if}>{$bucket->name}</option>
 					{/if}
 					{/foreach}
@@ -117,9 +116,6 @@
 			var $buckets = $frm.find('select[name=bucket_id]');
 			
 			$buckets.find('option').remove();
-			
-			if(group_id != 0)
-				$buckets.append($('<option value="0">{'common.inbox'|devblocks_translate|capitalize|escape:'javascript'}</option>'));
 			
 			if(typeof buckets == 'object')
 			for(idx in buckets) {

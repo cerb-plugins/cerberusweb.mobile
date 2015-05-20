@@ -640,7 +640,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			// Move
 			if(!empty($group_id)
 				&& false !== DAO_Group::get($group_id)
-				&& (empty($bucket_id) || false !== DAO_Bucket::get($bucket_id))) {
+				&& false !== DAO_Bucket::get($bucket_id)) {
 					$fields[DAO_Ticket::GROUP_ID] = $group_id;
 					$fields[DAO_Ticket::BUCKET_ID] = $bucket_id;
 			}

@@ -20,7 +20,8 @@
 				<li>
 					<a href="{devblocks_url}c=m&a=profile&ctx={CerberusContexts::CONTEXT_NOTIFICATION}&id={$notification->id}{/devblocks_url}">
 						<h3>
-							{$notification->message}
+							{$entry = json_decode($notification->entry_json, true)}
+							{CerberusContexts::formatActivityLogEntry($entry,'text')}
 						</h3>
 						<p>
 							{if method_exists($context_ext, 'getMeta')}
