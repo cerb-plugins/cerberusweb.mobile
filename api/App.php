@@ -582,8 +582,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view->renderSortBy =  $preset->sort_by;
 		}
 		
-		$view->renderLimit = 10;
-		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
 		$tpl->assign('hide_filtering', $hide_filtering);
@@ -602,8 +600,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->addParamsWithQuickSearch($q);
-		
-		$view->renderLimit = 10;
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
@@ -631,8 +627,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$view->renderPage = 0;
 		
-		$view->renderLimit = 10;
-		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
@@ -649,8 +643,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->doPage($page);
-		
-		$view->renderLimit = 10;
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
@@ -673,8 +665,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$view->renderSortBy = $sort_by;
 		$view->renderSortAsc = $sort_asc ? 1 : 0;
 		$view->renderPage = 0;
-		
-		$view->renderLimit = 10;
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		$tpl->assign('view', $view);
@@ -942,7 +932,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				return;
 				
 			$view->name = $list_view->title;
-			$view->renderLimit = 10; //$list_view->num_rows;
+			$view->renderLimit = $list_view->num_rows;
 			$view->renderPage = 0;
 			$view->is_ephemeral = 0;
 			$view->view_columns = $list_view->columns;
@@ -968,8 +958,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view->setPlaceholderLabels($labels);
 			$view->setPlaceholderValues($values);
 		}
-		
-		$view->renderLimit = 10;
 		
 		$tpl->assign('view', $view);
 		
@@ -1004,7 +992,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		if($widget_extension->id == 'core.workspace.widget.worklist') {
 			$view = $widget_extension->getView($widget);
-			$view->renderLimit = 10;
 			$tpl->assign('view', $view);
 			
 		} elseif($widget_extension->id == 'core.workspace.widget.calendar') {
