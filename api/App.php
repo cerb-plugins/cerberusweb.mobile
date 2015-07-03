@@ -578,8 +578,13 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			
 			$view->renderPage = 0;
 			$view->addParams($preset->params, true);
-			$view->renderSortAsc =  $preset->sort_asc;
-			$view->renderSortBy =  $preset->sort_by;
+			
+			$disable_sorting = $view->isCustom() && @$view->options['disable_sorting'];
+				
+			if(!$disable_sorting) {
+				$view->renderSortAsc = $preset->sort_asc;
+				$view->renderSortBy = $preset->sort_by;
+			}
 		}
 		
 		$tpl = DevblocksPlatform::getTemplateService();

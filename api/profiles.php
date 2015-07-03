@@ -552,9 +552,8 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		
 		/*
 		// Show ticket messages
-		$defaults = new C4_AbstractViewModel();
+		$defaults = C4_AbstractViewModel::loadFromClass('View_Message');
 		$defaults->id = '';
-		$defaults->class_name = 'View_Message';
 		$defaults->is_ephemeral = true;
 		
 		if(false != ($view = C4_AbstractViewLoader::getView('mobile_profile_ticket_messages', $defaults))) {
