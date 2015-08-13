@@ -19,6 +19,8 @@
 <input type="hidden" name="extension" value="{MobileProfile_Calendar::ID}">
 <input type="hidden" name="action" value="calendarPage">
 <input type="hidden" name="id" value="{$dict->id}">
+<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
+
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td width="1%" nowrap="nowrap">

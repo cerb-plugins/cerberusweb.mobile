@@ -12,6 +12,7 @@
 <input type="hidden" name="c" value="m">
 <input type="hidden" name="a" value="profileTicketGetMessage">
 <input type="hidden" name="ticket_id" value="{$dict->ticket_id}">
+<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 	<table width="100%" cellpadding="0" cellspacing="0" border="0" style="min-height:32px;">
 		<tr>

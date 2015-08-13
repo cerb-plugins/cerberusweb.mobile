@@ -11,6 +11,7 @@
 		<input type="hidden" name="extension" value="{MobileProfile_Ticket::ID}">
 		<input type="hidden" name="action" value="saveRelayDialog">
 		<input type="hidden" name="message_id" value="{$dict->id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain" data-theme="a">
 			<label for="frm-cerb-relay-to"> {'message.header.to'|devblocks_translate|capitalize}:</label>

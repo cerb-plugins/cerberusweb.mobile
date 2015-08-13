@@ -13,6 +13,7 @@
 		<input type="hidden" name="extension" value="{MobileProfile_Ticket::ID}">
 		<input type="hidden" name="action" value="saveEditDialog">
 		<input type="hidden" name="id" value="{$dict->id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">

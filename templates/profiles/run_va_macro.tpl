@@ -11,6 +11,7 @@
 		<input type="hidden" name="context" value="{$context}">
 		<input type="hidden" name="context_id" value="{$context_id}">
 		<input type="hidden" name="behavior_id" value="{$behavior->id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 	
 		<h3>{$behavior->title}</h3>
 		

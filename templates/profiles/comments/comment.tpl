@@ -13,6 +13,7 @@
 <input type="hidden" name="a" value="profileGetComment">
 <input type="hidden" name="context" value="{$context}">
 <input type="hidden" name="context_id" value="{$context_id}">
+<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 	<table width="100%" cellpadding="0" cellspacing="0" border="0" style="min-height:32px;">
 		<tr>

@@ -14,6 +14,7 @@
 	<form id="frm{$uniqid}" method="post">
 	<input type="hidden" name="c" value="m">
 	<input type="hidden" name="a" value="saveSettings">
+	<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 	
 	<h3>Settings</h3>
 

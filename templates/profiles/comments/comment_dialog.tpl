@@ -10,6 +10,7 @@
 		<input type="hidden" name="a" value="saveProfileAddCommentDialog">
 		<input type="hidden" name="context" value="{$context}">
 		<input type="hidden" name="context_id" value="{$context_id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-comment-content"> {'common.comment'|devblocks_translate|capitalize}:</label>

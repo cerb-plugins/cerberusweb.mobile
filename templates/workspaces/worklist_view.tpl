@@ -20,6 +20,7 @@
 		<input type="hidden" name="view_id" value="{$view->id}">
 		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<input type="search" name="q">
 	
@@ -34,6 +35,7 @@
 		<input type="hidden" name="view_id" value="{$view->id}">
 		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		{foreach from=$presets item=preset key=preset_id}
 		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="a">{$preset->name}</button>
@@ -55,6 +57,7 @@
 		<input type="hidden" name="view_id" value="{$view->id}">
 		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 		
 		<select name="sort_by">
 		{foreach from=$fields item=field key=field_key}
@@ -86,6 +89,7 @@
 <input type="hidden" name="view_id" value="{$view->id}">
 <input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 <input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 	
 	<a href="#viewFiltersPopup" data-rel="popup" data-role="button" data-theme="b" data-mini="true" data-inline="true" data-icon="carat-d" data-iconpos="right" class="ui-nodisc-icon" style="font-size:80%;">
 		{'common.filters'|devblocks_translate|capitalize}
@@ -209,6 +213,7 @@
 <input type="hidden" name="view_id" value="{$view->id}">
 <input type="hidden" name="hide_filtering" value="{$hide_filtering}">
 <input type="hidden" name="hide_sorting" value="{$hide_sorting}">
+<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 	
 	<div>
 		{if !$hide_paging && $page_current > 1}

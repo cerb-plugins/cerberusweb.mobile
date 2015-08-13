@@ -13,6 +13,7 @@
 		<input type="hidden" name="extension" value="{MobileProfile_Task::ID}">
 		<input type="hidden" name="action" value="saveEditDialog">
 		<input type="hidden" name="id" value="{$dict->id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-task-edit-title"> {'common.title'|devblocks_translate}:</label>

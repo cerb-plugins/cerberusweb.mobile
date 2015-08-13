@@ -16,6 +16,7 @@
 	</div>
 
 	<form action="{devblocks_url}c=m&a=va&p=run&id={$behavior->id}{/devblocks_url}" method="post">
+	<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 	<h3 style="margin:20px 0px 0px 0px;">{$behavior->title}</h3>
 	

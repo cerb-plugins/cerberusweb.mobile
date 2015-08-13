@@ -79,6 +79,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$tpl->assign('active_worker_memberships', $active_worker->getMemberships());
 		
 		$tpl->assign('visit', $visit);
+		$tpl->assign('session', $_SESSION);
 		$tpl->assign('translate', $translate);
 		$tpl->assign('settings', $settings);
 		$tpl->assign('controller', $controller);

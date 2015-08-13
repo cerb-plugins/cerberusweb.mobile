@@ -13,6 +13,7 @@
 		<input type="hidden" name="extension" value="{MobileProfile_Calendar::ID}">
 		<input type="hidden" name="action" value="saveAddEventDialog">
 		<input type="hidden" name="id" value="{$calendar->id}">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-event-add-name"> {'common.name'|devblocks_translate}:</label>

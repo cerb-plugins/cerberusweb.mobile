@@ -14,6 +14,7 @@
 		<input type="hidden" name="action" value="saveEditDialog">
 		<input type="hidden" name="id" value="{$calendar_event->id}">
 		<input type="hidden" name="do_delete" value="0">
+		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
 			<label for="frm-cerb-event-edit-name"> {'common.name'|devblocks_translate}:</label>
