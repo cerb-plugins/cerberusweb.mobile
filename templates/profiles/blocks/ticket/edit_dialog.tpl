@@ -121,7 +121,7 @@
 			if(typeof buckets == 'object')
 			for(idx in buckets) {
 				if(buckets[idx].group_id == group_id)
-					$buckets.append($('<option value="' + buckets[idx].id + '">' + buckets[idx].name + '</option>'));
+					$buckets.append($('<option/>').attr('value', buckets[idx].id).html(buckets[idx].name));
 			}
 			
 			$buckets.selectmenu('refresh');

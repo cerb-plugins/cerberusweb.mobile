@@ -132,18 +132,32 @@
 					if(bookmarks[idx].path == current_path)
 						is_current_page_bookmarked = true;
 					
-					var $li = $('<li><a href="' + bookmarks[idx].path + '">' + bookmarks[idx].label + '</a></li>');
-					$li.appendTo($ul);
+					var $li = $('<li/>')
+						.append(
+								$('<a/>').attr('href', bookmarks[idx].path).html(bookmarks[idx].label)
+						)
+						.appendTo($ul)
+					;
 				}
 				
 				// Insert an add/remove button depending on current page
 				if(false !== is_current_page_bookmarked) {
-					var $li = $('<li data-theme="c" data-icon="minus" data-iconpos="left" class="ui-nodisc-icon"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Remove: ' + page_title + '</a></li>');
-					$li.appendTo($ul);
+					var $li = $('<li data-theme="c" data-icon="minus" data-iconpos="left" class="ui-nodisc-icon"/>')
+						.append(
+								$('<a href="javascript:;" class="cerb-panel-toggle-bookmark"/>')
+									.text('Remove: ' + page_title)
+						)
+						.appendTo($ul)
+						;
 					
 				} else {
-					var $li = $('<li data-theme="c" data-icon="plus" data-iconpos="left" class="ui-nodisc-icon"><a href="javascript:;" class="cerb-panel-toggle-bookmark">Add: ' + page_title + '</a></li>');
-					$li.appendTo($ul);
+					var $li = $('<li data-theme="c" data-icon="plus" data-iconpos="left" class="ui-nodisc-icon"/>')
+						.append(
+								$('<a href="javascript:;" class="cerb-panel-toggle-bookmark"/>')
+									.text('Add: ' + page_title)
+						)
+						.appendTo($ul)
+						;
 				}
 				
 				$ul.listview('refresh');

@@ -105,7 +105,7 @@
 			
 			// Ajax request
 			$.get(
-				'{devblocks_url}ajax.php?c=internal&a=autocomplete&context={CerberusContexts::CONTEXT_ORG}&term={/devblocks_url}' + encodeURIComponent(val),
+				'{devblocks_url}ajax.php?c=internal&a=autocomplete&context={CerberusContexts::CONTEXT_ORG}{/devblocks_url}&term=' + encodeURIComponent(val),
 				function(out) {
 					$autocomplete.html('');
 					
@@ -115,8 +115,14 @@
 					for(i in json) {
 						var label = $('<div/>').text(json[i].label).html();
 						
-						var $li = $('<li><a href="javascript:;" style="white-space:normal;word-wrap:break-word;word-break:break-word;" cerb-address-id="' + json[i].value + '">' + label + '</a></li>');
-						
+						var $li = $('<li/>')
+							.append(
+									$('<a href="javascript:;" style="white-space:normal;word-wrap:break-word;word-break:break-word;"/>')
+										.attr('cerb-address-id', json[i].value)
+										.html(label)
+								)
+						;
+
 						$li.find('a').on('click', function() {
 							var address_id = $(this).attr('cerb-address-id');
 							var label = $(this).text();

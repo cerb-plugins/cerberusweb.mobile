@@ -139,7 +139,7 @@ $calendar.off('devblocks-calendar-click').on('devblocks-calendar-click', functio
 	
 	var $output = $table.siblings('div.cerb-calendar-events').html('');
 
-	$output.append($('<h3 style="margin-left:-10px;">' + moment(day.ts * 1000).format('ddd, MMM DD YYYY') + '</h3>'));
+	$output.append($('<h3 style="margin-left:-10px;"/>').text(moment(day.ts * 1000).format('ddd, MMM DD YYYY')));
 	var $choicelist = $('<div data-role="choicelist"><ul data-role="listview" data-inset="false" data-theme="a"></ul></div>');
 	var $ul = $choicelist.find('ul');
 	
@@ -151,8 +151,8 @@ $calendar.off('devblocks-calendar-click').on('devblocks-calendar-click', functio
 			var $li = $('<li></li>');
 			
 			if(events[idx].context != '') {
-				var $a = $('<a href="{devblocks_url}c=m&a=profile{/devblocks_url}/' + events[idx].context + '/' + events[idx].context_id + '"></a>');
-				$a.append($('<h3>' + events[idx].label + '</h3>'));
+				var $a = $('<a/>').attr('href','{devblocks_url}c=m&a=profile{/devblocks_url}/' + events[idx].context + '/' + events[idx].context_id);
+				$a.append($('<h3/>').text(events[idx].label));
 				
 				var ts_start = events[idx].ts * 1000;
 				var ts_end = events[idx].ts_end * 1000;
@@ -160,15 +160,15 @@ $calendar.off('devblocks-calendar-click').on('devblocks-calendar-click', functio
 	
 				var $desc = $('<div class="ui-li-desc"></div>');
 			
-				$desc.append($('<span>' + moment(ts_start).format('h:mma') + '</span>'));
+				$desc.append($('<span/>').text(moment(ts_start).format('h:mma')));
 				
 				if(ts_end == ts_start) {
 					// Do nothing if start/stop at the same moment
 				} else {
-					$desc.append($('<span> - ' + moment(ts_end).format('h:mma') + '</span>'));
+					$desc.append($('<span/>').text(' - ' + moment(ts_end).format('h:mma')));
 				}
 				
-				$desc.append($('<span> (' + (is_available ? 'available' : 'busy') + ')</span>'));
+				$desc.append($('<span/>').text(' (' + (is_available ? 'available' : 'busy') + ')'));
 				
 				$a.append($desc)
 				$li.append($a);

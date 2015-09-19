@@ -119,7 +119,7 @@ $(document).one('pageinit', function() {
 		if(typeof buckets == 'object')
 		for(idx in buckets) {
 			if(buckets[idx].group_id == group_id)
-				$buckets.append($('<option value="' + buckets[idx].id + '">' + buckets[idx].name + '</option>'));
+				$buckets.append($('<option/>').attr('value', buckets[idx].id).html(buckets[idx].name));
 		}
 		
 		$buckets.selectmenu('refresh');
@@ -148,7 +148,7 @@ $(document).one('pageinit', function() {
 		
 		// Ajax request
 		$.get(
-			'{devblocks_url}ajax.php?c=internal&a=autocomplete&context={CerberusContexts::CONTEXT_ADDRESS}&term={/devblocks_url}' + encodeURIComponent(val),
+			'{devblocks_url}ajax.php?c=internal&a=autocomplete&context={CerberusContexts::CONTEXT_ADDRESS}{/devblocks_url}&term=' + encodeURIComponent(val),
 			function(out) {
 				$autocomplete.html('');
 				
@@ -158,7 +158,13 @@ $(document).one('pageinit', function() {
 				for(i in json) {
 					var label = $('<div/>').text(json[i].label).html();
 					
-					var $li = $('<li><a href="javascript:;" style="white-space:normal;word-wrap:break-word;word-break:break-word;" cerb-address-id="' + json[i].value + '">' + label + '</a></li>');
+					var $li = $('<li/>')
+						.append(
+							$('<a href="javascript:;" style="white-space:normal;word-wrap:break-word;word-break:break-word;"/>')
+								.attr('cerb-address-id', json[i].value)
+								.html(label)
+							)
+					;
 					
 					$li.find('a').on('click', function() {
 						var address_id = $(this).attr('cerb-address-id');
