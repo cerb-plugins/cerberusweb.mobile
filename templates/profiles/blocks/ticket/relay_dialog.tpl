@@ -21,8 +21,9 @@
 				{foreach from=$workers_with_relays item=worker key=worker_id}
 					{if !empty($worker->relay_emails)}
 						<optgroup label="{$worker->getName()}" data-theme="a">
-							{foreach from=$worker->relay_emails item=relay}
-							<option value="{$relay}">{$relay}</option>
+							{$relay_email_models = DAO_Address::getIds($worker->relay_emails)}
+							{foreach from=$relay_email_models item=relay_model}
+							<option value="{$relay_model->email}">{$relay_model->email}</option>
 							{/foreach}
 						</optgroup>
 					{/if}
@@ -38,25 +39,25 @@
 	</div>
 	
 	<script type="text/javascript">
-		var $frm = $('#frm{$uniqid}');
+	var $frm = $('#frm{$uniqid}');
+	
+	$frm.find('button.submit').click(function(e) {
+		$.mobile.loading('show');
 		
-		$frm.find('button.submit').click(function(e) {
-			$.mobile.loading('show');
-			
-			$.post(
-				'{devblocks_url}ajax.php{/devblocks_url}',
-				$frm.serialize(),
-				function(json) {
-					$.mobile.changePage(
-						'{devblocks_url}c=m&a=profile&t={CerberusContexts::CONTEXT_TICKET}&id={$dict->ticket_id}{/devblocks_url}',
-						{
-							transition: 'fade',
-							changeHash: false,
-							reloadPage: true
-						}
-					);
-				}
-			);
-		});
+		$.post(
+			'{devblocks_url}ajax.php{/devblocks_url}',
+			$frm.serialize(),
+			function(json) {
+				$.mobile.changePage(
+					'{devblocks_url}c=m&a=profile&t={CerberusContexts::CONTEXT_TICKET}&id={$dict->ticket_id}{/devblocks_url}',
+					{
+						transition: 'fade',
+						changeHash: false,
+						reloadPage: true
+					}
+				);
+			}
+		);
+	});
 	</script>
 </div>

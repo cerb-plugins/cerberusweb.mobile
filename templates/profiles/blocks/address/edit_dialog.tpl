@@ -16,17 +16,7 @@
 		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 		<div data-role="fieldcontain">
-			<label for="frm-cerb-addy-edit-firstname"> {'address.first_name'|devblocks_translate}:</label>
-			<input type="text" name="first_name" id="frm-cerb-addy-edit-firstname" value="{$dict->first_name}" />
-		</div>
-		
-		<div data-role="fieldcontain">
-			<label for="frm-cerb-addy-edit-lasttname"> {'address.last_name'|devblocks_translate}:</label>
-			<input type="text" name="last_name" id="frm-cerb-addy-edit-lastname" value="{$dict->last_name}" />
-		</div>
-		
-		<div data-role="fieldcontain">
-			<label for="frm-cerb-addy-edit-org"> {'contact_org.name'|devblocks_translate|capitalize}:</label>
+			<label for="frm-cerb-addy-edit-org"> {'common.organization'|devblocks_translate|capitalize}:</label>
 			<input type="text" name="org" id="frm-cerb-addy-edit-org" value="{$dict->org_name}">
 			<ul id="frm-cerb-addy-edit-org-autocomplete" class="cerb-ul-autocomplete" data-role="listview" data-inset="true" data-filter-theme="d" style="margin:0;"></ul>
 		</div>

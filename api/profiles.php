@@ -254,8 +254,6 @@ class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 	
 	function saveEditDialogAction() {
 		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
-		@$first_name = DevblocksPlatform::importGPC($_REQUEST['first_name'], 'string', '');
-		@$last_name = DevblocksPlatform::importGPC($_REQUEST['last_name'], 'string', '');
 		@$org_name = DevblocksPlatform::importGPC($_REQUEST['org'], 'string', '');
 		@$is_banned = DevblocksPlatform::importGPC($_REQUEST['is_banned'], 'integer', 0);
 		@$is_defunct = DevblocksPlatform::importGPC($_REQUEST['is_defunct'], 'integer', 0);
@@ -266,8 +264,6 @@ class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 		
 		// Fields
 		
-		$fields[DAO_Address::FIRST_NAME] = $first_name;
-		$fields[DAO_Address::LAST_NAME] = $last_name;
 		$fields[DAO_Address::IS_BANNED] = $is_banned;
 		$fields[DAO_Address::IS_DEFUNCT] = $is_defunct;
 		
