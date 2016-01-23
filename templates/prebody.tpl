@@ -12,11 +12,11 @@
 		You're currently using a small screen.  Would you like to switch to the mobile interface for an optimized experience?
 	</div>
 	
-	<div>
+	<div style="margin-top:0.5em;">
 		<form action="javascript:;">
-		<button type="button" class="mobile-switch" style="font-size:3em;padding:20px">Switch to mobile</button>
+		<button type="button" class="mobile-switch" style="font-size:3em;padding:0.25em;height:inherit;">Switch to mobile</button>
 		 &nbsp; 
-		<button type="button" class="mobile-cancel" style="font-size:3em;padding:20px;">No thanks</button>
+		<button type="button" class="mobile-cancel" style="font-size:3em;padding:0.25em;height:inherit;">No thanks</button>
 		</form>
 	</div>
 
