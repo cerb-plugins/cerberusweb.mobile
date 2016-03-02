@@ -625,9 +625,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		
 		// [TODO] Check permissions
 		if($status == 'deleted') {
-			$fields[DAO_Ticket::IS_WAITING] = 0;
-			$fields[DAO_Ticket::IS_CLOSED] = 1;
-			$fields[DAO_Ticket::IS_DELETED] = 1;
+			$fields[DAO_Ticket::STATUS_ID] = Model_Ticket::STATUS_DELETED;
 			$fields[DAO_Ticket::REOPEN_AT] = 0;
 			
 		} else {
@@ -646,23 +644,17 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			// Status
 			switch($status) {
 				case 'open':
-					$fields[DAO_Ticket::IS_WAITING] = 0;
-					$fields[DAO_Ticket::IS_CLOSED] = 0;
-					$fields[DAO_Ticket::IS_DELETED] = 0;
+					$fields[DAO_Ticket::STATUS_ID] = Model_Ticket::STATUS_OPEN;
 					$fields[DAO_Ticket::REOPEN_AT] = 0;
 					break;
 					
 				case 'waiting':
-					$fields[DAO_Ticket::IS_WAITING] = 1;
-					$fields[DAO_Ticket::IS_CLOSED] = 0;
-					$fields[DAO_Ticket::IS_DELETED] = 0;
+					$fields[DAO_Ticket::STATUS_ID] = Model_Ticket::STATUS_WAITING;
 					$fields[DAO_Ticket::REOPEN_AT] = intval(@strtotime($reopen_at));
 					break;
 					
 				case 'closed':
-					$fields[DAO_Ticket::IS_WAITING] = 0;
-					$fields[DAO_Ticket::IS_CLOSED] = 1;
-					$fields[DAO_Ticket::IS_DELETED] = 0;
+					$fields[DAO_Ticket::STATUS_ID] = Model_Ticket::STATUS_CLOSED;
 					$fields[DAO_Ticket::REOPEN_AT] = intval(@strtotime($reopen_at));
 					break;
 			}
@@ -721,7 +713,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 			
 			$message_properties = array(
 				'message_id' => $message_id,
-				'closed' => array_search($status, array('open','closed','waiting')),
+				'status_id' => intval(array_search($status, array('open','waiting','closed','deleted'))),
 				'ticket_reopen' => ($status != 'open') ? $reopen_at : 0,
 				'content' => $raw_content,
 				'worker_id' => $active_worker->id,

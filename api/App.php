@@ -271,16 +271,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		switch($status) {
 			case 'open':
-				$properties['closed'] = 0;
+				$properties['status_id'] = Model_Ticket::STATUS_OPEN;
 				break;
 				
 			case 'waiting':
-				$properties['closed'] = 2;
+				$properties['status_id'] = Model_Ticket::STATUS_WAITING;
 				$properties['ticket_reopen'] = $reopen_at;
 				break;
 				
 			case 'closed':
-				$properties['closed'] = 1;
+				$properties['status_id'] = Model_Ticket::STATUS_CLOSED;
 				$properties['ticket_reopen'] = $reopen_at;
 				break;
 		}
