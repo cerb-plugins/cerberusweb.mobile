@@ -107,11 +107,11 @@
 		{elseif $param->operator=='in'}
 			is 
 		{elseif $param->operator=='in or null'}
-			is blank{if !empty($param->value)} or{/if} 
+			is {if !empty($param->value)} or{/if} 
 		{elseif $param->operator=='not in'}
 			is not
 		{elseif $param->operator=='not in or null'}
-			is blank{if !empty($param->value)} or not{/if} 
+			is {if !empty($param->value)} or not{/if} 
 		{elseif $param->operator=='is null'}
 			is {if empty($param->value)}blank{/if}
 		{elseif $param->operator=='is not null'}
