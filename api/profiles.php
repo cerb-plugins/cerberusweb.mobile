@@ -93,7 +93,7 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 		if(false == ($calendar = DAO_Calendar::get($calendar_id)))
 			return;
 		
-		if(!$calendar->isWriteableByActor($active_worker))
+		if(!Context_Calendar::isWriteableByActor($calendar, $active_worker))
 			return;
 		
 		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
@@ -115,7 +115,7 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 		if(false == ($calendar = DAO_Calendar::get($calendar_id)))
 			return;
 		
-		if(!$calendar->isWriteableByActor($active_worker))
+		if(!Context_Calendar::isWriteableByActor($calendar, $active_worker))
 			return;
 		
 		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
@@ -162,7 +162,7 @@ class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
 		if(false == ($calendar = DAO_Calendar::get($calendar_event->calendar_id)))
 			return;
 		
-		if(!$calendar->isWriteableByActor($active_worker))
+		if(!Context_Calendar::isWriteableByActor($calendar, $active_worker))
 			return;
 		
 		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))
@@ -190,7 +190,7 @@ class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
 		if(false == ($calendar = DAO_Calendar::get($calendar_event->calendar_id)))
 			return;
 		
-		if(!$calendar->isWriteableByActor($active_worker))
+		if(!Context_Calendar::isWriteableByActor($calendar, $active_worker))
 			return;
 		
 		if(!isset($calendar->params['manual_disabled']) || !empty($calendar->params['manual_disabled']))

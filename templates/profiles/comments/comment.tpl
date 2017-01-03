@@ -45,7 +45,7 @@
 </div>
 
 {if $dict->id}
-<div class="cerb-message-contents"><span style="color:rgb(75,75,75);font-style:italic;">{$dict->created|devblocks_prettytime}, <b>{$dict->author_label}</b> ({$dict->author_type}) wrote:</span>
+<div class="cerb-message-contents"><span style="color:rgb(75,75,75);font-style:italic;">{$dict->created|devblocks_prettytime}, <b>{$dict->author__label}</b> wrote:</span>
 
 {$dict->comment|trim|truncate:25000|escape:'htmlall'|devblocks_hyperlinks nofilter}</div>
 {/if}

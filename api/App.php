@@ -107,21 +107,21 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				
 				if(is_numeric($request)) {
 					array_unshift($stack, $request);
-					$this->_renderVirtualAttendantBehaviors($stack);
+					$this->_renderBotBehaviors($stack);
 					return;
 				}
 				
 				switch($request) {
 					case 'behavior':
-						$this->_renderVirtualAttendantBehavior($stack);
+						$this->_renderBotBehavior($stack);
 						break;
 					
 					case 'run':
-						$this->_renderVirtualAttendantBehaviorResults($stack);
+						$this->_renderBotBehaviorResults($stack);
 						break;
 					
 					default:
-						$this->_renderVirtualAttendants($stack);
+						$this->_renderBots($stack);
 						break;
 				}
 				
@@ -446,7 +446,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$tpl->assign('macros', $macros);
 
-		$vas = DAO_VirtualAttendant::getAll();
+		$vas = DAO_Bot::getAll();
 		$tpl->assign('vas', $vas);
 		
 		// Template
@@ -469,10 +469,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
 			return;
 		
-		if(null == ($va = $behavior->getVirtualAttendant()))
+		if(null == ($va = $behavior->getBot()))
 			return;
 		
-		if(!$va->isReadableByActor($active_worker))
+		if(!Context_Bot::isReadableByActor($va, $active_worker))
 			return;
 		
 		$tpl->assign('behavior', $behavior);
@@ -494,10 +494,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
 			return;
 		
-		if(null == ($va = $behavior->getVirtualAttendant()))
+		if(null == ($va = $behavior->getBot()))
 			return;
 		
-		if(!$va->isReadableByActor($active_worker))
+		if(!Context_Bot::isReadableByActor($va, $active_worker))
 			return;
 		
 		if($va->is_disabled)
@@ -746,14 +746,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(false == ($context_ext = Extension_DevblocksContext::get($context)))
 			return;
 		
-		if(false == $context_ext->authorize($context_id, $active_worker))
+		if(false === CerberusContexts::isReadableByActor($context, $context_id, $active_worker))
 			return;
 		
 		$tpl->assign('context', $context);
 		$tpl->assign('context_ext', $context_ext);
 		$tpl->assign('context_id', $context_id);
 		
-		CerberusContexts::getContext($context, $context_id, $labels, $values, null, true);
+		CerberusContexts::getContext($context, $context_id, $labels, $values, null, true, true);
 
 		$dict = new DevblocksDictionaryDelegate($values);
 		$tpl->assign('dict', $dict);
@@ -1006,14 +1006,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/widget.tpl');
 	}
 	
-	/* Virtual Attendants */
+	/* Bots */
 	
-	private function _renderVirtualAttendants($stack) {
+	private function _renderBots($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		
-		$vas = DAO_VirtualAttendant::getReadableByActor($active_worker);
+		$vas = DAO_Bot::getReadableByActor($active_worker);
 		
 		// Only show VAs with mobile behaviors
 		$vas = array_filter($vas, function($va) {
@@ -1023,18 +1023,18 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$tpl->assign('vas', $vas);
 		
-		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/index.tpl');
+		$tpl->display('devblocks:cerberusweb.mobile::bots/index.tpl');
 	}
 	
-	private function _renderVirtualAttendantBehaviors($stack) {
+	private function _renderBotBehaviors($stack) {
 		@$va_id = array_shift($stack);
 
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl = DevblocksPlatform::getTemplateService();
 
-		$va = DAO_VirtualAttendant::get($va_id);
+		$va = DAO_Bot::get($va_id);
 		
-		if(!$va->isReadableByActor($active_worker))
+		if(!Context_Bot::isReadableByActor($va, $active_worker))
 			return;
 		
 		$tpl->assign('va', $va);
@@ -1042,10 +1042,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false, 'name');
 		$tpl->assign('behaviors', $behaviors);
 		
-		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behaviors.tpl');
+		$tpl->display('devblocks:cerberusweb.mobile::bots/behaviors.tpl');
 	}
 	
-	private function _renderVirtualAttendantBehavior($stack) {
+	private function _renderBotBehavior($stack) {
 		@$behavior_id = array_shift($stack);
 
 		$active_worker = CerberusApplication::getActiveWorker();
@@ -1054,19 +1054,19 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
 			return;
 		
-		if(null == ($va = $behavior->getVirtualAttendant()))
+		if(null == ($va = $behavior->getBot()))
 			return;
 		
-		if(!$va->isReadableByActor($active_worker))
+		if(!Context_Bot::isReadableByActor($va, $active_worker))
 			return;
 		
 		$tpl->assign('va', $va);
 		$tpl->assign('behavior', $behavior);
 		
-		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behavior.tpl');
+		$tpl->display('devblocks:cerberusweb.mobile::bots/behavior.tpl');
 	}
 	
-	private function _renderVirtualAttendantBehaviorResults($stack) {
+	private function _renderBotBehaviorResults($stack) {
 		@$behavior_id = array_shift($stack);
 
 		$active_worker = CerberusApplication::getActiveWorker();
@@ -1075,10 +1075,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
 			return;
 		
-		if(null == ($va = $behavior->getVirtualAttendant()))
+		if(null == ($va = $behavior->getBot()))
 			return;
 		
-		if(!$va->isReadableByActor($active_worker))
+		if(!Context_Bot::isReadableByActor($va, $active_worker))
 			return;
 		
 		if($va->is_disabled)
@@ -1143,6 +1143,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$responses = $dict->_responses;
 		$tpl->assign('responses', $responses);
 		
-		$tpl->display('devblocks:cerberusweb.mobile::virtual_attendants/behavior_results.tpl');
+		$tpl->display('devblocks:cerberusweb.mobile::bots/behavior_results.tpl');
 	}
 };

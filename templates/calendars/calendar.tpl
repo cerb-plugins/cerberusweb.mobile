@@ -67,7 +67,7 @@
 
 <div class="cerb-calendar-events ui-content"></div>
 
-{if $calendar->isWriteableByActor($active_worker) && empty($calendar->params.manual_disabled)}
+{if Context_Calendar::isWriteableByActor($calendar, $active_worker) && empty($calendar->params.manual_disabled)}
 <a href="{devblocks_url}ajax.php?c=m&a=handleProfileBlockRequest&extension={MobileProfile_Calendar::ID}&action=showAddEventDialog&calendar_id={$dict->id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a" data-icon="false">Add calendar event</a>
 {/if}
 

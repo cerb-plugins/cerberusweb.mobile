@@ -12,7 +12,7 @@
 <div data-role="content">
 
 	<div class="choice_list">
-		<h3>Virtual Attendants</h3>
+		<h3>{'common.bots'|devblocks_translate|capitalize}</h3>
 		
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$vas item=va key=va_id}
@@ -33,7 +33,7 @@
 				</li>
 			{foreachelse}
 				<li>
-					There are no Virtual Attendants with mobile behaviors.
+					There are no bots with mobile behaviors.
 				</li>
 			{/foreach}
 		</ul>

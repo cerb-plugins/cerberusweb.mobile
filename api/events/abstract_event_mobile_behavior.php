@@ -31,7 +31,7 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 		return new Model_DevblocksEvent(
 			$this->_event_id,
 			array(
-				'virtual_attendant_id' => $trigger->virtual_attendant_id,
+				'bot_id' => $trigger->bot_id,
 				'worker_id' => $worker_id,
 			)
 		);
@@ -42,13 +42,13 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 		$values = array();
 
 		/**
-		 * Virtual Attendant
+		 * Bot
 		 */
 		
-		@$virtual_attendant_id = $event_model->params['virtual_attendant_id'];
+		@$bot_id = $event_model->params['bot_id'];
 		$merge_labels = array();
 		$merge_values = array();
-		CerberusContexts::getContext(CerberusContexts::CONTEXT_VIRTUAL_ATTENDANT, $virtual_attendant_id, $merge_labels, $merge_values, null, true);
+		CerberusContexts::getContext(CerberusContexts::CONTEXT_BOT, $bot_id, $merge_labels, $merge_values, null, true);
 
 			// Merge
 			CerberusContexts::merge(
@@ -88,19 +88,19 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 	}
 	
 	function renderSimulatorTarget($trigger, $event_model) {
-		$context = CerberusContexts::CONTEXT_VIRTUAL_ATTENDANT;
-		$context_id = $event_model->params['virtual_attendant_id'];
+		$context = CerberusContexts::CONTEXT_BOT;
+		$context_id = $event_model->params['bot_id'];
 		DevblocksEventHelper::renderSimulatorTarget($context, $context_id, $trigger, $event_model);
 	}
 	
 	function getValuesContexts($trigger) {
 		$vals = array(
 			'va_id' => array(
-				'label' => 'Virtual attendant',
-				'context' => CerberusContexts::CONTEXT_VIRTUAL_ATTENDANT,
+				'label' => 'Bot',
+				'context' => CerberusContexts::CONTEXT_BOT,
 			),
 			'va_watchers' => array(
-				'label' => 'Virtual attendant watchers',
+				'label' => 'Bot watchers',
 				'context' => CerberusContexts::CONTEXT_WORKER,
 				'is_multiple' => true,
 			),
@@ -122,8 +122,8 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 		$labels = $this->getLabels($trigger);
 		$types = $this->getTypes();
 		
-		$labels['va_link'] = 'Virtual attendant is linked';
-		$labels['va_watcher_count'] = 'Virtual attendant watcher count';
+		$labels['va_link'] = 'Bot is linked';
+		$labels['va_watcher_count'] = 'Bot watcher count';
 		
 		$types['va_link'] = null;
 		$types['va_watcher_count'] = null;
@@ -172,7 +172,7 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 
 				switch($as_token) {
 					case 'email_link':
-						$from_context = CerberusContexts::CONTEXT_VIRTUAL_ATTENDANT;
+						$from_context = CerberusContexts::CONTEXT_BOT;
 						@$from_context_id = $dict->va_id;
 						break;
 					default:
@@ -325,9 +325,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 	}
 	
 	function simulateActionExtension($token, $trigger, $params, DevblocksDictionaryDelegate $dict) {
-		@$virtual_attendant_id = $dict->va_id;
+		@$bot_id = $dict->va_id;
 
-		if(empty($virtual_attendant_id))
+		if(empty($bot_id))
 			return;
 		
 		switch($token) {
@@ -420,9 +420,9 @@ abstract class AbstractEvent_MobileBehavior extends Extension_DevblocksEvent {
 	}
 	
 	function runActionExtension($token, $trigger, $params, DevblocksDictionaryDelegate $dict) {
-		@$virtual_attendant_id = $dict->va_id;
+		@$bot_id = $dict->va_id;
 
-		if(empty($virtual_attendant_id))
+		if(empty($bot_id))
 			return;
 		
 		switch($token) {

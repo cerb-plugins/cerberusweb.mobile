@@ -1,7 +1,7 @@
 {$uniqid = uniqid()}
 <div data-role="dialog" data-close-btn="right">
 	<div data-role="header" data-theme="a">
-		<h1>Virtual Attendants</h1>
+		<h1>{'common.bots'|devblocks_translate|capitalize}</h1>
 	</div>
 	
 	<div data-role="content">

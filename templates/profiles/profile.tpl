@@ -17,7 +17,7 @@
 		</div>
 	
 		{if !empty($macros)}
-		<a href="{devblocks_url}ajax.php?c=m&a=showProfileVaBehaviorMenu&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a" data-icon="carat-d" data-iconpos="right">Virtual Attendants</a>
+		<a href="{devblocks_url}ajax.php?c=m&a=showProfileVaBehaviorMenu&context={$context}&context_id={$context_id}{/devblocks_url}" data-rel="dialog" data-transition="flip" data-role="button" data-theme="a" data-icon="carat-d" data-iconpos="right">{'common.bots'|devblocks_translate|capitalize}</a>
 		{/if}
 	</div>
 

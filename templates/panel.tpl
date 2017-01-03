@@ -5,9 +5,9 @@
 		<li><a href="{devblocks_url}c=m&p=compose{/devblocks_url}">Compose</a></li>
 		<li><a href="{devblocks_url}c=m&p=notifications{/devblocks_url}">Notifications</a></li>
 		<li><a href="{devblocks_url}c=m&p=pages{/devblocks_url}">Pages</a></li>
-		<li><a href="{devblocks_url}c=m&p=search{/devblocks_url}">Search</a></li>
+		<li><a href="{devblocks_url}c=m&p=search{/devblocks_url}">{'common.search'|devblocks_translate|capitalize}</a></li>
 		<li><a href="{devblocks_url}c=m&p=workspaces{/devblocks_url}">Workspaces</a></li>
-		<li><a href="{devblocks_url}c=m&p=va{/devblocks_url}">Virtual Attendants</a></li>
+		<li><a href="{devblocks_url}c=m&p=va{/devblocks_url}">{'common.bots'|devblocks_translate|capitalize}</a></li>
 		<li><a href="{devblocks_url}c=m&p=settings{/devblocks_url}">Settings</a></li>
 	</ul>
 	

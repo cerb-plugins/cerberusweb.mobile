@@ -1,6 +1,6 @@
 <div data-role="dialog" data-close-btn="right">
 	<div data-role="header" data-theme="a">
-		<h1>Virtual Attendants</h1>
+		<h1>{'common.bots'|devblocks_translate|capitalize}</h1>
 	</div>
 	
 	<div data-role="content">
@@ -10,7 +10,7 @@
 		{foreach from=$vas item=va}
 			{capture name=behaviors}
 			{foreach from=$macros item=macro}
-				{if $macro->virtual_attendant_id == $va->id}
+				{if $macro->bot_id == $va->id}
 					<li>
 						<a href="{devblocks_url}ajax.php?c=m&a=showVaBehaviorDialog&context={$context}&context_id={$context_id}&behavior_id={$macro->id}{/devblocks_url}" data-rel="dialog">
 							{$macro->title}

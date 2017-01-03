@@ -3,7 +3,7 @@
 		<ul>
 			<li>
 				<a id="footer-notifications" href="{devblocks_url}c=m&a=notifications{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
-					Notifications
+					{'common.notifications'|devblocks_translate|capitalize}
 					<div class="ui-icon-cerb-badge-count{if $notification_count} nonzero{/if}">
 						{$notification_count|default:'0'}
 					</div>
@@ -11,12 +11,12 @@
 			</li>
 			<li>
 				<a id="footer-workspaces" href="{devblocks_url}c=m&a=workspaces{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
-					Workspaces
+					{'common.workspaces'|devblocks_translate|capitalize}
 				</a>
 			</li>
 			<li>
 				<a id="footer-vas" href="{devblocks_url}c=m&a=va{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
-					Attendants
+					{'common.bots'|devblocks_translate|capitalize}
 				</a>
 			</li>
 		</ul>

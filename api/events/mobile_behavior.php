@@ -28,8 +28,8 @@ class Event_MobileBehavior extends AbstractEvent_MobileBehavior {
 		if(false == ($behavior = DAO_TriggerEvent::get($trigger_id)))
 			return;
 
-		// Look up the trigger's owning Virtual Attendant
-		if(false == ($va = $behavior->getVirtualAttendant()))
+		// Look up the trigger's bot owner
+		if(false == ($va = $behavior->getBot()))
 			return;
 
 		$events = DevblocksPlatform::getEventService();
@@ -37,7 +37,7 @@ class Event_MobileBehavior extends AbstractEvent_MobileBehavior {
 			new Model_DevblocksEvent(
 				self::ID,
 				array(
-					'virtual_attendant_id' => $va->id,
+					'bot_id' => $va->id,
 					'worker_id' => $worker_id,
 					'_variables' => $variables,
 					'_whisper' => array(

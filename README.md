@@ -1,11 +1,11 @@
 Cerb Plugins - cerberusweb.mobile
 ===========================================
 Copyright (C) 2013 Webgroup Media, LLC.  
-[http://www.cerberusweb.com/](http://www.cerberusweb.com/)  
+[http://cerb.io/](http://cerb.io/)  
 
 What's this?
 ------------
-This plugin adds a platform-independent mobile interface and Virtual Attendant mobile behaviors.
+This plugin adds a platform-independent mobile interface and bot mobile behaviors.
 
 Installation
 ------------
