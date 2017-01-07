@@ -450,7 +450,7 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
 		
 		$view->addParams(array(
-			new DevblocksSearchCriteria(SearchFields_Ticket::ORG_NAME, '=', $org->name)
+			new DevblocksSearchCriteria(SearchFields_Ticket::TICKET_ORG_ID, '=', $org->id)
 		), true);
 		
 		$view->renderSortBy = SearchFields_Ticket::TICKET_UPDATED_DATE;
