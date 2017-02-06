@@ -753,7 +753,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('context_ext', $context_ext);
 		$tpl->assign('context_id', $context_id);
 		
-		CerberusContexts::getContext($context, $context_id, $labels, $values, null, true, true);
+		CerberusContexts::getContext($context, $context_id, $labels, $values, null, true, false);
 
 		$dict = new DevblocksDictionaryDelegate($values);
 		$tpl->assign('dict', $dict);
