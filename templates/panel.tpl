@@ -7,7 +7,7 @@
 		<li><a href="{devblocks_url}c=m&p=pages{/devblocks_url}">Pages</a></li>
 		<li><a href="{devblocks_url}c=m&p=search{/devblocks_url}">{'common.search'|devblocks_translate|capitalize}</a></li>
 		<li><a href="{devblocks_url}c=m&p=workspaces{/devblocks_url}">Workspaces</a></li>
-		<li><a href="{devblocks_url}c=m&p=va{/devblocks_url}">{'common.bots'|devblocks_translate|capitalize}</a></li>
+		<li><a href="{devblocks_url}c=m&p=bots{/devblocks_url}">{'common.bots'|devblocks_translate|capitalize}</a></li>
 		<li><a href="{devblocks_url}c=m&p=settings{/devblocks_url}">Settings</a></li>
 	</ul>
 	
