@@ -749,13 +749,18 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	}
 	
 	private function _renderSearchWorklist($stack) {
+		@$q = DevblocksPlatform::importGPC($_REQUEST['q'], 'string', '');
+		
 		@$context_ext_id = array_shift($stack);
 		
 		if(empty($context_ext_id))
 			return false;
 		
-		if(false == ($context_ext = Extension_DevblocksContext::get($context_ext_id)))
+		if(false == ($context_ext = Extension_DevblocksContext::getByAlias($context_ext_id, true)))
+		if(false == ($context_ext = Extension_DevblocksContext::get($context_ext_id, true)))
 			return false;
+		
+		$context_ext_id = $context_ext->id;
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		
@@ -763,7 +768,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 
 		$tpl->assign('context_ext', $context_ext);
 		
-		$view = $context_ext->getSearchView();
+		if(false == ($view = $context_ext->getSearchView()))
+			return false;
+		
+		if(!empty($q))
+			$view->addParamsWithQuickSearch($q, true);
 		
 		$view->renderLimit = 10;
 		$view->renderTotal = true;
