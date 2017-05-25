@@ -102,26 +102,19 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				$this->_renderNotifications($stack);
 				break;
 				
-				@$request = array_shift($stack);
 			case 'bots':
+				@$bot_id = array_shift($stack);
+				@$behavior_id = array_shift($stack);
 				
-				if(is_numeric($request)) {
-					array_unshift($stack, $request);
-					$this->_renderBotBehaviors($stack);
+				if(is_numeric($bot_id) && is_numeric($behavior_id)) {
+					array_unshift($stack, intval($bot_id), intval($behavior_id));
+					$this->_renderBotChat($stack);
 					return;
 				}
 				
 				switch($request) {
-					case 'behavior':
-						$this->_renderBotBehavior($stack);
-						break;
-					
-					case 'run':
-						$this->_renderBotBehaviorResults($stack);
-						break;
-					
 					default:
-						$this->_renderBots($stack);
+						$this->_renderBots([]);
 						break;
 				}
 				
@@ -419,40 +412,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(method_exists($ext, $action)) {
 			call_user_func(array(&$ext, $action));
 		}
-	}
-	
-	function showProfileVaBehaviorMenuAction() {
-		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
-		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
-		
-		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
-		
-		$tpl->assign('context', $context);
-		$tpl->assign('context_id', $context_id);
-		
-		$events = Extension_DevblocksEvent::getAll();
-		
-		$events = array_filter($events, function($event) use ($context) {
-			@$event_context = $event->params['macro_context'];
-			return ($event_context == $context);
-		});
-		
-		$macros = array();
-		
-		foreach($events as $event) {
-			$macros += DAO_TriggerEvent::getReadableByActor($active_worker, $event->id, false);
-		}
-		
-		$tpl->assign('macros', $macros);
-
-		$vas = DAO_Bot::getAll();
-		$tpl->assign('vas', $vas);
-		
-		// Template
-		
-		$tpl->display('devblocks:cerberusweb.mobile::profiles/va_macros.tpl');
-		exit;
 	}
 	
 	function showVaBehaviorDialogAction() {
@@ -775,23 +734,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$tpl->assign('comments', array_reverse($comments, true));
 		}
 		
-		// VAs
-		
-		$events = Extension_DevblocksEvent::getAll();
-		
-		$events = array_filter($events, function($event) use ($context) {
-			@$event_context = $event->params['macro_context'];
-			return ($event_context == $context);
-		});
-		
-		$macros = array();
-		
-		foreach($events as $event) {
-			$macros += DAO_TriggerEvent::getReadableByActor($active_worker, $event->id, false);
-		}
-		
-		$tpl->assign('macros', $macros);
-		
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/profile.tpl');
 	}
 	
@@ -1016,136 +958,364 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		
-		$vas = DAO_Bot::getReadableByActor($active_worker);
-		
-		// Only show VAs with mobile behaviors
-		$vas = array_filter($vas, function($va) {
-			$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false, 'name');
-			return !empty($behaviors);
-		});
-		
-		$tpl->assign('vas', $vas);
+		// Conversational interactions
+		$interactions = Event_GetInteractionsForMobileWorker::getInteractionsByPointAndWorker('mobile', [], $active_worker);
+		$interactions_menu = Event_GetInteractionsForMobileWorker::getInteractionMenu($interactions);
+		$tpl->assign('interactions_menu', $interactions_menu);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::bots/index.tpl');
 	}
 	
-	private function _renderBotBehaviors($stack) {
-		@$va_id = array_shift($stack);
-
+	private function _renderBotChat($stack) {
+		@$bot_id = array_shift($stack);
+		@$interaction_behavior_id = array_shift($stack);
+		@$interaction = DevblocksPlatform::importGPC($_REQUEST['interaction'], 'string', ''); 
+		@$interaction_params = DevblocksPlatform::importGPC($_REQUEST['interaction_param'], 'array', []); 
+		
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
-
-		$va = DAO_Bot::get($va_id);
 		
-		if(!Context_Bot::isReadableByActor($va, $active_worker))
-			return;
-		
-		$tpl->assign('va', $va);
-		
-		$behaviors = $va->getBehaviors(Event_MobileBehavior::ID, false, 'name');
-		$tpl->assign('behaviors', $behaviors);
-		
-		$tpl->display('devblocks:cerberusweb.mobile::bots/behaviors.tpl');
-	}
-	
-	private function _renderBotBehavior($stack) {
-		@$behavior_id = array_shift($stack);
-
-		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
-		
-		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
-			return;
-		
-		if(null == ($va = $behavior->getBot()))
-			return;
-		
-		if(!Context_Bot::isReadableByActor($va, $active_worker))
-			return;
-		
-		$tpl->assign('va', $va);
-		$tpl->assign('behavior', $behavior);
-		
-		$tpl->display('devblocks:cerberusweb.mobile::bots/behavior.tpl');
-	}
-	
-	private function _renderBotBehaviorResults($stack) {
-		@$behavior_id = array_shift($stack);
-
-		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
-		
-		if(null == ($behavior = DAO_TriggerEvent::get($behavior_id)))
-			return;
-		
-		if(null == ($va = $behavior->getBot()))
-			return;
-		
-		if(!Context_Bot::isReadableByActor($va, $active_worker))
-			return;
-		
-		if($va->is_disabled)
+		if(
+			!$interaction_behavior_id
+			|| false == ($interaction_behavior = DAO_TriggerEvent::get($interaction_behavior_id))
+			|| $interaction_behavior->event_point != Event_NewInteractionChatMobileWorker::ID
+		)
 			return false;
 		
-		if($behavior->is_disabled)
-			return false;
+		// Start the session using the behavior
 		
-		$tpl->assign('va', $va);
-		$tpl->assign('behavior', $behavior);
+		$actions = [];
 		
-		// Vars
-
-		$vars = array();
+		$client_ip = DevblocksPlatform::getClientIp();
+		$client_platform = '';
+		$client_browser = '';
+		$client_browser_version = '';
+		$client_url = @$browser['url'] ?: '';
+		$client_time = @$browser['time'] ?: '';
 		
-		if(is_array($behavior->variables)) {
-			foreach($behavior->variables as $var_key => $var) {
-				if(!empty($var['is_private']))
-					continue;
-				
-				// Format passed variables
-				
-				$var_val = null;
-				
-				try {
-					if(isset($_REQUEST[$var_key]))
-						@$var_val = $behavior->formatVariable($var, DevblocksPlatform::importGPC($_REQUEST[$var_key]));
+		$event_model = new Model_DevblocksEvent(
+			Event_NewInteractionChatMobileWorker::ID,
+			array(
+				'worker' => $active_worker,
+				'interaction' => $interaction,
+				'interaction_params' => $interaction_params,
+				'client_browser' => $client_browser,
+				'client_browser_version' => $client_browser_version,
+				'client_ip' => $client_ip,
+				'client_platform' => $client_platform,
+				'client_time' => $client_time,
+				'client_url' => $client_url,
+				'actions' => &$actions,
+			)
+		);
+		
+		if(false == ($event = $interaction_behavior->getEvent()))
+			return;
+		
+		$event->setEvent($event_model, $interaction_behavior);
+		
+		$values = $event->getValues();
+		
+		$dict = DevblocksDictionaryDelegate::instance($values);
+		
+		$result = $interaction_behavior->runDecisionTree($dict, false, $event);
+		
+		$behavior_id = null;
+		$bot_name = null;
+		$dict = [];
+		
+		foreach($actions as $action) {
+			switch($action['_action']) {
+				case 'behavior.switch':
+					if(isset($action['behavior_id'])) {
+						@$behavior_id = $action['behavior_id'];
+						@$variables = $action['behavior_variables'];
+						
+						if(is_array($variables))
+						foreach($variables as $k => $v) {
+							$dict[$k] = $v;
+						}
+					}
+					break;
 					
-				} catch(Exception $e) {
-					//if(!isset($_REQUEST[$var_key]))
-						//return false;
-						//$this->error(self::ERRNO_CUSTOM, $e->getMessage());
-					
-				}
-				
-				$vars[$var_key] = $var_val;
+				case 'bot.name':
+					if(false != (@$name = $action['name']))
+						$bot_name = $name;
+					break;
 			}
 		}
 		
-		// [TODO] Verify the trigger is a mobile behavior (event.api.mobile_behavior)
+		if(
+			!$behavior_id 
+			|| false == ($behavior = DAO_TriggerEvent::get($behavior_id))
+			|| $behavior->event_point != Event_NewMessageChatMobileWorker::ID
+			)
+			return;
+			
+		$bot = $behavior->getBot();
 		
-		// Load event manifest
-		if(null == ($ext = DevblocksPlatform::getExtension($behavior->event_point, false))) /* @var $ext DevblocksExtensionManifest */
+		if(empty($bot_name))
+			$bot_name = $bot->name;
+		
+		$url_writer = DevblocksPlatform::getUrlService();
+		$bot_image_url = $url_writer->write(sprintf("c=avatars&w=bot&id=%d", $bot->id) . '?v=' . $bot->updated_at);
+		
+		$session_data = [
+			'actor' => ['context' => CerberusContexts::CONTEXT_WORKER, 'id' => $active_worker->id],
+			'bot_name' => $bot_name,
+			'bot_image' => $bot_image_url,
+			'behavior_id' => $behavior->id,
+			'behaviors' => [
+				$behavior->id => [
+					'dict' => $dict,
+				]
+			],
+			'interaction' => $interaction,
+			'interaction_params' => $interaction_params,
+			'client_browser' => $client_browser,
+			'client_browser_version' => $client_browser_version,
+			'client_ip' => $client_ip,
+			'client_platform' => $client_platform,
+			'client_time' => $client_time,
+			'client_url' => $client_url,
+		];
+		
+		$session_id = DAO_BotSession::create([
+			DAO_BotSession::SESSION_DATA => json_encode($session_data),
+			DAO_BotSession::UPDATED_AT => time(),
+		]);
+		
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		$tpl->assign('bot', $bot);
+		$tpl->assign('bot_name', $bot_name);
+		$tpl->assign('bot_image_url', $bot_image_url);
+		$tpl->assign('session_id', $session_id);
+		
+		$tpl->display('devblocks:cerberusweb.mobile::bots/chat.tpl');
+	}
+	
+	function botSendMessageAction() {
+		@$session_id = DevblocksPlatform::importGPC($_REQUEST['session_id'], 'string', '');
+		@$message = DevblocksPlatform::importGPC($_REQUEST['message'], 'string', '');
+		
+		$active_worker = CerberusApplication::getActiveWorker();
+		$tpl = DevblocksPlatform::getTemplateService();
+		
+		// Load the session
+		if(false == ($interaction = DAO_BotSession::get($session_id)))
 			return false;
-			//$this->error(self::ERRNO_CUSTOM);
 		
-		// Trigger a mobile behavior
-		$runners = call_user_func(array($ext->class, 'trigger'), $behavior->id, $active_worker->id, $vars);
-		
-		$values = array();
-		
-		if(null != (@$runner = $runners[$behavior->id])) {
-			// Return the whole scope of the behavior to the caller
-			// [TODO] Does this need _labels and _types?
-			$values = $runner->getDictionary();
-			//@$message = $runner->_output ?: ''; /* @var $runner DevblocksDictionaryDelegate */
-		}
+		// [TODO] Verify session ownership
+		// [TODO] What happens if we're chatting to a dead session? Open a new one?
 
+		// Load our default behavior for this interaction
+		if(false == (@$behavior_id = $interaction->session_data['behavior_id']))
+			return false;
+		
+		if(false == ($behavior = DAO_TriggerEvent::get($behavior_id)))
+			return;
+		
+		if(false == (@$bot_name = $interaction->session_data['bot_name']))
+			$bot_name = 'Cerb';
+		
+		$actions = array();
+		
+		$event_params = [
+			'worker_id' => $active_worker->id,
+			'message' => $message,
+			'actions' => &$actions,
+				
+			'bot_name' => $bot_name,
+			'bot_image' => @$interaction->session_data['bot_image'],
+			'behavior_id' => $behavior_id,
+			'behavior_has_parent' => @$interaction->session_data['behavior_has_parent'],
+			'interaction' => @$interaction->session_data['interaction'],
+			'interaction_params' => @$interaction->session_data['interaction_params'],
+			'client_browser' => @$interaction->session_data['client_browser'],
+			'client_browser_version' => @$interaction->session_data['client_browser_version'],
+			'client_ip' => @$interaction->session_data['client_ip'],
+			'client_platform' => @$interaction->session_data['client_platform'],
+			'client_time' => @$interaction->session_data['client_time'],
+			'client_url' => @$interaction->session_data['client_url'],
+		];
+		
+		$event_model = new Model_DevblocksEvent(
+			Event_NewMessageChatMobileWorker::ID,
+			$event_params
+		);
+		
+		if(false == ($event = Extension_DevblocksEvent::get($event_model->id, true)))
+			return;
+		
+		if(!($event instanceof Event_NewMessageChatMobileWorker))
+			return;
+			
+		$event->setEvent($event_model, $behavior);
+		
+		$values = $event->getValues();
+		
+		// Are we resuming a scope?
+		$resume_dict = @$interaction->session_data['behaviors'][$behavior->id]['dict'];
+		if($resume_dict) {
+			$values = array_replace($values, $resume_dict);
+		}
+		
 		$dict = new DevblocksDictionaryDelegate($values);
-		$tpl->assign('dict', $dict);
+			
+		$resume_path = @$interaction->session_data['behaviors'][$behavior->id]['path'];
+		if($resume_path) {
+			if(false == ($result = $behavior->resumeDecisionTree($dict, false, $event, $resume_path)))
+				return;
+			
+		} else {
+			if(false == ($result = $behavior->runDecisionTree($dict, false, $event)))
+				return;
+		}
 		
-		$responses = $dict->_responses;
-		$tpl->assign('responses', $responses);
+		$values = $dict->getDictionary(null, false);
+		$values = array_diff_key($values, $event->getValues());
 		
-		$tpl->display('devblocks:cerberusweb.mobile::bots/behavior_results.tpl');
+		// Hibernate
+		if($result['exit_state'] == 'SUSPEND') {
+			// Keep everything as it is
+		} else {
+			// Start the tree over
+			$result['path'] = [];
+			
+			// Return to the caller if we have one
+			@$caller = array_pop($interaction->session_data['callers']);
+			$interaction->session_data['behavior_has_parent'] = 0;
+			
+			if(is_array($caller)) {
+				$caller_behavior_id = $caller['behavior_id'];
+				
+				if($caller_behavior_id && isset($interaction->session_data['behaviors'][$caller_behavior_id])) {
+					$interaction->session_data['behavior_id'] = $caller_behavior_id;
+					$interaction->session_data['behaviors'][$caller_behavior_id]['dict']['_behavior'] = $values;
+				}
+				
+				$tpl->display('devblocks:cerberusweb.core::console/prompt_wait.tpl');
+			}
+		}
+		
+		$interaction->session_data['behaviors'][$behavior->id]['dict'] = $values;
+		$interaction->session_data['behaviors'][$behavior->id]['path'] = $result['path'];
+		
+		if(false == ($bot = $behavior->getBot()))
+			return;
+		
+		$tpl->assign('bot', $bot);
+		$tpl->assign('bot_name', $bot_name);
+		
+		foreach($actions as $params) {
+			switch(@$params['_action']) {
+				case 'behavior.switch':
+					@$behavior_return = $params['behavior_return'];
+					
+					if(!isset($interaction->session_data['callers']))
+						$interaction->session_data['callers'] = [];
+					
+					if($behavior_return) {
+						$interaction->session_data['callers'][] = [
+							'behavior_id' => $behavior->id,
+							'return' => '_behavior', // [TODO] Configurable
+						];
+					} else {
+						$interaction->session_data['behaviors'][$behavior->id]['dict'] = [];
+						$interaction->session_data['behaviors'][$behavior->id]['path'] = [];
+					}
+					
+					if(false == ($behavior_id = @$params['behavior_id']))
+						break;
+					
+					if(false == ($new_behavior = DAO_TriggerEvent::get($behavior_id)))
+						break;
+					
+					if($new_behavior->event_point != Event_NewMessageChatWorker::ID)
+						break;
+					
+					if(!Context_TriggerEvent::isReadableByActor($new_behavior, $bot))
+						break;
+					
+					$bot = $new_behavior->getBot();
+					$tpl->assign('bot', $bot);
+					
+					$interaction->session_data['behavior_id'] = $new_behavior->id;
+					$interaction->session_data['behaviors'][$new_behavior->id]['dict'] = [];
+					$interaction->session_data['behaviors'][$new_behavior->id]['path'] = [];
+					
+					if($behavior_return)
+						$interaction->session_data['behavior_has_parent'] = 1;
+					
+					$tpl->assign('delay_ms', 0);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/prompts/prompt_wait.tpl');
+					break;
+					
+				case 'emote':
+					if(false == ($emote = @$params['emote']))
+						break;
+					
+					$tpl->assign('emote', $emote);
+					$tpl->assign('delay_ms', 500);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/responses/emote.tpl');
+					break;
+				
+				case 'prompt.buttons':
+					@$options = $params['options'];
+					@$style = $params['style'];
+					
+					if(!is_array($options))
+						break;
+					
+					$tpl->assign('options', $options);
+					$tpl->assign('style', $style);
+					$tpl->assign('delay_ms', 0);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/prompts/prompt_buttons.tpl');
+					break;
+					
+				case 'prompt.text':
+					@$placeholder = $params['placeholder'];
+					
+					if(empty($placeholder))
+						$placeholder = 'say something, or @mention to switch bots';
+					
+					$tpl->assign('delay_ms', 0);
+					$tpl->assign('placeholder', $placeholder);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/prompts/prompt_text.tpl');
+					break;
+					
+				case 'prompt.wait':
+					$tpl->assign('delay_ms', 0);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/prompts/prompt_wait.tpl');
+					break;
+					
+				case 'message.send':
+					if(false == ($msg = @$params['message']))
+						break;
+					
+					$delay_ms = DevblocksPlatform::intClamp(@$params['delay_ms'], 0, 10000);
+					
+					$tpl->assign('message', $msg);
+					$tpl->assign('format', @$params['format']);
+					$tpl->assign('delay_ms', $delay_ms);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/responses/message.tpl');
+					break;
+					
+				case 'script.send':
+					if(false == ($script = @$params['script']))
+						break;
+						
+					$tpl->assign('script', $script);
+					$tpl->assign('delay_ms', 0);
+					$tpl->display('devblocks:cerberusweb.mobile::bots/responses/script.tpl');
+					break;
+			}
+		}
+		
+		// Save session scope
+		DAO_BotSession::update($interaction->session_id, [
+			DAO_BotSession::SESSION_DATA => json_encode($interaction->session_data),
+			DAO_BotSession::UPDATED_AT => time(),
+		]);
 	}
 };

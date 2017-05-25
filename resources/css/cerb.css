@@ -229,6 +229,93 @@ div.cerb-message-contents {
 	word-break: break-word;
 }
 
+/* Bot chat */
+
+.bot-chat-window div.bot-chat-message {
+	margin: 10px 10px 5px 10px;
+	margin: 10px 0px 5px 0px;
+}
+
+.bot-chat-window div.bot-chat-message p {
+	margin: 2px;
+}
+
+.bot-chat-window div.bot-chat-message ul, .bot-chat-window div.bot-chat-message ol {
+	margin: 2px;
+	padding-left: 25px;
+}
+
+.bot-chat-window div.bot-chat-message-emote {
+	color:rgb(150,150,150);
+}
+
+.bot-chat-window .bot-chat-left {
+	float:left;
+	text-align:left;
+}
+
+.bot-chat-window .bot-chat-right {
+	float:right;
+	text-align:right;
+}
+
+.bot-chat-window div.bot-chat-message-bubble {
+	border-radius:5px;
+	display:inline-block;
+	padding:10px;
+	margin-bottom:1px;
+	text-align:left;
+}
+
+.bot-chat-window > div.bot-chat-window-convo div.bot-chat-message.bot-chat-left > div.bot-chat-message-bubble {
+	background-color:rgb(240,240,240);
+	border:1px solid rgb(230,230,230);
+	border:0;
+	border-radius:0px 12px 12px 12px;
+	margin-left:5px;
+}
+
+.bot-chat-window > div.bot-chat-window-convo div.bot-chat-message.bot-chat-right > div.bot-chat-message-bubble {
+	color:white;
+	background-color:rgb(35,150,255);
+	border:0;
+	border-radius:12px 0px 12px 12px;
+}
+
+.bot-chat-window > div.bot-chat-window-convo div.bot-chat-message-time {
+	color:rgb(180,180,180);
+}
+
+.bot-chat-window INPUT.bot-chat-input {
+	width:95%;
+	font-size:1em;
+	padding:5px;
+	margin-top: 10px;
+	border-radius:5px;
+	border:1px solid rgb(220,220,220);
+}
+
+.bot-chat-window BUTTON.bot-chat-button {
+	color: white;
+	padding: 5px;
+	width: 100%;
+	font-size: 1.25em;
+	font-family: inherit;
+	font-weight: bold;
+	margin: 2px;
+	border: 0;
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: #2396FF;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.bot-chat-window BUTTON.bot-chat-button:hover {
+	opacity:0.8;
+}
 
 /* atwho.js */
 

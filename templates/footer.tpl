@@ -10,13 +10,13 @@
 				</a>
 			</li>
 			<li>
-				<a id="footer-workspaces" href="{devblocks_url}c=m&a=workspaces{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
-					{'common.workspaces'|devblocks_translate|capitalize}
+				<a id="footer-bots" href="{devblocks_url}c=m&a=bots{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
+					{'common.bots'|devblocks_translate|capitalize}
 				</a>
 			</li>
 			<li>
-				<a id="footer-vas" href="{devblocks_url}c=m&a=va{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
-					{'common.bots'|devblocks_translate|capitalize}
+				<a id="footer-workspaces" href="{devblocks_url}c=m&a=workspaces{/devblocks_url}" data-transition="fade" data-icon="custom" class="ui-nodisc-icon">
+					{'common.workspaces'|devblocks_translate|capitalize}
 				</a>
 			</li>
 		</ul>

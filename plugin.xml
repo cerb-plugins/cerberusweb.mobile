@@ -24,12 +24,16 @@
 	<!-- Exported Classes -->
 	
 	<class_loader>
-		<file path="api/events/abstract_event_mobile_behavior.php">
-			<class name="AbstractEvent_MobileBehavior" />
+		<file path="api/events/get_interactions_for_mobile_worker.php">
+			<class name="Event_GetInteractionsForMobileWorker" />
 		</file>
 		
-		<file path="api/events/mobile_behavior.php">
-			<class name="Event_MobileBehavior" />
+		<file path="api/events/new_message_chat_mobile_worker.php">
+			<class name="Event_NewMessageChatMobileWorker" />
+		</file>
+		
+		<file path="api/events/new_interaction_chat_mobile_worker.php">
+			<class name="Event_NewInteractionChatMobileWorker" />
 		</file>
 		
 		<file path="api/profiles.php">
@@ -78,11 +82,55 @@
 		<!-- Events -->
 
 		<extension point="devblocks.event">
-			<id>event.api.mobile_behavior</id>
-			<name>Mobile behavior</name>
+			<id>event.interactions.get.mobile.worker</id>
+			<name>Conversation get interactions for mobile worker</name>
 			<class>
-				<file>api/events/mobile_behavior.php</file>
-				<name>Event_MobileBehavior</name>
+				<file>api/events/get_interactions_for_mobile_worker.php</file>
+				<name>Event_GetInteractionsForMobileWorker</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.app" />
+						<data key="cerberusweb.contexts.role" />
+						<data key="cerberusweb.contexts.group" />
+						<data key="cerberusweb.contexts.worker" />
+					</value>
+				</param>
+				<param key="options"/>
+			</params>
+		</extension>
+		
+		<extension point="devblocks.event">
+			<id>event.interaction.chat.mobile.worker</id>
+			<name>Conversation handle interaction with mobile worker</name>
+			<class>
+				<file>api/events/new_interaction_chat_mobile_worker.php</file>
+				<name>Event_NewInteractionChatMobileWorker</name>
+			</class>
+			<params>
+				<param key="contexts">
+					<value>
+						<data key="cerberusweb.contexts.app" />
+						<data key="cerberusweb.contexts.role" />
+						<data key="cerberusweb.contexts.group" />
+						<data key="cerberusweb.contexts.worker" />
+					</value>
+				</param>
+				<param key="options">
+					<value>
+						<data key="resumable" />
+					</value>
+				</param>
+			</params>
+		</extension>
+		
+		<extension point="devblocks.event">
+			<id>event.message.chat.mobile.worker</id>
+			<name>Conversation with mobile worker</name>
+			<class>
+				<file>api/events/new_message_chat_mobile_worker.php</file>
+				<name>Event_NewMessageChatMobileWorker</name>
 			</class>
 			<params>
 				<param key="contexts">
