@@ -510,13 +510,18 @@ class MobileProfile_Task extends Extension_MobileProfileBlock {
 		// Status
 		
 		switch($status) {
-			case 'active':
-				$fields[DAO_Task::IS_COMPLETED] = 0;
+			case 'open':
+				$fields[DAO_Task::STATUS_ID] = 0;
 				$fields[DAO_Task::COMPLETED_DATE] = 0;
 				break;
 				
-			case 'completed':
-				$fields[DAO_Task::IS_COMPLETED] = 1;
+			case 'waiting':
+				$fields[DAO_Task::STATUS_ID] = 2;
+				$fields[DAO_Task::COMPLETED_DATE] = 0;
+				break;
+				
+			case 'closed':
+				$fields[DAO_Task::STATUS_ID] = 1;
 				$fields[DAO_Task::COMPLETED_DATE] = time();
 				break;
 		}

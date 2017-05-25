@@ -102,8 +102,8 @@ class Controller_Mobile extends DevblocksControllerExtension {
 				$this->_renderNotifications($stack);
 				break;
 				
-			case 'va':
 				@$request = array_shift($stack);
+			case 'bots':
 				
 				if(is_numeric($request)) {
 					array_unshift($stack, $request);
@@ -743,8 +743,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl = DevblocksPlatform::getTemplateService();
 		
+		if(false == ($context_ext = Extension_DevblocksContext::getByAlias($context, true)))
 		if(false == ($context_ext = Extension_DevblocksContext::get($context)))
 			return;
+		
+		$context = $context_ext->id;
 		
 		if(false === CerberusContexts::isReadableByActor($context, $context_id, $active_worker))
 			return;
@@ -797,7 +800,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$tpl = DevblocksPlatform::getTemplateService();
 		
-		$contexts = Extension_DevblocksContext::getAll(false, array('workspace'));
+		$contexts = Extension_DevblocksContext::getAll(false, ['search']);
 		$tpl->assign('contexts', $contexts);
 		
 		$tpl->display('devblocks:cerberusweb.mobile::search/index.tpl');

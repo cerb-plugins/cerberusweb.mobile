@@ -215,14 +215,14 @@ div.cerb-message-contents {
 	margin-left:-16px;
 }
 
-#footer-vas:after {
+#footer-bots:after {
 	background: url(images/wgm/cerb-sprites.png) no-repeat top left;
 	background-position: 0 0; width: 32px; height: 32px;
 	border-radius: 0;
 	margin-left:-16px;
 }
 
-.ui-page .cerb-page-va-behavior-results .cerb-va-message a {
+.ui-page .cerb-page-bots-behavior-results .cerb-va-message a {
 	font-weight: bold;
 	color: black;
 	word-wrap: break-word;

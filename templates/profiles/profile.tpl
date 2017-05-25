@@ -95,6 +95,8 @@
 	{/if}
 </div>
 
+{include file="devblocks:cerberusweb.mobile::footer.tpl"}
+
 </div><!-- /page -->
 
 </body>

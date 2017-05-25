@@ -25,7 +25,7 @@
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 				<legend>Status:</legend>
 				
-				{$statuses = [active,completed]}
+				{$statuses = [open,waiting,closed]}
 				
 				{foreach from=$statuses item=status}
 				<input type="radio" name="status" id="frm-cerb-task-status-{$status}" value="{$status}" {if $dict->status == $status}checked="checked"{/if}>

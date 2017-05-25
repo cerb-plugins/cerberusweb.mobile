@@ -68,7 +68,7 @@
 		</select>
 		
 		<fieldset data-role="controlgroup" data-type="horizontal" data-theme="a">
-	        <legend>Sort order:</legend>		
+			<legend>Sort order:</legend>
 
 			<input type="radio" name="sort_asc" id="viewWorklistSortAsc" value="1" {if $view->renderSortAsc}checked="checked"{/if} />
 			<label for="viewWorklistSortAsc">Ascending</label>
@@ -98,7 +98,7 @@
 	{if !empty($params)}
 	{foreach from=$params item=param key=param_key}
 		<button type="button" class="submit" name="filter_key" value="{$param_key}" data-role="button" data-theme="a" data-mini="true" data-inline="true" data-icon="delete" style="font-size:80%;">
-		{$fields.$param_key->db_label|capitalize} 
+		{$fields.{$param->field}->db_label|capitalize} 
 		
 		{if $param->operator=='='}
 			is
