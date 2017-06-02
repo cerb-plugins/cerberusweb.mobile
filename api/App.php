@@ -1001,6 +1001,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$client_url = @$browser['url'] ?: '';
 		$client_time = @$browser['time'] ?: '';
 		
+		/*
+		if(false !== ($client_user_agent_parts = UserAgentParser::parse())) {
+			$client_platform = @$client_user_agent_parts['platform'] ?: '';
+			$client_browser = @$client_user_agent_parts['browser'] ?: '';
+			$client_browser_version = @$client_user_agent_parts['version'] ?: '';
+		}
+		*/
+		
 		$event_model = new Model_DevblocksEvent(
 			Event_NewInteractionChatMobileWorker::ID,
 			array(
@@ -1299,7 +1307,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 					@$placeholder = $params['placeholder'];
 					
 					if(empty($placeholder))
-						$placeholder = 'say something, or @mention to switch bots';
+						$placeholder = 'say something';
 					
 					$tpl->assign('delay_ms', 0);
 					$tpl->assign('placeholder', $placeholder);
