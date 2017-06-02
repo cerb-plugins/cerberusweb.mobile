@@ -317,6 +317,25 @@ div.cerb-message-contents {
 	opacity:0.8;
 }
 
+.bot-chat-window BUTTON.bot-chat-button-image {
+	padding: 5px;
+	font-weight: bold;
+	margin: 0;
+	border: 0;
+	line-height: 0;
+	cursor: pointer;
+	border-radius:5em;
+}
+
+.bot-chat-window BUTTON.bot-chat-button-image:hover {
+	opacity:0.8;
+}
+
+.bot-chat-window BUTTON.bot-chat-button-image IMG {
+	border: 0;
+	padding: 0;
+}
+
 /* atwho.js */
 
 .atwho-view {

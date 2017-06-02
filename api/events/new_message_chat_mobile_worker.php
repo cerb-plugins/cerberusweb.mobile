@@ -263,6 +263,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 		$actions =
 			array(
 				'prompt_buttons' => array('label' => 'Prompt with buttons'),
+				'prompt_images' => array('label' => 'Prompt with images'),
 				'prompt_text' => array('label' => 'Prompt with text input'),
 				'prompt_wait' => array('label' => 'Prompt with wait'),
 				'send_message' => array('label' => 'Respond with message'),
@@ -287,6 +288,10 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 		switch($token) {
 			case 'prompt_buttons':
 				$tpl->display('devblocks:cerberusweb.core::events/pm/action_prompt_buttons.tpl');
+				break;
+				
+			case 'prompt_images':
+				$tpl->display('devblocks:cerberusweb.core::events/pm/action_prompt_images.tpl');
 				break;
 				
 			case 'prompt_text':
@@ -331,6 +336,13 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				$out = sprintf(">>> Prompting with buttons:\n".
 					"%s\n",
 					$options
+				);
+				break;
+				
+			case 'prompt_images':
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				
+				$out = sprintf(">>> Prompting with buttons:\n"
 				);
 				break;
 				
@@ -408,6 +420,22 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 					'_trigger_id' => $trigger->id,
 					'options' => DevblocksPlatform::parseCrlfString($options),
 					'style' => $style,
+				);
+				
+				$dict->__exit = 'suspend';
+				break;
+				
+			case 'prompt_images':
+				$actions =& $dict->_actions;
+				
+				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$images = $params['images'];
+				$labels = $params['labels'];
+				$actions[] = array(
+					'_action' => 'prompt.images',
+					'_trigger_id' => $trigger->id,
+					'images' => $images,
+					'labels' => $labels,
 				);
 				
 				$dict->__exit = 'suspend';
