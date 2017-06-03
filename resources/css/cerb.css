@@ -324,7 +324,7 @@ div.cerb-message-contents {
 	border: 0;
 	line-height: 0;
 	cursor: pointer;
-	border-radius:5em;
+	/*border-radius:5em;*/
 }
 
 .bot-chat-window BUTTON.bot-chat-button-image:hover {
