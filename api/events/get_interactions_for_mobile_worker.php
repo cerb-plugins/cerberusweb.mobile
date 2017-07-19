@@ -70,6 +70,7 @@ class Event_GetInteractionsForMobileWorker extends Extension_DevblocksEvent {
 		return $interactions;
 	}
 	
+	// [TODO] CACHE !!
 	static function getByPointAndWorker($point, $worker) {
 		$behaviors = DAO_TriggerEvent::getByEvent(self::ID);
 		$behaviors = array_intersect_key(
@@ -128,6 +129,7 @@ class Event_GetInteractionsForMobileWorker extends Extension_DevblocksEvent {
 			$interactions_menu[$interaction['bot_id']]->children[] = $item_behavior;
 		}
 		
+		// [TODO] SORT!
 		
 		return $interactions_menu;
 	}
@@ -225,7 +227,7 @@ class Event_GetInteractionsForMobileWorker extends Extension_DevblocksEvent {
 				'context' => CerberusContexts::CONTEXT_BEHAVIOR,
 			),
 			'behavior_bot_id' => array(
-				'label' => 'Behavior',
+				'label' => 'Bot',
 				'context' => CerberusContexts::CONTEXT_BOT,
 			),
 			'worker_id' => array(

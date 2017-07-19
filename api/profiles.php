@@ -426,7 +426,7 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
 		
 		$view->addParams(array(
-			new DevblocksSearchCriteria(SearchFields_Address::ORG_NAME, '=', $org->name)
+			new DevblocksSearchCriteria(SearchFields_Address::CONTACT_ORG_ID, '=', $org->id)
 		), true);
 		
 		$view->renderSortBy = SearchFields_Address::NUM_NONSPAM;
@@ -900,8 +900,14 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 		$context_ext = Extension_DevblocksContext::get(CerberusContexts::CONTEXT_MESSAGE);
 		$view = $context_ext->getSearchView(); /* @var $view C4_AbstractView */
 		$view->addParams(array(
-			new DevblocksSearchCriteria(SearchFields_Message::TICKET_MASK, '=', $ticket->mask)
+			new DevblocksSearchCriteria(SearchFields_Message::TICKET_ID, DevblocksSearchCriteria::OPER_EQ, $ticket->id)
 		), true);
+		
+		header('Content-type: application/json');
+		
+		echo json_encode(array(
+			'success' => true,
+		));
 	}
 	
 	function getMessageAction() {

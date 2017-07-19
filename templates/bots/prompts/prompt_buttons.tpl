@@ -23,7 +23,7 @@
 			{foreach from=$options item=option name=options}
 			{$idx = $smarty.foreach.options.iteration}
 			{$color = $colors[$smarty.foreach.options.index]}
-			<button type="button" class="bot-chat-button" style="{if $color && $color != '#FFFFFF'}background:none;background-color:{$color};{/if}{if $style}{$style}{/if}" value="{$option}">
+			<button type="button" class="bot-chat-button" style="{if $color && 0 != strcasecmp($color,'#ffffff')}background:none;background-color:{$color};{/if}{if $style}{$style}{/if}" value="{$option}">
 				{$option}
 			</button>
 			{/foreach}
