@@ -1002,7 +1002,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$client_time = @$browser['time'] ?: '';
 		
 		/*
-		if(false !== ($client_user_agent_parts = UserAgentParser::parse())) {
+		if(false !== ($client_user_agent_parts = DevblocksPlatform::getClientUserAgent())) {
 			$client_platform = @$client_user_agent_parts['platform'] ?: '';
 			$client_browser = @$client_user_agent_parts['browser'] ?: '';
 			$client_browser_version = @$client_user_agent_parts['version'] ?: '';
