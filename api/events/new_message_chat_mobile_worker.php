@@ -19,7 +19,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 	const ID = 'event.message.chat.mobile.worker';
 
 	function renderEventParams(Model_TriggerEvent $trigger=null) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('trigger', $trigger);
 		$tpl->display('devblocks:cerberusweb.core::events/record/params_macro_default.tpl');
 	}
@@ -240,7 +240,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 	}
 	
 	function renderConditionExtension($token, $as_token, $trigger, $params=array(), $seq=null) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('params', $params);
 
 		if(!is_null($seq))
@@ -282,7 +282,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 	}
 	
 	function renderActionExtension($token, $trigger, $params=array(), $seq=null) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('params', $params);
 
 		if(!is_null($seq))
@@ -336,7 +336,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 	function simulateActionExtension($token, $trigger, $params, DevblocksDictionaryDelegate $dict) {
 		switch($token) {
 			case 'prompt_buttons':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$options = $tpl_builder->build($params['options'], $dict);
 				
 				$out = sprintf(">>> Prompting with buttons:\n".
@@ -346,14 +346,14 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				break;
 				
 			case 'prompt_images':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				
 				$out = sprintf(">>> Prompting with buttons:\n"
 				);
 				break;
 				
 			case 'prompt_text':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$placeholder = $tpl_builder->build($params['placeholder'], $dict);
 				
 				$out = sprintf(">>> Prompting with text input\nPlaceholder: %s\n",
@@ -362,13 +362,13 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				break;
 				
 			case 'prompt_wait':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				
 				$out = sprintf(">>> Prompting with wait\n");
 				break;
 				
 			case 'send_message':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$content = $tpl_builder->build($params['message'], $dict);
 				
 				$out = sprintf(">>> Sending response message\n".
@@ -378,7 +378,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				break;
 				
 			case 'send_script':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$content = $tpl_builder->build($params['script'], $dict);
 				
 				$out = sprintf(">>> Sending response script\n".
@@ -397,7 +397,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				break;
 				
 			case 'worklist_open':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$query = $tpl_builder->build($params['quick_search'], $dict);
 				
 				$context_ext = Extension_DevblocksContext::get($params['context']);
@@ -417,7 +417,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 			case 'prompt_buttons':
 				$actions =& $dict->_actions;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$options = $tpl_builder->build($params['options'], $dict);
 				$style = $tpl_builder->build(@$params['style'], $dict);
 				
@@ -434,7 +434,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 			case 'prompt_images':
 				$actions =& $dict->_actions;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$images = $params['images'];
 				$labels = $params['labels'];
 				$actions[] = array(
@@ -450,7 +450,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 			case 'prompt_text':
 				$actions =& $dict->_actions;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$placeholder = $tpl_builder->build($params['placeholder'], $dict);
 				
 				$actions[] = array(
@@ -465,7 +465,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 			case 'prompt_wait':
 				$actions =& $dict->_actions;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				
 				$actions[] = array(
 					'_action' => 'prompt.wait',
@@ -481,7 +481,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				@$format = $params['format'];
 				@$delay_ms = @$params['delay_ms'];
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$content = $tpl_builder->build($params['message'], $dict);
 				
 				switch($format) {
@@ -509,7 +509,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 			case 'send_script':
 				$actions =& $dict->_actions;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				$content = $tpl_builder->build($params['script'], $dict);
 				
 				$actions[] = array(
@@ -520,7 +520,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				break;
 				
 			case 'switch_behavior':
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				
 				$actions =& $dict->_actions;
 				
@@ -572,7 +572,7 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				if(!isset($params['context']) || empty($params['context']))
 					break;
 				
-				$tpl_builder = DevblocksPlatform::getTemplateBuilder();
+				$tpl_builder = DevblocksPlatform::services()->templateBuilder();
 				
 				if(isset($params['quick_search']))
 					$query = $tpl_builder->build($params['quick_search'], $dict);

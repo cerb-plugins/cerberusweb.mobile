@@ -57,7 +57,7 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.calendar';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar.tpl');
 	}
@@ -69,7 +69,7 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$visit = CerberusApplication::getVisit();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$tpl->assign('month', $month);
 		$tpl->assign('year', $year);
@@ -87,7 +87,7 @@ class MobileProfile_Calendar extends Extension_MobileProfileBlock {
 	function showAddEventDialogAction() {
 		@$calendar_id  = DevblocksPlatform::importGPC($_REQUEST['calendar_id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$active_worker = CerberusApplication::getActiveWorker();
 		
 		if(false == ($calendar = DAO_Calendar::get($calendar_id)))
@@ -145,7 +145,7 @@ class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.calendar_event';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/calendar_event.tpl');
 	}
@@ -153,7 +153,7 @@ class MobileProfile_CalendarEvent extends Extension_MobileProfileBlock {
 	function showEditDialogAction() {
 		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$active_worker = CerberusApplication::getActiveWorker();
 		
 		if(false == ($calendar_event = DAO_CalendarEvent::get($id)))
@@ -228,7 +228,7 @@ class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.email_address';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/address.tpl');
 	}
@@ -236,7 +236,7 @@ class MobileProfile_EmailAddress extends Extension_MobileProfileBlock {
 	function showEditDialogAction() {
 		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -314,7 +314,7 @@ class MobileProfile_Message extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.message';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/message.tpl');
 	}
@@ -324,7 +324,7 @@ class MobileProfile_Notification extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.notification';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/notification.tpl');
 	}
@@ -352,7 +352,7 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.org';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/org.tpl');
 	}
@@ -360,7 +360,7 @@ class MobileProfile_Org extends Extension_MobileProfileBlock {
 	function showEditDialogAction() {
 		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -468,7 +468,7 @@ class MobileProfile_Task extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.task';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		$tpl->display('devblocks:cerberusweb.mobile::profiles/blocks/task.tpl');
 	}
@@ -476,7 +476,7 @@ class MobileProfile_Task extends Extension_MobileProfileBlock {
 	function showEditDialogAction() {
 		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -548,7 +548,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	const ID = 'mobile.profile.block.ticket';
 	
 	function render(DevblocksDictionaryDelegate $dict) {
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('dict', $dict);
 		
 		/*
@@ -580,7 +580,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	function showEditDialogAction() {
 		@$id  = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -683,7 +683,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	function showReplyDialogAction() {
 		@$message_id  = DevblocksPlatform::importGPC($_REQUEST['message_id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -845,7 +845,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	function showRelayDialogAction() {
 		@$message_id  = DevblocksPlatform::importGPC($_REQUEST['message_id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		$tpl->assign('active_worker', $active_worker);
@@ -913,7 +913,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 	function getMessageAction() {
 		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		CerberusContexts::getContext(CerberusContexts::CONTEXT_MESSAGE, $id, $labels, $values);
 		$dict = new DevblocksDictionaryDelegate($values);

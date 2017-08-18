@@ -2,7 +2,7 @@
 if (class_exists('Extension_AppPreBodyRenderer',true)):
 	class MobilePreBodyRenderer extends Extension_AppPreBodyRenderer {
 		function render() {
-			$tpl = DevblocksPlatform::getTemplateService();
+			$tpl = DevblocksPlatform::services()->template();
 			$tpl->display('devblocks:cerberusweb.mobile::prebody.tpl');
 		}
 	};
@@ -67,9 +67,9 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$controller = array_shift($stack);
 		
 		////////////
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$translate = DevblocksPlatform::getTranslationService();
-		$settings = DevblocksPlatform::getPluginSettingsService();
+		$settings = DevblocksPlatform::services()->pluginSettings();
 		$active_worker = CerberusApplication::getActiveWorker();
 		$visit = CerberusApplication::getVisit();
 		
@@ -178,7 +178,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$context = DevblocksPlatform::importGPC($_REQUEST['context'], 'string', '');
 		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$tpl->assign('context', $context);
 		$tpl->assign('context_id', $context_id);
@@ -221,7 +221,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	function profileGetCommentAction() {
 		@$id = DevblocksPlatform::importGPC($_REQUEST['id'], 'integer', 0);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 
 		CerberusContexts::getContext(CerberusContexts::CONTEXT_COMMENT, $id, $labels, $values);
 		$dict = new DevblocksDictionaryDelegate($values);
@@ -420,7 +420,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$context_id = DevblocksPlatform::importGPC($_REQUEST['context_id'], 'integer', 0);
 		
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$tpl->assign('context', $context);
 		$tpl->assign('context_id', $context_id);
@@ -547,7 +547,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			}
 		}
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
 		$tpl->assign('hide_filtering', $hide_filtering);
 		$tpl->assign('hide_sorting', $hide_sorting);
@@ -566,7 +566,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 
 		$view->addParamsWithQuickSearch($q);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
 		$tpl->assign('hide_filtering', $hide_filtering);
 		$tpl->assign('hide_sorting', $hide_sorting);
@@ -592,7 +592,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$view->renderPage = 0;
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
 		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
 		exit;
@@ -609,7 +609,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 
 		$view->doPage($page);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
 		$tpl->assign('hide_filtering', $hide_filtering);
 		$tpl->assign('hide_sorting', $hide_sorting);
@@ -631,7 +631,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$view->renderSortAsc = $sort_asc ? 1 : 0;
 		$view->renderPage = 0;
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
 		$tpl->assign('hide_filtering', $hide_filtering);
 		$tpl->assign('hide_sorting', $hide_sorting);
@@ -641,7 +641,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	
 	private function _renderCompose($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		@$to = DevblocksPlatform::importGPC($_REQUEST['to'], 'string', '');
 		$tpl->assign('to', $to);
@@ -657,7 +657,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	
 	private function _renderSettings($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$worker_prefs = DAO_WorkerPref::getByWorker($active_worker->id);
 		$tpl->assign('worker_prefs', $worker_prefs);
@@ -668,7 +668,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	private function _renderNotifications($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$notifications = DAO_Notification::getWhere(sprintf("%s = %d AND %s = %d",
 			DAO_Notification::WORKER_ID,
@@ -685,7 +685,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	private function _renderPages($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$tpl->assign('page_title', 'Pages');
 		
@@ -700,7 +700,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$context_id = intval(array_shift($stack));
 
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		if(false == ($context_ext = Extension_DevblocksContext::getByAlias($context, true)))
 		if(false == ($context_ext = Extension_DevblocksContext::get($context)))
@@ -740,7 +740,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	private function _renderSearch($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$contexts = Extension_DevblocksContext::getAll(false, ['search']);
 		$tpl->assign('contexts', $contexts);
@@ -764,7 +764,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 
 		$tpl->assign('context_ext', $context_ext);
 		
@@ -785,7 +785,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	private function _renderWorkspaces($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$pages = DAO_WorkspacePage::getByWorker($active_worker);
 		$workspaces = array();
@@ -811,7 +811,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$workspace_id = array_shift($stack);
 
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$workspaces = DAO_WorkspacePage::getByWorker($active_worker);
 		
@@ -831,7 +831,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$workspace_tab_id = array_shift($stack);
 		
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$workspace_tab = DAO_WorkspaceTab::get($workspace_tab_id);
 		$tpl->assign('workspace_tab', $workspace_tab);
@@ -872,14 +872,14 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$workspace_list_id = array_shift($stack);
 
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$worklist = DAO_WorkspaceList::get($workspace_list_id);
 
 		$view_id = 'cust_' . $worklist->id;
 		
 		// Make sure our workspace source has a valid renderer class
-		if(null == ($ext = DevblocksPlatform::getExtension($worklist->context, true))) { /* @var $ext Extension_DevblocksContext */
+		if(null == ($ext = Extension_DevblocksContext::get($worklist->context))) {
 			return;
 		}
 		
@@ -930,7 +930,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$workspace_widget_id = array_shift($stack);
 		
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$widget = DAO_WorkspaceWidget::get($workspace_widget_id);
 		$tpl->assign('widget', $widget);
@@ -965,7 +965,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 	private function _renderBots($stack) {
 		$active_worker = CerberusApplication::getActiveWorker();
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		// Conversational interactions
 		$interactions = Event_GetInteractionsForMobileWorker::getInteractionsByPointAndWorker('mobile', [], $active_worker);
@@ -1073,7 +1073,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(empty($bot_name))
 			$bot_name = $bot->name;
 		
-		$url_writer = DevblocksPlatform::getUrlService();
+		$url_writer = DevblocksPlatform::services()->url();
 		$bot_image_url = $url_writer->write(sprintf("c=avatars&w=bot&id=%d", $bot->id) . '?v=' . $bot->updated_at);
 		
 		$session_data = [
@@ -1101,7 +1101,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			DAO_BotSession::UPDATED_AT => time(),
 		]);
 		
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		$tpl->assign('bot', $bot);
 		$tpl->assign('bot_name', $bot_name);
@@ -1116,7 +1116,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		@$message = DevblocksPlatform::importGPC($_REQUEST['message'], 'string', '');
 		
 		$active_worker = CerberusApplication::getActiveWorker();
-		$tpl = DevblocksPlatform::getTemplateService();
+		$tpl = DevblocksPlatform::services()->template();
 		
 		// Load the session
 		if(false == ($interaction = DAO_BotSession::get($session_id)))
