@@ -28,7 +28,7 @@ abstract class Extension_MobileProfileBlock extends DevblocksExtension {
 	}
 	
 	/**
-	 * @param unknown_type $context
+	 * @param string $context
 	 * @return Extension_DevblocksContext
 	 */
 	public static function get($id) {

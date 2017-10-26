@@ -565,6 +565,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			return;
 
 		$view->addParamsWithQuickSearch($q);
+		$view->renderPage = 0;
 		
 		$tpl = DevblocksPlatform::services()->template();
 		$tpl->assign('view', $view);
@@ -771,8 +772,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(false == ($view = $context_ext->getSearchView()))
 			return false;
 		
-		if(!empty($q))
+		if(!empty($q)) {
 			$view->addParamsWithQuickSearch($q, true);
+			$view->renderPage = 0;
+		}
 		
 		$view->renderLimit = 10;
 		$view->renderTotal = true;
