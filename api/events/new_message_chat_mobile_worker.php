@@ -530,6 +530,9 @@ class Event_NewMessageChatMobileWorker extends Extension_DevblocksEvent {
 				if(false == ($behavior = DAO_TriggerEvent::get($behavior_id)))
 					break;
 				
+				if($behavior->isDisabled())
+					break;
+				
 				// Variables as parameters
 				
 				$vars = array();

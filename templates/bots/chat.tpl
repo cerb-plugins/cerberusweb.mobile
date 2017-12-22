@@ -115,7 +115,8 @@ $page.one('pageinit', function(e) {
 	$input.keyup(function(e) {
 		e.stopPropagation();
 		
-		if(13 == e.keyCode) {
+		var keycode = e.keyCode || e.which;
+		if(13 == keycode) {
 			e.preventDefault();
 			$convo.trigger('cerb-send-message');
 		}
