@@ -12,7 +12,7 @@
 <div data-role="content">
 	<form action="javascript:;" method="post" onsubmit="return false;">
 	<input type="hidden" name="session_id" value="{$session_id}">
-	<input type="hidden" name="message" value="">
+	<textarea name="message" style="display:none;"></textarea>
 	<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
 
 	<div class="bot-chat-window">
@@ -32,14 +32,14 @@ var $spinner = $('<img>')
 
 $page.on('pageshow', function(e) {
 	var $convo = $page.find('div.bot-chat-window-convo');
-	var $input = $page.find('input[name=message]');
+	var $input = $page.find('textarea[name=message]');
 	$input.focus();
 	$convo.trigger('update');
 });
 
 $page.one('pageinit', function(e) {
 	var $frm = $page.find('form');
-	var $input = $page.find('input:hidden[name=message]');
+	var $input = $page.find('textarea[name=message]');
 	var $session = $frm.find('input:hidden[name=session_id]');
 	var $convo = $page.find('div.bot-chat-window-convo');
 	

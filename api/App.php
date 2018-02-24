@@ -887,24 +887,21 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		}
 		
 		if(null == ($view = C4_AbstractViewLoader::getView($view_id))) {
-			$list_view = $worklist->list_view; /* @var $list_view Model_WorkspaceListView */
-				
 			$view = $ext->getChooserView($view_id);  /* @var $view C4_AbstractView */
 				
 			if(empty($view))
 				return;
 				
-			$view->name = $list_view->title;
-			$view->renderLimit = $list_view->num_rows;
+			$view->name = $worklist->name;
+			$view->renderLimit = $worklist->render_limit;
 			$view->renderPage = 0;
 			$view->is_ephemeral = 0;
-			$view->view_columns = $list_view->columns;
-			$view->addParams($list_view->params, true);
-			if(property_exists($list_view, 'params_required'))
-				$view->addParamsRequired($list_view->params_required, true);
-			$view->renderSortBy = $list_view->sort_by;
-			$view->renderSortAsc = $list_view->sort_asc;
-			$view->renderSubtotals = $list_view->subtotals;
+			$view->view_columns = $worklist->columns;
+			$view->addParams($worklist->getParamsEditable(), true);
+			$view->addParamsRequired($worklist->getParamsRequired(), true);
+			$view->renderSortBy = array_keys($worklist->render_sort);
+			$view->renderSortAsc = array_values($worklist->render_sort);
+			$view->renderSubtotals = $worklist->render_subtotals;
 		}
 	
 		if(!empty($view)) {
@@ -1316,12 +1313,16 @@ class Controller_Mobile extends DevblocksControllerExtension {
 					
 				case 'prompt.text':
 					@$placeholder = $params['placeholder'];
+					@$default = $params['default'];
+					@$mode = $params['mode'];
 					
 					if(empty($placeholder))
 						$placeholder = 'say something';
 					
 					$tpl->assign('delay_ms', 0);
 					$tpl->assign('placeholder', $placeholder);
+					$tpl->assign('default', $default);
+					$tpl->assign('mode', $mode);
 					$tpl->display('devblocks:cerberusweb.mobile::bots/prompts/prompt_text.tpl');
 					break;
 					

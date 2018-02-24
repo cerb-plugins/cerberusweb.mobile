@@ -857,7 +857,7 @@ class MobileProfile_Ticket extends Extension_MobileProfileBlock {
 
 		// Relay addresses
 		
-		$workers_with_relays = DAO_AddressToWorker::getByWorkers();
+		$workers_with_relays = DAO_Address::getByWorkers();
 		$tpl->assign('workers_with_relays', $workers_with_relays);
 		
 		// Template

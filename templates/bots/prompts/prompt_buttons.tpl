@@ -37,7 +37,7 @@
 		var $msg = $('#{$msg_id}');
 		var $chat_window_input_form = $msg.closest('form');
 		var $convo = $chat_window_input_form.find('.bot-chat-window-convo');
-		var $chat_input = $chat_window_input_form.find('input[name=message]');
+		var $chat_input = $chat_window_input_form.find('textarea[name=message]');
 		
 		$msg.find('button.bot-chat-button')
 			.click(function() {

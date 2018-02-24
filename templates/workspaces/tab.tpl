@@ -28,7 +28,7 @@
 			{foreach from=$workspace_lists item=workspace_list key=workspace_list_id}
 			<li>
 				<a href="{devblocks_url}c=m&a=workspace&w=worklist&id={$workspace_list_id}{/devblocks_url}" data-transition="slidedown">
-					<h3 class="ui-li-heading">{$workspace_list->list_view->title}</h3>
+					<h3 class="ui-li-heading">{$workspace_list->name}</h3>
 					<p class="ui-li-desc">Worklist</p>
 				</a>
 			</li>
