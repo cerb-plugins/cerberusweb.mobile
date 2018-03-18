@@ -1135,7 +1135,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		if(false == (@$bot_name = $interaction->session_data['bot_name']))
 			$bot_name = 'Cerb';
 		
-		$actions = array();
+		$actions = [];
 		
 		$event_params = [
 			'worker_id' => $active_worker->id,
@@ -1180,7 +1180,10 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$dict = new DevblocksDictionaryDelegate($values);
 			
 		$resume_path = @$interaction->session_data['behaviors'][$behavior->id]['path'];
+		
 		if($resume_path) {
+			$behavior->prepareResumeDecisionTree($message, $interaction, $actions, $dict, $resume_path);
+			
 			if(false == ($result = $behavior->resumeDecisionTree($dict, false, $event, $resume_path)))
 				return;
 			
@@ -1225,6 +1228,11 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		$tpl->assign('bot_name', $bot_name);
 		
 		foreach($actions as $params) {
+			// Are we handling the next response message in a special way?
+			if(isset($params['_prompt']) && is_array($params['_prompt'])) {
+				$interaction->session_data['_prompt'] = $params['_prompt'];
+			}
+			
 			switch(@$params['_action']) {
 				case 'behavior.switch':
 					@$behavior_return = $params['behavior_return'];

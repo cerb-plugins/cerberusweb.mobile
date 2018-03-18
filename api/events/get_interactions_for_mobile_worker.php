@@ -2,7 +2,7 @@
 /***********************************************************************
 | Cerb(tm) developed by Webgroup Media, LLC.
 |-----------------------------------------------------------------------
-| All source code & content (c) Copyright 2002-2017, Webgroup Media LLC
+| All source code & content (c) Copyright 2002-2018, Webgroup Media LLC
 |   unless specifically noted otherwise.
 |
 | This source code is released under the Devblocks Public License.
@@ -70,12 +70,11 @@ class Event_GetInteractionsForMobileWorker extends Extension_DevblocksEvent {
 		return $interactions;
 	}
 	
-	// [TODO] CACHE !!
 	static function getByPointAndWorker($point, $worker) {
 		$behaviors = DAO_TriggerEvent::getByEvent(self::ID);
 		$behaviors = array_intersect_key(
 			$behaviors,
-			array_flip(array_keys(Context_TriggerEvent::isReadableByActor($behaviors, $worker), true))
+			array_flip(array_keys(Context_TriggerEvent::isReadableByActor($behaviors, $worker, true), true))
 		);
 		
 		return array_filter($behaviors, function($behavior) use ($point) {
