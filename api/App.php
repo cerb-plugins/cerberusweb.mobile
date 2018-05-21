@@ -27,7 +27,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$query = array();
 			
 			if(is_array($request->path) && !empty($request->path))
-				$query = array('url'=> urlencode(implode('/',$request->path)));
+				$query = ['url'=> implode('/',$request->path)];
 			
 			DevblocksPlatform::redirect(new DevblocksHttpRequest(array('login'), $query));
 			exit;
@@ -520,41 +520,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		exit;
 	}
 	
-	function viewLoadPresetAction() {
-		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
-		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
-		@$hide_sorting = DevblocksPlatform::importGPC($_REQUEST['hide_sorting'], 'integer', 0);
-		@$preset_id = DevblocksPlatform::importGPC($_REQUEST['preset_id'], 'integer', 0);
-		
-		if(null == ($view = C4_AbstractViewLoader::getView($view_id)))
-			return;
-		
-		if(empty($preset_id)) {
-			$view->doResetCriteria();
-			
-		} else {
-			if(false == ($preset = DAO_ViewFiltersPreset::get($preset_id)))
-				return;
-			
-			$view->renderPage = 0;
-			$view->addParams($preset->params, true);
-			
-			$disable_sorting = $view->isCustom() && @$view->options['disable_sorting'];
-				
-			if(!$disable_sorting) {
-				$view->renderSortAsc = $preset->sort_asc;
-				$view->renderSortBy = $preset->sort_by;
-			}
-		}
-		
-		$tpl = DevblocksPlatform::services()->template();
-		$tpl->assign('view', $view);
-		$tpl->assign('hide_filtering', $hide_filtering);
-		$tpl->assign('hide_sorting', $hide_sorting);
-		$tpl->display('devblocks:cerberusweb.mobile::workspaces/worklist_view.tpl');
-		exit;
-	}
-	
 	function viewQuickSearchAction() {
 		@$view_id = DevblocksPlatform::importGPC($_REQUEST['view_id'], 'string', '');
 		@$hide_filtering = DevblocksPlatform::importGPC($_REQUEST['hide_filtering'], 'integer', 0);
@@ -902,17 +867,6 @@ class Controller_Mobile extends DevblocksControllerExtension {
 			$view->renderSortBy = array_keys($worklist->render_sort);
 			$view->renderSortAsc = array_values($worklist->render_sort);
 			$view->renderSubtotals = $worklist->render_subtotals;
-		}
-	
-		if(!empty($view)) {
-			if($active_worker) {
-				$labels = array();
-				$values = array();
-				$active_worker->getPlaceholderLabelsValues($labels, $values);
-				
-				$view->setPlaceholderLabels($labels);
-				$view->setPlaceholderValues($values);
-			}
 		}
 		
 		$tpl->assign('view', $view);

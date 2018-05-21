@@ -6,7 +6,6 @@
 
 {$fields = $view->getFields()}
 {$params = $view->getEditableParams()}
-{$presets = $view->getPresets()}
 
 {if !$hide_filtering}
 <div id="viewFiltersPopup" data-role="popup" class="ui-content" data-theme="a" data-overlay-theme="a" data-dismissible="false" data-transition="slidedown">
@@ -25,23 +24,6 @@
 		<input type="search" name="q">
 	
 		<button type="button" class="submit" data-role="button" data-theme="c">{'common.search'|devblocks_translate|capitalize}</button>
-	</form>
-	
-	<h3 style="margin:0;padding:0;">Presets</h3>
-		
-	<form action="javascript:;" method="post" class="cerb-form-worklist-presets" onsubmit="return false;">
-		<input type="hidden" name="c" value="m">
-		<input type="hidden" name="a" value="viewLoadPreset">
-		<input type="hidden" name="view_id" value="{$view->id}">
-		<input type="hidden" name="hide_filtering" value="{$hide_filtering}">
-		<input type="hidden" name="hide_sorting" value="{$hide_sorting}">
-		<input type="hidden" name="_csrf_token" value="{$session.csrf_token}">
-
-		{foreach from=$presets item=preset key=preset_id}
-		<button type="button" class="submit" name="preset_id" value="{$preset->id}" data-role="button" data-theme="a">{$preset->name}</button>
-		{/foreach}
-		
-		<button type="button" class="submit" name="preset_id" value="0" data-role="button" data-theme="c">{'common.reset'|devblocks_translate|capitalize}</button>
 	</form>
 </div>
 {/if}
@@ -238,7 +220,6 @@
 var $view = $('#view{$view->id}');
 
 var $frm_search = $view.find('form.cerb-form-worklist-search');
-var $frm_presets = $view.find('form.cerb-form-worklist-presets');
 var $frm_filtering = $view.find('form.cerb-form-worklist-filtering');
 var $frm_sorting = $view.find('form.cerb-form-worklist-sorting');
 var $frm_paging = $view.find('form.cerb-form-worklist-paging');
@@ -255,27 +236,6 @@ $frm_search.find('button.submit').click(function() {
 		$frm_search.serialize(),
 		function(out) {
 			$('#viewFiltersPopup').remove();
-			$view.html(out).trigger('create');
-			$.mobile.loading('hide');
-			$.mobile.silentScroll(0);
-		}
-	);
-});
-
-/* Presets */
-
-$frm_presets.find('button.submit').click(function() {
-	var $this = $(this);
-	var $frm_presets = $this.closest('form');
-	var preset_id = $this.val();
-	
-	$.mobile.loading('show');
-	$.post(
-		'{devblocks_url}ajax.php{/devblocks_url}?preset_id=' + preset_id,
-		$frm_presets.serialize(),
-		function(out) {
-			$('#viewFiltersPopup').remove();
-			$('#viewSortPopup').remove();
 			$view.html(out).trigger('create');
 			$.mobile.loading('hide');
 			$.mobile.silentScroll(0);

@@ -57,7 +57,7 @@
 						<a href="tel:{$val}">{$val}</a>
 						
 					{elseif $val_type == Model_CustomField::TYPE_URL}
-						<a href="{$val}" target="_blank">{$val}</a>
+						<a href="{$val}" target="_blank" rel="noopener noreferrer">{$val}</a>
 					{else}
 						{$val|escape:'htmlall'|nl2br nofilter}
 					{/if}
@@ -87,7 +87,7 @@
 	
 	{$meta = $context_ext->getMeta($context_id)}
 	{if $meta.permalink}
-	<a href="{$meta.permalink}" target="_blank" data-theme="b" data-role="button">View record in full site</a>
+	<a href="{$meta.permalink}" target="_blank" rel="noopener" data-theme="b" data-role="button">View record in full site</a>
 	{/if}
 </div>
 
