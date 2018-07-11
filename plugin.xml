@@ -4,7 +4,7 @@
 	<name>Mobile Interface</name>
 	<description>This plugin provides an alternate mobile-friendly interface.</description>
 	<author>Webgroup Media, LLC.</author>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<link>http://wiki.cerbweb.com/Plugin:Mobile_Interface</link>
 	<image>plugin.png</image>
 
@@ -66,19 +66,6 @@
 			</params>
 		</extension>
 		
-		<!-- Renderers Render -->	
-		
-		<extension point="cerberusweb.renderer.prebody">
-			<id>mobile.renderer.prebody</id>
-			<name>Mobile Pre-body Renderer</name>
-			<class>
-				<file>api/App.php</file>
-				<name>MobilePreBodyRenderer</name>
-			</class>
-			<params>
-			</params>
-		</extension>
-
 		<!-- Events -->
 
 		<extension point="devblocks.event">

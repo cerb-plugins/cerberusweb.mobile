@@ -36,7 +36,7 @@
 		</ul>
 		{/if}
 		
-		{if $workspace_tab->extension_id == 'core.workspace.tab' && !empty($workspace_widgets)}
+		{if $workspace_tab->extension_id == 'core.workspace.tab.dashboard' && !empty($workspace_widgets)}
 		<ul data-role="listview" data-inset="true" data-filter="true">
 			{foreach from=$workspace_widgets item=workspace_widget key=workspace_widget_id}
 			<li>

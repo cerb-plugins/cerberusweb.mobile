@@ -1,13 +1,4 @@
 <?php
-if (class_exists('Extension_AppPreBodyRenderer',true)):
-	class MobilePreBodyRenderer extends Extension_AppPreBodyRenderer {
-		function render() {
-			$tpl = DevblocksPlatform::services()->template();
-			$tpl->display('devblocks:cerberusweb.mobile::prebody.tpl');
-		}
-	};
-endif;
-
 class Controller_Mobile extends DevblocksControllerExtension {
 	function isVisible() {
 		// The current session must be a logged-in worker to use this page.
@@ -815,7 +806,7 @@ class Controller_Mobile extends DevblocksControllerExtension {
 		// [TODO] Tab type handling (move to extensions)
 		
 		switch($workspace_tab->extension_id) {
-			case 'core.workspace.tab':
+			case 'core.workspace.tab.dashboard':
 				$workspace_widgets = DAO_WorkspaceWidget::getByTab($workspace_tab_id);
 				$tpl->assign('workspace_widgets', $workspace_widgets);
 				break;

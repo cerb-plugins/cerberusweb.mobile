@@ -36,10 +36,10 @@
 				<legend>{'common.status'|devblocks_translate|capitalize}:</legend>
 				
 				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-no" value="0" {if !$calendar_event->is_available}checked="checked"{/if}>
-				<label for="frm-cerb-event-isavailable-no">busy</label>
+				<label for="frm-cerb-event-isavailable-no">{'common.busy'|devblocks_translate|lower}</label>
 				
 				<input type="radio" name="is_available" id="frm-cerb-event-isavailable-yes" value="1" {if $calendar_event->is_available}checked="checked"{/if}>
-				<label for="frm-cerb-event-isavailable-yes">available</label>
+				<label for="frm-cerb-event-isavailable-yes">{'common.available'|devblocks_translate|lower}</label>
 			</fieldset>
 		</div>
 		
